@@ -1,0 +1,147 @@
+// Spread Pickem — data model (Neon Postgres + Prisma)
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+enum Format {
+  simple // 1 Lock (Power Pick)
+  ranked // up to 3 ranked Power Picks
+}
+
+model League {
+  id            String   @id @default(cuid())
+  slug          String   @unique // used in the URL: /l/<slug>
+  name          String
+  season        Int      @default(2026)
+  // commissioner settings (set before the season, constant all year)
+  format        Format   @default(simple)
+  playoffOn     Boolean  @default(false)
+  playoffStart  Int      @default(15)
+  playoffTeams  Int      @default(6)
+  seedStep      Int      @default(2)
+  seasonStart   Int      @default(1)
+  seasonEnd     Int      @default(18)
+  accentColor    String?  // hex like "#21e08a" — themes the player UI
+  logoUrl        String?  // optional league/company logo
+  prizeText      String?  // shown to players: what they're playing for
+  welcomeMessage String?  // optional note in the welcome SMS / join page
+  createdAt     DateTime @default(now())
+
+  players       Player[]
+  picks         Pick[]
+  powerPicks    PowerPick[]
+  submissions   Submission[]
+}
+
+model Player {
+  id          String   @id @default(cuid())
+  leagueId    String
+  league      League   @relation(fields: [leagueId], references: [id], onDelete: Cascade)
+  name        String
+  pinHash     String   // scrypt hash of the player's 4-digit PIN
+  color       String   @default("#1ed47a")
+  phone        String?  // E.164, for SMS reminders / pick-by-text
+  isCommish    Boolean  @default(false)
+  failedPins   Int      @default(0)    // PIN brute-force lockout
+  lockedUntil  DateTime?               // PIN brute-force lockout
+  smsConsentAt DateTime?               // TCPA: when they opted in to texts
+  smsOptOut    Boolean  @default(false) // STOP handling
+  createdAt    DateTime @default(now())
+
+  picks       Pick[]
+  powerPicks  PowerPick[]
+  submissions Submission[]
+
+  @@unique([leagueId, name])
+}
+
+// One row per real NFL game, shared across leagues (sourced from The Odds API).
+model Game {
+  id          String   @id @default(cuid())
+  season      Int
+  week        Int
+  oddsId      String   @unique // event id from The Odds API
+  away        String
+  home        String
+  homeSpread  Float    // already converted to a half-point at ingestion (no pushes)
+  total       Float    // already half-pointed
+  kickoff     DateTime
+  awayScore   Int?
+  homeScore   Int?
+  final       Boolean  @default(false)
+
+  picks       Pick[]
+  powerPicks  PowerPick[]
+
+  @@unique([season, week, away, home])
+  @@index([season, week])
+}
+
+model Pick {
+  id        String   @id @default(cuid())
+  leagueId  String
+  league    League   @relation(fields: [leagueId], references: [id], onDelete: Cascade)
+  playerId  String
+  player    Player   @relation(fields: [playerId], references: [id], onDelete: Cascade)
+  gameId    String
+  game      Game     @relation(fields: [gameId], references: [id], onDelete: Cascade)
+  su        String?  // 'home' | 'away'
+  ats       String?  // 'home' | 'away'
+  ou        String?  // 'over' | 'under'
+  updatedAt DateTime @updatedAt
+
+  @@unique([playerId, gameId])
+  @@index([leagueId, gameId])
+}
+
+model PowerPick {
+  id        String   @id @default(cuid())
+  leagueId  String
+  league    League   @relation(fields: [leagueId], references: [id], onDelete: Cascade)
+  playerId  String
+  player    Player   @relation(fields: [playerId], references: [id], onDelete: Cascade)
+  gameId    String
+  game      Game     @relation(fields: [gameId], references: [id], onDelete: Cascade)
+  season    Int
+  week      Int
+  rank      Int      // 1 = Lock (best), then 2, 3
+
+  @@unique([playerId, season, week, rank])
+  @@unique([playerId, season, week, gameId])
+}
+
+// Tracks submit / undo state per player per week.
+model Submission {
+  id          String   @id @default(cuid())
+  leagueId    String
+  league      League   @relation(fields: [leagueId], references: [id], onDelete: Cascade)
+  playerId    String
+  player      Player   @relation(fields: [playerId], references: [id], onDelete: Cascade)
+  season      Int
+  week        Int
+  submittedAt DateTime @default(now())
+
+  @@unique([playerId, season, week])
+}
+
+model Event {
+  id        String   @id @default(cuid())
+  ts        DateTime @default(now())
+  type      String   // 'player_joined' | 'login' | 'pick_saved' | 'card_submitted' | 'card_unsubmitted' | 'week_opened' | 'reminder_sent'
+  leagueId  String?
+  playerId  String?
+  season    Int?
+  week      Int?
+  channel   String?  // 'web' | 'sms' | 'voice' | 'email'
+  meta      Json?
+
+  @@index([leagueId, type, ts])
+  @@index([type, season, week])
+}
+
