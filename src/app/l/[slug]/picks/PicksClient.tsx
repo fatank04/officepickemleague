@@ -50,7 +50,7 @@ export default function PicksClient(props: {
   return (
     <>
       <div className="hero">
-        <span className="hero-line">Everyone&apos;s a sharp <em>&apos;til Sunday.</em></span>
+        <span className="hero-line">Floor to front office — <em>everybody&apos;s in.</em></span>
       </div>
       {props.prizeText && (
         <div style={{ border: `1px solid ${props.accent || "#21e08a"}`, background: "#0d1424", borderRadius: 12, padding: "8px 14px", margin: "0 0 12px" }}>

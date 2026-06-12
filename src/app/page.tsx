@@ -47,7 +47,7 @@ export default function Home() {
           <Brand />
         </div>
         <p className="muted" style={{ marginTop: 14 }}>
-          Pick the winner, the spread, and the over/under every week. Outpick your league all season.
+          The office pool everyone can play. No money, no app — pick winners, spreads & over/unders in two minutes a week.
         </p>
       </div>
 
@@ -64,7 +64,7 @@ export default function Home() {
         {tab === "create" ? (
           <div className="pad">
             <label>League name</label>
-            <input value={leagueName} onChange={(e) => setLeagueName(e.target.value)} placeholder="The Group Chat" />
+            <input value={leagueName} onChange={(e) => setLeagueName(e.target.value)} placeholder="Acme Office League" />
             <label>Your name (commissioner)</label>
             <input value={cName} onChange={(e) => setCName(e.target.value)} placeholder="Ankur" />
             <label>Set a 4-digit PIN</label>
@@ -76,7 +76,7 @@ export default function Home() {
         ) : (
           <div className="pad">
             <label>League code (from your invite link)</label>
-            <input value={slug} onChange={(e) => setSlug(e.target.value)} placeholder="the-group-chat-ab12" />
+            <input value={slug} onChange={(e) => setSlug(e.target.value)} placeholder="acme-office-league-ab12" />
             <label>Your name</label>
             <input value={jName} onChange={(e) => setJName(e.target.value)} placeholder="Mike" />
             <label>Your 4-digit PIN</label>
