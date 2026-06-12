@@ -63,7 +63,9 @@ export async function GET(req: Request) {
       const pl = await prisma.player.findUnique({ where: { id: r.playerId } });
       if (!pl || !eligible(pl)) continue;
       const wpts = r.byWeek[wk] ?? 0;
-      await sendSms(pl.phone!, `Week ${wk} ${lg.name}: ${wpts >= 0 ? "+" : ""}${wpts} pts. You're ${ord(i + 1)} of ${n} (${r.pts} total). ${RATES}`).catch(() => {});
+      const _base = (process.env.NEXT_PUBLIC_BASE_URL || "").replace(/\/$/, "");
+      const _card = _base ? ` Your card: ${_base}/r/${lg.slug}/${pl.id}` : "";
+      await sendSms(pl.phone!, `Week ${wk} ${lg.name}: ${wpts >= 0 ? "+" : ""}${wpts} pts. You're ${ord(i + 1)} of ${n} (${r.pts} total).${_card} ${RATES}`).catch(() => {});
       track({ type: "results_sent", leagueId: lg.id, playerId: pl.id, season, week: wk, channel: "sms" });
       sent++;
     }

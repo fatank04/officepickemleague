@@ -1,5 +1,6 @@
 import { current } from "@/lib/league";
 import { getStandings } from "@/lib/standings";
+import ShareButton from "./ShareButton";
 
 export const dynamic = "force-dynamic";
 
@@ -22,6 +23,7 @@ export default async function StandingsPage() {
           Weeks {league.seasonStart}–{Math.min(league.playoffStart - 1, league.seasonEnd)} seed the bracket; top {league.playoffTeams} advance.
           Title = seed bonus ((teams − seed) × {league.seedStep}) + playoff points.
         </p>
+        <ShareButton slug={league.slug} pid={meId} />
         <div className="card">
           <div className="pad b" style={{ borderBottom: "1px solid var(--line)" }}>🏆 Bracket — top {league.playoffTeams}</div>
           <table>
@@ -65,6 +67,7 @@ export default async function StandingsPage() {
     <>
       <h2>Standings</h2>
       <p className="muted small">Season-long race, Weeks {league.seasonStart}–{league.seasonEnd}. Tiebreaker: The Gauntlet.</p>
+      <ShareButton slug={league.slug} pid={meId} />
       {top3.length === 3 && (
         <div className="podium">
           <div className="stand p2"><div className="muted">🥈</div><div className="nm">{top3[1].name}</div><div className="pts">{top3[1].pts} pts</div></div>
