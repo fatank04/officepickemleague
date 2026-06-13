@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { getCardData, pct, ordinal } from "@/lib/cardstats";
+import { leagueLabel } from "@/lib/brand";
 
 export const dynamic = "force-dynamic";
 
@@ -8,7 +9,7 @@ export async function generateMetadata({ params }: { params: { slug: string; pid
   const d = await getCardData(params.slug, params.pid);
   if (!d) return { title: "Office Pick'em League" };
   const desc = `${d.weekPts >= 0 ? "+" : ""}${d.weekPts} pts · ${ordinal(d.rank)} of ${d.of} · Winner ${pct(d.acc.su.wc, d.acc.su.wn)}% · Spread ${pct(d.acc.ats.wc, d.acc.ats.wn)}% · O/U ${pct(d.acc.ou.wc, d.acc.ou.wn)}%`;
-  const title = `${d.player.name} — Week ${d.week} · ${d.league.name} Pick'em`;
+  const title = `${d.player.name} — Week ${d.week} · ${leagueLabel(d.league.name)}`;
   return { title, description: desc, openGraph: { title, description: desc, type: "website" }, twitter: { card: "summary_large_image", title, description: desc } };
 }
 
@@ -53,7 +54,7 @@ export default async function SharePage({ params }: { params: { slug: string; pi
       <div style={{ width: "100%", maxWidth: 560, background: C.card, border: `1px solid ${C.line}`, borderRadius: 16, padding: 26 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 14 }}>
           <span style={{ width: 22, height: 8, borderRadius: 2, background: acc, display: "inline-block" }} />
-          <span style={{ color: acc, fontWeight: 700, fontSize: 12.5, letterSpacing: 1.2, textTransform: "uppercase" }}>{d.league.name} Pick'em · Week {d.week}</span>
+          <span style={{ color: acc, fontWeight: 700, fontSize: 12.5, letterSpacing: 1.2, textTransform: "uppercase" }}>{leagueLabel(d.league.name)} · Week {d.week}</span>
         </div>
         <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 18 }}>
           <div style={{ minWidth: 200 }}>

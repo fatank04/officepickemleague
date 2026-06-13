@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 import { hashPin, colorForIndex } from "@/lib/auth";
 import { toE164 } from "@/lib/phone";
-import { sendSms } from "@/lib/sms";
+import { sendSms, buildWelcomeSms } from "@/lib/sms";
 import { track } from "@/lib/track";
 import { brandOf, welcomeSuffix } from "@/lib/brand";
 
@@ -36,7 +36,7 @@ export async function POST(req: Request) {
   track({ type: "player_joined", leagueId: league.id, playerId: player.id, channel: "web" });
   await sendSms(
     e164,
-    `Welcome to ${league.name} Pick'em, ${name.trim()}! You're set to play by text. Reply LINES to see this week's games, HELP for commands.${pin ? ` (Web login PIN: ${pin})` : ""}${welcomeSuffix(brand)} ${RATES}`
+    buildWelcomeSms(name.trim(), league.name, { pin, suffix: welcomeSuffix(brand) })
   ).catch(() => {});
   return NextResponse.json({ ok: true });
 }

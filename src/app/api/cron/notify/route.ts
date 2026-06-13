@@ -3,6 +3,7 @@ import { prisma } from "@/lib/db";
 import { isGameLocked } from "@/lib/league";
 import { getStandings } from "@/lib/standings";
 import { sendSms } from "@/lib/sms";
+import { leagueLabel } from "@/lib/brand";
 import { track } from "@/lib/track";
 
 export const dynamic = "force-dynamic";
@@ -41,7 +42,7 @@ export async function GET(req: Request) {
       );
       for (const p of players) {
         if (!eligible(p) || started.has(p.id)) continue;
-        await sendSms(p.phone!, `Week ${wk} is live in ${lg.name} Pick'em! Reply LINES to see the games, then text your picks (e.g. "1 SEA u"). Each game locks at kickoff. ${RATES}`).catch(() => {});
+        await sendSms(p.phone!, `Week ${wk} is live in ${leagueLabel(lg.name)}! Reply LINES to see the games, then text your picks (e.g. "1 SEA u"). Each game locks at kickoff. ${RATES}`).catch(() => {});
         track({ type: "reminder_sent", leagueId: lg.id, playerId: p.id, season, week: wk, channel: "sms" });
         sent++;
       }

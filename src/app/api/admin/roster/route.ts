@@ -4,6 +4,7 @@ import { requireCommish } from "@/lib/league";
 import { hashPin, colorForIndex } from "@/lib/auth";
 import { cleanName, newPin, parseRoster } from "@/lib/admin";
 import { sendSms } from "@/lib/sms";
+import { leagueLabel } from "@/lib/brand";
 import { track } from "@/lib/track";
 
 const RATES = "Msg&data rates may apply. Reply STOP to opt out, HELP for help.";
@@ -74,7 +75,7 @@ export async function POST(req: Request) {
     const p = await target(body.id); if (!p) return NextResponse.json({ error: "Player not found." }, { status: 404 });
     if (!p.phone) return NextResponse.json({ error: "No mobile number on file." }, { status: 400 });
     if (p.smsOptOut) return NextResponse.json({ error: "This player opted out of texts (STOP)." }, { status: 400 });
-    await sendSms(p.phone, `${league.name} Pick'em: you're on the roster, ${p.name}. Reply LINES for this week's games, HELP for commands. ${RATES}`).catch(() => {});
+    await sendSms(p.phone, `${leagueLabel(league.name)}: you're on the roster, ${p.name}. Reply LINES for this week's games, HELP for commands. ${RATES}`).catch(() => {});
     return NextResponse.json({ ok: true });
   }
 

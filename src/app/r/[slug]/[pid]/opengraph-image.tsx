@@ -1,5 +1,6 @@
 import { ImageResponse } from "next/og";
 import { getCardData, pct } from "@/lib/cardstats";
+import { leagueLabel } from "@/lib/brand";
 
 export const runtime = "nodejs";
 export const alt = "Office Pick'em weekly result";
@@ -43,7 +44,7 @@ export default async function Image({ params }: { params: { slug: string; pid: s
     <div style={F({ width: "100%", height: "100%", flexDirection: "column", background: BG, padding: 50 })}>
       <div style={F({ alignItems: "center" })}>
         <div style={F({ width: 44, height: 16, background: a, borderRadius: 4, marginRight: 18 })} />
-        <div style={F({ fontSize: 28, fontWeight: 700, color: a, letterSpacing: 2 })}>{`${d.league.name.toUpperCase()} PICK'EM  ·  WEEK ${d.week}`}</div>
+        <div style={F({ fontSize: 28, fontWeight: 700, color: a, letterSpacing: 2 })}>{`${leagueLabel(d.league.name).toUpperCase()}  ·  WEEK ${d.week}`}</div>
       </div>
 
       <div style={F({ justifyContent: "space-between", marginTop: 22 })}>

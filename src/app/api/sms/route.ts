@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/db";
-import { parseTextPicks } from "@/lib/sms";
+import { parseTextPicks, buildWelcomeSms } from "@/lib/sms";
 import { isGameLocked } from "@/lib/league";
 import { validateTwilioSignature, hashPin, colorForIndex } from "@/lib/auth";
 import { getStandings } from "@/lib/standings";
@@ -65,16 +65,18 @@ export async function POST(req: Request) {
     if (!league) return twiml("Couldn't find that league code. Ask your commissioner, then text: JOIN <code> <your name>.");
     if (!name) return twiml(`Almost! Reply: JOIN ${code} <your name>`);
     const phone = toE164(from) || from;
+    let joinPin: string | null = null;
     let player = await prisma.player.findUnique({ where: { leagueId_name: { leagueId: league.id, name } } });
     if (player) await prisma.player.update({ where: { id: player.id }, data: { phone, smsConsentAt: new Date(), smsOptOut: false } });
     else {
+      joinPin = String(Math.floor(1000 + Math.random() * 9000));
       const count = await prisma.player.count({ where: { leagueId: league.id } });
       player = await prisma.player.create({
-        data: { leagueId: league.id, name, pinHash: hashPin(String(Math.floor(1000 + Math.random() * 9000))), color: colorForIndex(count), phone, smsConsentAt: new Date() },
+        data: { leagueId: league.id, name, pinHash: hashPin(joinPin), color: colorForIndex(count), phone, smsConsentAt: new Date() },
       });
     }
     track({ type: "player_joined", leagueId: league.id, playerId: player.id, channel: "sms" });
-    return twiml(`Welcome to ${league.name}, ${name}! You're set to play by text. Reply LINES to see this week's games.${welcomeSuffix(brandOf(league as any))} ${RATES}`);
+    return twiml(buildWelcomeSms(name, league.name, { pin: joinPin, suffix: welcomeSuffix(brandOf(league as any)) }));
   }
 
   // ---- Known player required from here ----

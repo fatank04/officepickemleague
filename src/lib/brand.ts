@@ -1,6 +1,12 @@
 // Resolve a league's player-facing branding to a safe, defaulted theme.
 export const DEFAULT_ACCENT = "#4f8cff";
 
+/** League display label: append " Pick'em" only if the name doesn't already contain it. */
+export function leagueLabel(name: string): string {
+  const n = (name ?? "").trim();
+  return /pick'?em/i.test(n) ? n : `${n} Pick'em`;
+}
+
 export type LeagueBrandFields = {
   accentColor?: string | null;
   logoUrl?: string | null;

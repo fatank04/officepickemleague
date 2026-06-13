@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { leagueLabel } from "@/lib/brand";
 
 export default function EnrollForm({
   slug, leagueName, accent = "#21e08a", ink = "#05210f", logoUrl = null, prizeText = null, welcomeMessage = null,
@@ -66,7 +67,7 @@ export default function EnrollForm({
         <input style={input} value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="(412) 555-0123" inputMode="tel" required />
         <label style={{ display: "flex", gap: 8, alignItems: "flex-start", fontSize: 12.5, color: "#93a1bc", margin: "4px 0 14px" }}>
           <input type="checkbox" checked={consent} onChange={(e) => setConsent(e.target.checked)} style={{ marginTop: 3 }} />
-          <span>I agree to receive recurring automated text messages (game reminders &amp; results) from {leagueName} Pick'em at this number. Consent is not a condition of anything. Msg &amp; data rates may apply. Reply STOP to opt out, HELP for help.</span>
+          <span>I agree to receive recurring automated text messages (game reminders &amp; results) from {leagueLabel(leagueName)} at this number. Consent is not a condition of anything. Msg &amp; data rates may apply. Reply STOP to opt out, HELP for help.</span>
         </label>
         {err && <div style={{ color: "#ff7a7a", marginBottom: 10, fontSize: 13 }}>{err}</div>}
         <button style={btn} disabled={busy}>{busy ? "Setting you up…" : "Text me my games"}</button>
