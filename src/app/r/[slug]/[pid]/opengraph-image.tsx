@@ -62,7 +62,7 @@ export default async function Image({ params }: { params: { slug: string; pid: s
             </div>
             <div style={{ display: "flex", marginTop: 26 }}>
               {chips.map((t) => (
-                <div key={t} style={{ display: "flex", border: `2px solid ${a}`, color: a, background: "#0E2A1E", borderRadius: 24, padding: "8px 20px", fontSize: 24, fontWeight: 700, marginRight: 16 }}>{t}</div>
+                <div key={t} style={{ display: "flex", border: `2px solid ${a}`, color: a, background: "#10203f", borderRadius: 24, padding: "8px 20px", fontSize: 24, fontWeight: 700, marginRight: 16 }}>{t}</div>
               ))}
             </div>
           </div>

@@ -1,5 +1,5 @@
 // Resolve a league's player-facing branding to a safe, defaulted theme.
-export const DEFAULT_ACCENT = "#21e08a";
+export const DEFAULT_ACCENT = "#4f8cff";
 
 export type LeagueBrandFields = {
   accentColor?: string | null;

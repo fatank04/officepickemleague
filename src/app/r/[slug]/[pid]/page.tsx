@@ -45,7 +45,7 @@ export default async function SharePage({ params }: { params: { slug: string; pi
   const acc = d.league.accent;
   const mv = d.movement > 0 ? `▲ up ${d.movement}` : d.movement < 0 ? `▼ down ${-d.movement}` : "holding steady";
   const chip = (txt: string) => (
-    <span style={{ border: `1px solid ${acc}`, color: acc, background: "#0E2A1E", borderRadius: 16, padding: "5px 14px", fontSize: 13, fontWeight: 700 }}>{txt}</span>
+    <span style={{ border: `1px solid ${acc}`, color: acc, background: "#10203f", borderRadius: 16, padding: "5px 14px", fontSize: 13, fontWeight: 700 }}>{txt}</span>
   );
 
   return (
