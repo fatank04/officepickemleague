@@ -45,7 +45,7 @@ export default async function Image({ params }: { params: { slug: string; pid: s
       <div style={{ width: "100%", height: "100%", display: "flex", flexDirection: "column", background: BG, padding: 60 }}>
         <div style={{ display: "flex", alignItems: "center" }}>
           <div style={{ width: 44, height: 16, background: a, borderRadius: 4, marginRight: 18 }} />
-          <div style={{ fontSize: 28, fontWeight: 700, color: a, letterSpacing: 2 }}>{d.league.name.toUpperCase()} PICK&apos;EM  ·  WEEK {d.week}</div>
+          <div style={{ fontSize: 28, fontWeight: 700, color: a, letterSpacing: 2 }}>{`${d.league.name.toUpperCase()} PICK'EM  \u00b7  WEEK ${d.week}`}</div>
         </div>
 
         <div style={{ display: "flex", justifyContent: "space-between", marginTop: 36 }}>
@@ -55,9 +55,9 @@ export default async function Image({ params }: { params: { slug: string; pid: s
               <div style={{ fontSize: 96, fontWeight: 800, color: a, lineHeight: 1 }}>{d.seasonPts}</div>
               <div style={{ fontSize: 26, fontWeight: 700, color: FAINT, letterSpacing: 2, marginLeft: 20, marginBottom: 14 }}>POINTS</div>
             </div>
-            <div style={{ fontSize: 36, fontWeight: 700, color: WHITE, marginTop: 8 }}>{d.weekPts >= 0 ? "+" : ""}{d.weekPts} this week</div>
+            <div style={{ fontSize: 36, fontWeight: 700, color: WHITE, marginTop: 8 }}>{`${d.weekPts >= 0 ? "+" : ""}${d.weekPts} this week`}</div>
             <div style={{ display: "flex", alignItems: "baseline", marginTop: 30 }}>
-              <div style={{ fontSize: 52, fontWeight: 800, color: WHITE }}>{d.rank} of {d.of}</div>
+              <div style={{ fontSize: 52, fontWeight: 800, color: WHITE }}>{`${d.rank} of ${d.of}`}</div>
               <div style={{ fontSize: 28, fontWeight: 700, color: a, marginLeft: 22 }}>{mv}</div>
             </div>
             <div style={{ display: "flex", marginTop: 26 }}>
