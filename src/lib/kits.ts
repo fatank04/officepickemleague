@@ -1,30 +1,23 @@
-// Per-account pURL records for the Tier-1 Kickoff Kit landing pages (/kit/<slug>).
-// The printed football + Commissioner Card point here; the page pre-builds the league.
-// Add ONE entry per mailed account. `accent` is optional (defaults to brand blue).
-// No fabricated data — fill from verified target-list research.
+import { prisma } from "./db";
 
-export type KitAccount = {
+// DB-backed kit accounts. The pURL page (/kit/<slug>) and the ops console both read these.
+export type KitView = {
   slug: string;
   company: string;
-  teamCity?: string; // e.g. "Pittsburgh" — used in the hero line
-  teamName?: string; // e.g. "Steelers" — optional flourish
-  accent?: string;   // #rrggbb; falls back to brand blue
-  contact?: string;  // first name, for a personal touch (optional)
+  teamCity?: string | null;
+  teamName?: string | null;
+  accent?: string | null;
+  contact?: string | null;
 };
 
-export const KITS: Record<string, KitAccount> = {
-  // --- demo / example (safe to keep; matches the mockup) ---
-  "acme-logistics": { slug: "acme-logistics", company: "Acme Logistics", teamCity: "Pittsburgh", teamName: "Steelers", contact: "Mike" },
-  // --- add real accounts below, one per mailed kit ---
-  // "river-city-mfg": { slug: "river-city-mfg", company: "River City Mfg", teamCity: "Cincinnati", teamName: "Bengals", contact: "Dana" },
-};
+export const slugifyCompany = (company: string) =>
+  company.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 40) || "account";
 
-const titleize = (slug: string) =>
-  slug.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+const titleize = (slug: string) => slug.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
 
-/** Look up a kit. Unknown slugs fall back to a generic record derived from the slug so the page still converts. */
-export function getKit(slug: string): { account: KitAccount; known: boolean } {
-  const hit = KITS[slug.toLowerCase()];
+/** Look up a kit from the DB. Unknown slugs fall back to a generic record so the page still converts. */
+export async function getKit(slug: string): Promise<{ account: KitView; known: boolean }> {
+  const hit = await prisma.kitAccount.findUnique({ where: { slug: slug.toLowerCase() } }).catch(() => null);
   if (hit) return { account: hit, known: true };
   return { account: { slug, company: titleize(slug) }, known: false };
 }

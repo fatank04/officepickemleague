@@ -4,9 +4,9 @@ import { useRouter } from "next/navigation";
 import { Brand } from "@/components/Brand";
 
 export default function KitClient({
-  company, teamCity, teamName, contact,
+  company, teamCity, teamName, contact, kitSlug,
 }: {
-  company: string; teamCity: string | null; teamName: string | null; contact: string | null;
+  company: string; teamCity: string | null; teamName: string | null; contact: string | null; kitSlug: string;
 }) {
   const router = useRouter();
   const leagueDefault = /pick'?em/i.test(company) ? company : `${company} Pick'em`;
@@ -22,7 +22,7 @@ export default function KitClient({
     setBusy(true); setErr("");
     const res = await fetch("/api/league", {
       method: "POST", headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ leagueName, commishName: cName, pin }),
+      body: JSON.stringify({ leagueName, commishName: cName, pin, kitSlug }),
     });
     setBusy(false);
     const data = await res.json().catch(() => ({}));

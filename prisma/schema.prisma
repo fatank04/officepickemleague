@@ -31,12 +31,38 @@ model League {
   logoUrl        String?  // optional league/company logo
   prizeText      String?  // shown to players: what they're playing for
   welcomeMessage String?  // optional note in the welcome SMS / join page
+  kitSlug        String?  // pURL kit slug that launched this league (attribution)
   createdAt     DateTime @default(now())
 
   players       Player[]
   picks         Pick[]
   powerPicks    PowerPick[]
   submissions   Submission[]
+}
+
+model KitAccount {
+  id           String    @id @default(cuid())
+  slug         String    @unique // the pURL: /kit/<slug>
+  company      String
+  metro        String?   // Tier-1 metro grouping (e.g. "Pittsburgh")
+  teamCity     String?   // hero line, e.g. "Pittsburgh"
+  teamName     String?   // optional flourish, e.g. "Steelers"
+  accent       String?   // #rrggbb; falls back to brand blue
+  contact      String?   // first name for the personal touch
+  contactTitle String?
+  email        String?   // for the automated cadence
+  addr1        String?
+  addr2        String?
+  city         String?
+  state        String?
+  zip          String?
+  status       String    @default("draft") // draft | ready | mailed
+  mailedAt     DateTime?
+  notes        String?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  @@index([metro, status])
 }
 
 model Player {
