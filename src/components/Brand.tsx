@@ -18,9 +18,9 @@ export function Brand() {
       <Mark />
       <div>
         <div className="bname">
-          Office <span>Pick&apos;em</span>
+          Spread<span>Pickem</span>
         </div>
-        <div className="tagline">LEAGUE</div>
+        <div className="tagline">Cover or shut up</div>
       </div>
     </div>
   );
