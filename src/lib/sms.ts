@@ -1,18 +1,4 @@
 import { abbr } from "./teams";
-import { leagueLabel } from "./brand";
-
-export const RATES = "Msg&data rates may apply. Reply STOP to opt out, HELP for help.";
-
-/** Single source of truth for the welcome text used by both web-enroll and SMS JOIN. */
-export function buildWelcomeSms(
-  name: string,
-  leagueName: string,
-  opts: { pin?: string | null; suffix?: string } = {}
-): string {
-  const pinPart = opts.pin ? ` (Web login PIN: ${opts.pin})` : "";
-  const suffix = opts.suffix || "";
-  return `Welcome to ${leagueLabel(leagueName)}, ${name}! You're set to play by text. Reply LINES to see this week's games, HELP for commands.${pinPart}${suffix} ${RATES}`;
-}
 
 export interface SmsGame {
   id: string;
@@ -86,13 +72,9 @@ export function parseTextPicks(raw: string, games: SmsGame[]): ParseResult {
 export async function sendSms(to: string, body: string): Promise<boolean> {
   const sid = process.env.TWILIO_ACCOUNT_SID;
   const token = process.env.TWILIO_AUTH_TOKEN;
-  const svc = process.env.TWILIO_MESSAGING_SERVICE_SID;
   const from = process.env.TWILIO_FROM_NUMBER;
-  // A2P 10DLC: prefer sending through the Messaging Service the campaign is attached to,
-  // so carriers attribute traffic to the approved campaign. Fall back to a raw from-number.
-  if (!sid || !token || (!svc && !from)) return false;
+  if (!sid || !token || !from) return false;
   const { default: twilio } = await import("twilio");
-  const opts = svc ? { to, messagingServiceSid: svc, body } : { to, from: from!, body };
-  await twilio(sid, token).messages.create(opts);
+  await twilio(sid, token).messages.create({ to, from, body });
   return true;
 }
