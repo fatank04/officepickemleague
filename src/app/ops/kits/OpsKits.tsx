@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 type Acct = {
   id: string; slug: string; company: string; metro?: string | null; teamCity?: string | null; teamName?: string | null;
@@ -83,6 +84,7 @@ export default function OpsKits({ accounts, viewed, launched, baseUrl }: { accou
         <div className="row" style={{ gap: 8 }}>
           <button className="btn sm" onClick={() => { setForm({ ...BLANK }); setShowImport(false); }}>+ Add account</button>
           <button className="btn ghost sm" onClick={() => { setShowImport((v) => !v); setForm(null); }}>Import CSV</button>
+          <Link href="/ops/kits/print" className="btn ghost sm">Print pack →</Link>
         </div>
       </div>
 
