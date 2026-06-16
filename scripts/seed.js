@@ -18,13 +18,6 @@ async function main() {
   const pin = process.env.SEED_PIN || "1234";
   const season = Number(process.env.SEASON || 2026);
 
-  // Idempotent: never overwrite a populated database on deploy. Set FORCE_SEED=1 to override.
-  const existing = await prisma.league.count();
-  if (existing > 0 && !process.env.FORCE_SEED) {
-    console.log(`Seed skipped — ${existing} league(s) already exist (set FORCE_SEED=1 to force).`);
-    return;
-  }
-
   const league = await prisma.league.upsert({
     where: { slug }, update: {}, create: { slug, name, season },
   });
