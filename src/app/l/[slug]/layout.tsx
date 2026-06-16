@@ -11,7 +11,7 @@ export default async function LeagueLayout({
   params: { slug: string };
 }) {
   const ctx = await current();
-  if (!ctx || ctx.league.slug !== params.slug) redirect("/");
+  if (!ctx || ctx.league.slug !== params.slug) redirect(`/signin/${params.slug}`);
 
   return (
     <>

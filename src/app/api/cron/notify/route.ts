@@ -35,13 +35,17 @@ export async function GET(req: Request) {
     const wk = weeks.find((w) => byWeek.get(w)!.some((g) => !isGameLocked(g, now)));
     if (wk == null) return NextResponse.json({ ok: true, sent: 0, note: "no open week" });
     const wkGameIds = byWeek.get(wk)!.map((g) => g.id);
+    // Dedup: never re-nag a player already reminded this week (the cron may run more than once).
+    const alreadyReminded = new Set(
+      (await prisma.event.findMany({ where: { type: "reminder_sent", season, week: wk }, select: { playerId: true } })).map((r) => r.playerId).filter(Boolean) as string[]
+    );
     for (const lg of leagues) {
       const players = await prisma.player.findMany({ where: { leagueId: lg.id } });
       const started = new Set(
         (await prisma.pick.findMany({ where: { leagueId: lg.id, gameId: { in: wkGameIds } }, select: { playerId: true }, distinct: ["playerId"] })).map((r) => r.playerId)
       );
       for (const p of players) {
-        if (!eligible(p) || started.has(p.id)) continue;
+        if (!eligible(p) || started.has(p.id) || alreadyReminded.has(p.id)) continue;
         await sendSms(p.phone!, `Week ${wk} is live in ${leagueLabel(lg.name)}! Reply LINES to see the games, then text your picks (e.g. "1 SEA u"). Each game locks at kickoff. ${RATES}`).catch(() => {});
         track({ type: "reminder_sent", leagueId: lg.id, playerId: p.id, season, week: wk, channel: "sms" });
         sent++;
