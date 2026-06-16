@@ -160,11 +160,11 @@ export default async function PrintPage({ searchParams }: { searchParams: { doc?
           <div className="ready">We already built {a.company}&apos;s league. It&apos;s ready to launch.</div>
           <ul>
             <li><b>A rounding error.</b> A few dollars a head for the whole season — cheaper than one team lunch.</li>
-            <li><b>No procurement, no IT, no contract.</b> Free to start. Launch it before this kit hits the recycling.</li>
+            <li><b>No procurement, no IT, no contract.</b> Founding Season is flat by company size, locked 3 seasons, money-back guaranteed.</li>
             <li><b>Everyone plays — for real.</b> Frontline crews who&apos;ll never open an app play by text or a phone call.</li>
           </ul>
-          <div className="cta"><span className="big">You&apos;re the commissioner{a.contact ? `, ${a.contact}` : ""}. Scan the football — launch in 60 seconds.</span><span className="url">{shortUrl(a.slug)}</span></div>
-          <p style={{ fontSize: "9pt", color: "#888", marginTop: 14 }}>No money changes hands, ever. {team} season starts now.</p>
+          <div className="cta"><span className="big">You&apos;re the commissioner{a.contact ? `, ${a.contact}` : ""}. Scan the football — set up in 60 seconds.</span><span className="url">{shortUrl(a.slug)}</span></div>
+          <p style={{ fontSize: "9pt", color: "#888", marginTop: 14 }}>Founding Season: from $400 by company size · locked 3 seasons · money-back. Players never pay. {team} season starts now.</p>
         </div></div></div>
       );
     });

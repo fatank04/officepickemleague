@@ -65,9 +65,10 @@ export default function KitClient({
         <div className="muted small b" style={{ marginBottom: 8, letterSpacing: 0.6 }}>WHAT YOUR TEAM GETS</div>
         <div className="row" style={{ gap: 10, marginBottom: 6 }}><span>⏱️</span> Pick in two minutes a week</div>
         <div className="row" style={{ gap: 10, marginBottom: 6 }}><span>💬</span> Play by text, web, or a phone call</div>
-        <div className="row" style={{ gap: 10 }}><span>🚫</span> No money, no app, no procurement</div>
+        <div className="row" style={{ gap: 10 }}><span>🚫</span> Players never pay — no app, no buy-in</div>
       </div>
 
+      <p className="muted small center" style={{ marginTop: 12 }}>Founding Season: flat seasonal rate from $400 by company size, locked 3 seasons, full money-back guarantee — your rep sets it up with you.</p>
       <p className="muted small center">Floor to front office — everybody&apos;s in.</p>
     </div>
   );
