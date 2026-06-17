@@ -1,0 +1,45 @@
+# Render Blueprint for Office Pick'em League (Next.js 14 + Prisma + Neon).
+# Free tier: the web service sleeps after ~15 min idle (cold start on next hit).
+# Cron is handled by GitHub Actions (.github/workflows/cron.yml), not Render.
+services:
+  - type: web
+    name: officepickemleague
+    runtime: node
+    plan: free
+    region: ohio              # change to match your Neon DB region for lowest latency
+    branch: main
+    autoDeploy: true
+    healthCheckPath: /
+    # postinstall runs `prisma generate`; then push schema, seed (idempotent), build.
+    buildCommand: npm install && npx prisma db push && node scripts/seed.js && npm run build
+    startCommand: npm run start
+    envVars:
+      - key: NODE_VERSION
+        value: "20"
+      - key: SEASON
+        value: "2026"
+      - key: NEXT_PUBLIC_BASE_URL
+        value: https://officepickemleague.com
+      # --- secrets: set these in the Render dashboard (sync:false keeps them out of git) ---
+      - key: DATABASE_URL
+        sync: false
+      - key: DIRECT_URL
+        sync: false
+      - key: ODDS_API_KEY
+        sync: false
+      - key: SESSION_SECRET
+        sync: false
+      - key: CRON_SECRET
+        sync: false
+      - key: OPS_KEY
+        sync: false
+      - key: TWILIO_ACCOUNT_SID
+        sync: false
+      - key: TWILIO_AUTH_TOKEN
+        sync: false
+      - key: TWILIO_FROM_NUMBER
+        sync: false
+      - key: TWILIO_MESSAGING_SERVICE_SID
+        sync: false
+      - key: ALERT_PHONE
+        sync: false

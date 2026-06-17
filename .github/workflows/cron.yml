@@ -1,0 +1,25 @@
+name: cron
+on:
+  schedule:
+    - cron: '0 * * * *'    # hourly — grade finished games
+    - cron: '0 10 * * 3'   # Wed 10:00 UTC — pull this week's lines
+    - cron: '0 17 * * 6'   # Sat 17:00 UTC — one weekly reminder to non-pickers
+    - cron: '0 15 * * 2'   # Tue 15:00 UTC — weekly results + share cards
+  workflow_dispatch: {}
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Hit cron endpoint
+        env:
+          BASE: ${{ vars.CRON_BASE_URL || 'https://officepickemleague.com' }}
+          SECRET: ${{ secrets.CRON_SECRET }}
+        run: |
+          case "${{ github.event.schedule }}" in
+            "0 10 * * 3") P="/api/cron/pull-lines" ;;
+            "0 17 * * 6") P="/api/cron/notify?type=reminder" ;;
+            "0 15 * * 2") P="/api/cron/notify?type=results" ;;
+            *)            P="/api/cron/grade" ;;
+          esac
+          echo "Pinging $BASE$P"
+          curl -fsS -H "Authorization: Bearer $SECRET" "$BASE$P"

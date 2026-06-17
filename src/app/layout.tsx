@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Space_Grotesk } from "next/font/google";
 import "./globals.css";
+import Link from "next/link";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const grotesk = Space_Grotesk({ subsets: ["latin"], weight: ["500", "600", "700"], variable: "--font-grotesk" });
@@ -14,7 +15,15 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${inter.variable} ${grotesk.variable}`}>
-      <body>{children}</body>
+      <body>
+        {children}
+        <footer style={{ textAlign: "center", padding: "26px 16px 34px", color: "var(--muted)", fontSize: 12.5 }}>
+          <Link href="/terms" style={{ color: "var(--muted)" }}>Terms</Link> ·{" "}
+          <Link href="/privacy" style={{ color: "var(--muted)" }}>Privacy</Link> ·{" "}
+          <Link href="/sms-terms" style={{ color: "var(--muted)" }}>SMS Terms</Link>
+          <div style={{ marginTop: 4 }}>No money, no app — players never pay.</div>
+        </footer>
+      </body>
     </html>
   );
 }

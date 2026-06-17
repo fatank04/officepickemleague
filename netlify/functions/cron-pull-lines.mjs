@@ -1,3 +1,3 @@
-import { hitCron } from "./_cron.mjs";
-export const config = { schedule: "0 10 * * 3" };
-export default async () => hitCron("/api/cron/pull-lines");
+// DISABLED — cron moved to GitHub Actions (.github/workflows/cron.yml) to save Netlify credits.
+// No `export const config.schedule`, so Netlify will not schedule or invoke this. Safe to delete the netlify/ folder.
+export default async () => new Response("disabled");
