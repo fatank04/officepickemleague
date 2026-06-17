@@ -1,7 +1,7 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { getCardData, pct, ordinal } from "@/lib/cardstats";
-import { leagueLabel } from "@/lib/brand";
+import { leagueLabel, onAccent } from "@/lib/brand";
 
 export const dynamic = "force-dynamic";
 
@@ -39,7 +39,7 @@ export default async function SharePage({ params }: { params: { slug: string; pi
     return (
       <main style={wrap}>
         <div style={{ color: C.mute, marginTop: 40 }}>This card isn’t ready yet — check back after the week is scored.</div>
-        <Link href={`/j/${params.slug}`} style={{ background: "#21e08a", color: "#06140d", fontWeight: 700, padding: "12px 20px", borderRadius: 10, textDecoration: "none" }}>Join the league →</Link>
+        <Link href={`/j/${params.slug}`} style={{ background: "#4f8cff", color: "#ffffff", fontWeight: 700, padding: "12px 20px", borderRadius: 10, textDecoration: "none" }}>Join the league →</Link>
       </main>
     );
   }
@@ -91,7 +91,7 @@ export default async function SharePage({ params }: { params: { slug: string; pi
       </div>
 
       <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 12 }}>
-        <Link href={`/j/${d.league.slug}`} style={{ background: acc, color: "#06140d", fontWeight: 800, padding: "14px 26px", borderRadius: 12, textDecoration: "none", fontSize: 16 }}>Join {d.league.name} →</Link>
+        <Link href={`/j/${d.league.slug}`} style={{ background: acc, color: onAccent(acc), fontWeight: 800, padding: "14px 26px", borderRadius: 12, textDecoration: "none", fontSize: 16 }}>Join {d.league.name} →</Link>
         <Link href="/" style={{ color: C.mute, fontSize: 13, textDecoration: "none" }}>or start your own free league — no money, no app</Link>
       </div>
     </main>

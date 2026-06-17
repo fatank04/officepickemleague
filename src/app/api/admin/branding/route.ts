@@ -20,7 +20,7 @@ export async function POST(req: Request) {
     if (body.accentColor === null || body.accentColor === "") data.accentColor = null;
     else {
       const c = validHexColor(body.accentColor);
-      if (!c) return NextResponse.json({ error: "Accent must be a hex color like #21e08a." }, { status: 400 });
+      if (!c) return NextResponse.json({ error: "Accent must be a hex color like #4f8cff." }, { status: 400 });
       data.accentColor = c;
     }
   }

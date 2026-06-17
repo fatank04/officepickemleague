@@ -3,7 +3,7 @@ import { useState } from "react";
 import { leagueLabel } from "@/lib/brand";
 
 export default function EnrollForm({
-  slug, leagueName, accent = "#21e08a", ink = "#05210f", logoUrl = null, prizeText = null, welcomeMessage = null,
+  slug, leagueName, accent = "#4f8cff", ink = "#ffffff", logoUrl = null, prizeText = null, welcomeMessage = null,
 }: {
   slug: string; leagueName: string; accent?: string; ink?: string;
   logoUrl?: string | null; prizeText?: string | null; welcomeMessage?: string | null;

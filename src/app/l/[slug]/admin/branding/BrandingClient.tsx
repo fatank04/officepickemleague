@@ -1,4 +1,5 @@
 "use client";
+import { onAccent } from "@/lib/brand";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
@@ -15,7 +16,7 @@ export default function BrandingClient({ initial }: { initial: Brand }) {
   const [busy, setBusy] = useState(false);
   const [msg, setMsg] = useState<{ t: "ok" | "err"; s: string } | null>(null);
   const set = (k: keyof Brand) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => setB({ ...b, [k]: e.target.value });
-  const accent = /^#[0-9a-fA-F]{6}$/.test(b.accentColor) ? b.accentColor : "#21e08a";
+  const accent = /^#[0-9a-fA-F]{6}$/.test(b.accentColor) ? b.accentColor : "#4f8cff";
 
   async function save() {
     setBusy(true); setMsg(null);
@@ -39,9 +40,9 @@ export default function BrandingClient({ initial }: { initial: Brand }) {
       <div style={box}>
         <label style={label}>Accent color</label>
         <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
-          <input style={{ ...input, maxWidth: 160 }} value={b.accentColor} onChange={set("accentColor")} placeholder="#21e08a" />
+          <input style={{ ...input, maxWidth: 160 }} value={b.accentColor} onChange={set("accentColor")} placeholder="#4f8cff" />
           <span style={{ width: 28, height: 28, borderRadius: 6, background: accent, border: "1px solid #2a3550", display: "inline-block" }} />
-          <span style={{ ...mut, marginTop: 0 }}>Hex like #21e08a. Leave blank for the default.</span>
+          <span style={{ ...mut, marginTop: 0 }}>Hex like #4f8cff. Leave blank for the default.</span>
         </div>
       </div>
       <div style={box}>
@@ -60,7 +61,7 @@ export default function BrandingClient({ initial }: { initial: Brand }) {
         <input style={input} value={b.logoUrl} onChange={set("logoUrl")} placeholder="https://…" />
         <div style={mut}>Must start with https://</div>
       </div>
-      <button style={{ background: accent, color: "#06140d", border: "none", borderRadius: 9, padding: "11px 18px", fontWeight: 700, fontSize: 15, cursor: "pointer" }}
+      <button style={{ background: accent, color: onAccent(accent), border: "none", borderRadius: 9, padding: "11px 18px", fontWeight: 700, fontSize: 15, cursor: "pointer" }}
         disabled={busy} onClick={save}>{busy ? "Saving…" : "Save changes"}</button>
     </>
   );

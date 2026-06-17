@@ -6,7 +6,7 @@ import { isGameLocked } from "@/lib/lock";
 export const dynamic = "force-dynamic";
 
 const box: React.CSSProperties = { background: "#141c2e", border: "1px solid #2a3550", borderRadius: 12, padding: 16, margin: "10px 0" };
-const num: React.CSSProperties = { fontSize: 30, fontWeight: 700, color: "#21e08a" };
+const num: React.CSSProperties = { fontSize: 30, fontWeight: 700, color: "#4f8cff" };
 const mut: React.CSSProperties = { color: "#93a1bc", fontSize: 13 };
 
 export default async function HealthPage() {

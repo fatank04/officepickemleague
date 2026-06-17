@@ -15,7 +15,7 @@ export default async function StandingsPage() {
 
   if (view.playoff) {
     const { quals, nons } = view.playoff;
-    const colorOf = (id: string) => view.rows.find((r) => r.playerId === id)?.color ?? "#1ed47a";
+    const colorOf = (id: string) => view.rows.find((r) => r.playerId === id)?.color ?? "#4f8cff";
     return (
       <>
         <h2>Playoffs</h2>

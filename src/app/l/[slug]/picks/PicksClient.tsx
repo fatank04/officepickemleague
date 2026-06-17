@@ -53,8 +53,8 @@ export default function PicksClient(props: {
         <span className="hero-line">Floor to front office — <em>everybody&apos;s in.</em></span>
       </div>
       {props.prizeText && (
-        <div style={{ border: `1px solid ${props.accent || "#21e08a"}`, background: "#0d1424", borderRadius: 12, padding: "8px 14px", margin: "0 0 12px" }}>
-          <span style={{ color: props.accent || "#21e08a", fontWeight: 700, fontSize: 12, letterSpacing: 0.5 }}>🏆 PLAYING FOR </span>
+        <div style={{ border: `1px solid ${props.accent || "#4f8cff"}`, background: "#0d1424", borderRadius: 12, padding: "8px 14px", margin: "0 0 12px" }}>
+          <span style={{ color: props.accent || "#4f8cff", fontWeight: 700, fontSize: 12, letterSpacing: 0.5 }}>🏆 PLAYING FOR </span>
           <span style={{ fontSize: 14 }}>{props.prizeText}</span>
         </div>
       )}
