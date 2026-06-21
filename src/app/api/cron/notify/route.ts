@@ -4,13 +4,13 @@ import { isGameLocked } from "@/lib/league";
 import { getStandings } from "@/lib/standings";
 import { sendSms } from "@/lib/sms";
 import { leagueLabel } from "@/lib/brand";
+import { ord } from "@/lib/ord";
 import { track } from "@/lib/track";
 
 export const dynamic = "force-dynamic";
 export const maxDuration = 60;
 
 const RATES = "Reply STOP to opt out.";
-const ord = (n: number) => `${n}${["th", "st", "nd", "rd"][(n % 100 > 10 && n % 100 < 14) || n % 10 > 3 ? 0 : n % 10]}`;
 
 // Vercel Cron. ?type=reminder (default) or ?type=results. Texts only consented, opted-in players.
 export async function GET(req: Request) {

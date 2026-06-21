@@ -7,14 +7,18 @@ const MAX_FAILS = 5;     // wrong PINs before a lockout
 const LOCK_MIN = 15;     // lockout duration (minutes)
 
 export async function POST(req: Request) {
-  const { slug, name, pin } = await req.json();
+  const body = await req.json();
+  const { slug, pin } = body;
+  const name = (body.name || "").trim();
   if (!slug || !name || !/^\d{4}$/.test(pin || ""))
     return NextResponse.json({ error: "Need league, name, and 4-digit PIN." }, { status: 400 });
 
   const league = await prisma.league.findUnique({ where: { slug } });
   if (!league) return NextResponse.json({ error: "League not found." }, { status: 404 });
 
-  let player = await prisma.player.findUnique({ where: { leagueId_name: { leagueId: league.id, name } } });
+  // Case-insensitive + trimmed match avoids silently spawning a duplicate player
+  // when a returning user types their name with different casing/spacing.
+  let player = await prisma.player.findFirst({ where: { leagueId: league.id, name: { equals: name, mode: "insensitive" } } });
   if (player) {
     // locked out?
     if (player.lockedUntil && player.lockedUntil > new Date()) {

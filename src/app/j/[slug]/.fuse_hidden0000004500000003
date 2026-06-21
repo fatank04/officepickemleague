@@ -70,9 +70,4 @@ export default function EnrollForm({
           <span>I agree to receive recurring automated text messages (game reminders &amp; results) from {leagueLabel(leagueName)} at this number. Consent is not a condition of anything. Msg &amp; data rates may apply. Reply STOP to opt out, HELP for help. See our <a href="/sms-terms" style={{ color: accent }}>SMS Terms</a> &amp; <a href="/privacy" style={{ color: accent }}>Privacy Policy</a>.</span>
         </label>
         {err && <div style={{ color: "#ff7a7a", marginBottom: 10, fontSize: 13 }}>{err}</div>}
-        <button style={btn} disabled={busy}>{busy ? "Setting you up…" : "Text me my games"}</button>
-        <p style={{ textAlign: "center", fontSize: 12.5, color: "var(--muted)", margin: "12px 0 0" }}>Always free to play — no app, no charges, ever.</p>
-      </form>
-    </div></div>
-  );
-}
+        <button style={btn} disabled={busy}>{busy

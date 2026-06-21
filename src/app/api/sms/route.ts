@@ -6,11 +6,11 @@ import { getStandings } from "@/lib/standings";
 import { brandOf, welcomeSuffix } from "@/lib/brand";
 import { toE164 } from "@/lib/phone";
 import { track } from "@/lib/track";
+import { ord } from "@/lib/ord";
 
 export const dynamic = "force-dynamic";
 
 const RATES = "Msg&data rates may apply. Reply STOP to opt out, HELP for help.";
-const ord = (n: number) => `${n}${["th", "st", "nd", "rd"][(n % 100 > 10 && n % 100 < 14) || n % 10 > 3 ? 0 : n % 10]}`;
 
 function twiml(message: string) {
   const body = `<?xml version="1.0" encoding="UTF-8"?><Response><Message>${message
@@ -66,7 +66,7 @@ export async function POST(req: Request) {
     if (!name) return twiml(`Almost! Reply: JOIN ${code} <your name>`);
     const phone = toE164(from) || from;
     let joinPin: string | null = null;
-    let player = await prisma.player.findUnique({ where: { leagueId_name: { leagueId: league.id, name } } });
+    let player = await prisma.player.findFirst({ where: { leagueId: league.id, name: { equals: name, mode: "insensitive" } } });
     if (player) await prisma.player.update({ where: { id: player.id }, data: { phone, smsConsentAt: new Date(), smsOptOut: false } });
     else {
       joinPin = String(Math.floor(1000 + Math.random() * 9000));
@@ -148,6 +148,7 @@ export async function POST(req: Request) {
     return twiml('Couldn\'t read that. Format: "1 SEA u  2 LAR o  LOCK 1". Text LINES for the slate, HELP for commands.');
 
   const lockedNums = new Set<number>();
+  const echo: { idx: number; text: string }[] = [];
   let saved = 0;
   for (const [gameId, p] of Object.entries(picks)) {
     const idx = games.findIndex((x) => x.id === gameId);
@@ -159,6 +160,11 @@ export async function POST(req: Request) {
       update: p, create: { leagueId: player.leagueId, playerId: player.id, gameId, ...p },
     });
     saved++;
+    const seg: string[] = [];
+    if (p?.su) seg.push(p.su === "home" ? g.home : g.away);
+    if (p?.ats) seg.push((p.ats === "home" ? g.home : g.away) + " sprd");
+    if (p?.ou) seg.push(p.ou);
+    if (seg.length) echo.push({ idx: idx + 1, text: seg.join(" ") });
   }
   let lockSet = false;
   if (lockGameId) {
@@ -178,7 +184,11 @@ export async function POST(req: Request) {
 
   const lockedNote = lockedNums.size ? ` (already kicked off: ${[...lockedNums].sort((a, b) => a - b).join(", ")})` : "";
   const note = errors.length ? ` (ignored: ${errors.join(", ")})` : "";
-  return twiml(`Got it — ${saved} entries${lockSet ? ", Lock set" : ""}${lockedNote}${note}. Reply MY PICKS to review.`);
+  const lockIdx = lockSet && lockGameId ? games.findIndex((x) => x.id === lockGameId) + 1 : -1;
+  const echoBody = echo.length
+    ? ":\n" + echo.map((e) => `${e.idx}) ${e.text}${e.idx === lockIdx ? " LOCK" : ""}`).join("\n")
+    : "";
+  return twiml(`Got it ✓ ${saved} saved${lockSet ? ", Lock set" : ""}${lockedNote}${note}${echoBody}\nReply MY PICKS to review.`);
 }
 
 // keep raw text available to the parser without re-trimming

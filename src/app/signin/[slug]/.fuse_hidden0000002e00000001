@@ -37,8 +37,4 @@ export default function SignInForm({ slug, leagueName }: { slug: string; leagueN
         <input value={pin} onChange={(e) => setPin(e.target.value)} inputMode="numeric" maxLength={4} placeholder="1234" onKeyDown={(e) => e.key === "Enter" && go()} />
         {err && <div className="err">{err}</div>}
         <button className="btn" style={{ width: "100%", marginTop: 14 }} disabled={busy} onClick={go}>{busy ? "Signing in…" : "Sign in →"}</button>
-        <p className="muted small center" style={{ marginTop: 14 }}>Not your league? <a href="/" style={{ color: "var(--accent)" }}>Start or find another →</a></p>
-      </div>
-    </div>
-  );
-}
+        <p className="muted small center" style={{ marginTop: 14 }}>Not your league? <a href="/" style={{ color: "var(--accent)" }}>Start or find another →</a></

@@ -22,7 +22,7 @@ export const favoriteSide = (homeSpread: number): "home" | "away" => (homeSpread
 export function spreadPhrase(g: { home: string; away: string; homeSpread: number }): string {
   return g.homeSpread < 0 ? `${g.home} favored by ${halfWords(g.homeSpread)}` : `${g.away} favored by ${halfWords(g.homeSpread)}`;
 }
-export const ord = (n: number) => `${n}${["th", "st", "nd", "rd"][(n % 100 > 10 && n % 100 < 14) || n % 10 > 3 ? 0 : n % 10]}`;
+export { ord } from "./ord";
 
 // ---- one-tap auto-pick methods (mirror the web quick-pick) ----
 export function applyMethod(method: string, g: { homeSpread: number }): { su: string; ats: string; ou: string } {

@@ -150,8 +150,4 @@ export default function PicksClient(props: {
       );})}
 
       {props.games.length === 0 && (
-        <div className="card pad muted">No games posted for this week yet — the lines go up midweek. Check back soon.</div>
-      )}
-    </>
-  );
-}
+        <div className="card pad muted">
