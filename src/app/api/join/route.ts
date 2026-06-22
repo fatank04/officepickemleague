@@ -10,6 +10,7 @@ export async function POST(req: Request) {
   const body = await req.json();
   const { slug, pin } = body;
   const name = (body.name || "").trim();
+  const confirmNew = body.confirmNew === true;
   if (!slug || !name || !/^\d{4}$/.test(pin || ""))
     return NextResponse.json({ error: "Need league, name, and 4-digit PIN." }, { status: 400 });
 
@@ -43,6 +44,11 @@ export async function POST(req: Request) {
       await prisma.player.update({ where: { id: player.id }, data: { failedPins: 0, lockedUntil: null } });
     track({ type: "login", leagueId: league.id, playerId: player.id, channel: "web" });
   } else {
+    // No matching player. Don't silently create a duplicate — make the user
+    // confirm they're a NEW player (guards against typo'd names / wrong casing).
+    if (!confirmNew) {
+      return NextResponse.json({ needConfirm: true, name }, { status: 409 });
+    }
     const count = await prisma.player.count({ where: { leagueId: league.id } });
     player = await prisma.player.create({
       data: { leagueId: league.id, name, pinHash: hashPin(pin), color: colorForIndex(count) },

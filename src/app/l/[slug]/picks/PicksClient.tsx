@@ -52,6 +52,19 @@ export default function PicksClient(props: {
       <div className="hero">
         <span className="hero-line">Floor to front office — <em>everybody&apos;s in.</em></span>
       </div>
+      <details className="card pad" style={{ marginBottom: 12 }}>
+        <summary style={{ cursor: "pointer", fontWeight: 600 }}>🆕 New here? How it works (30 sec)</summary>
+        <div className="muted small" style={{ marginTop: 8, lineHeight: 1.55 }}>
+          For each game you make up to three calls:
+          <ul style={{ margin: "8px 0 0", paddingLeft: 18 }}>
+            <li><b>Winner</b> — who wins the game. <b>1 pt</b></li>
+            <li><b>Spread</b> — who beats the point spread (the number by each team: a favorite must win by more than it; an underdog can lose by less, or win). <b>2 pts</b></li>
+            <li><b>Total (O/U)</b> — will both teams&apos; combined score land Over or Under the number. <b>2 pts</b></li>
+            <li><b>Power Pick / LOCK</b> — tap the ☆ on the game you&apos;re surest about; your spread call there swings <b>±3</b> (your top one is your &ldquo;LOCK&rdquo;).</li>
+          </ul>
+          <div style={{ marginTop: 8 }}>Bonus: nail all three on one game = <b>+1</b>. Miss all three = <b>−2</b>. No ties — every line ends in a half-point.</div>
+        </div>
+      </details>
       {props.prizeText && (
         <div style={{ border: `1px solid ${props.accent || "#4f8cff"}`, background: "#0d1424", borderRadius: 12, padding: "8px 14px", margin: "0 0 12px" }}>
           <span style={{ color: props.accent || "#4f8cff", fontWeight: 700, fontSize: 12, letterSpacing: 0.5 }}>🏆 PLAYING FOR </span>
