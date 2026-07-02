@@ -3,6 +3,7 @@ import { prisma } from "@/lib/db";
 import { current } from "@/lib/league";
 import { nflWeek } from "@/lib/odds";
 import { isGameLocked } from "@/lib/lock";
+import DangerZone from "@/components/DangerZone";
 
 export const dynamic = "force-dynamic";
 
@@ -64,6 +65,8 @@ export default async function AdminHome({ params }: { params: { slug: string } }
           <div style={mut}>Opt-in %, weekly-active, retention, and how many play by web / text / phone.</div>
         </Link>
       </div>
+
+      <DangerZone leagueName={league.name} />
     </main>
   );
 }
