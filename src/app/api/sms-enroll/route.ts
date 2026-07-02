@@ -10,7 +10,7 @@ const RATES = "Msg&data rates may apply. Reply STOP to opt out, HELP for help.";
 
 // Enroll a player to play by text. Body: { slug, name, phone, consent }
 export async function POST(req: Request) {
-  const { slug, name, phone, consent } = await req.json();
+  const { slug, name, phone, consent, heard } = await req.json();
   if (!slug || !name?.trim() || !phone?.trim())
     return NextResponse.json({ error: "Name and mobile number are required." }, { status: 400 });
   if (!consent) return NextResponse.json({ error: "Please check the consent box to receive texts." }, { status: 400 });
@@ -33,10 +33,22 @@ export async function POST(req: Request) {
       data: { leagueId: league.id, name: name.trim(), pinHash: hashPin(pin), color: colorForIndex(count), phone: e164, smsConsentAt: new Date() },
     });
   }
-  track({ type: "player_joined", leagueId: league.id, playerId: player.id, channel: "web" });
-  await sendSms(
+  const attrib = readAttrib(req.headers.get("cookie"));
+  track({ type: "player_joined", leagueId: league.id, playerId: player.id, channel: "web", meta: { heard: heard || null, attrib } });
+  // sendSms resolves false when texting isn't configured, and throws on a Twilio API error.
+  // Either way the player is enrolled — but the UI must not claim a text was sent when it wasn't.
+  const smsSent = await sendSms(
     e164,
     buildWelcomeSms(name.trim(), league.name, { pin, suffix: welcomeSuffix(brand) })
-  ).catch(() => {});
-  return NextResponse.json({ ok: true });
+  ).catch(() => false);
+  if (!smsSent) track({ type: "welcome_sms_failed", leagueId: league.id, playerId: player.id, channel: "web" });
+  // When the welcome text didn't go out, the PIN would otherwise be lost forever (it's only
+  // ever delivered in that text) — so return it once for the success screen's web fallback.
+  return NextResponse.json({ ok: true, smsSent, pin: smsSent ? null : pin, slug });
+}
+function readAttrib(cookie: string | null): Record<string, string> | null {
+  if (!cookie) return null;
+  const m = cookie.split(/; */).find((c) => c.startsWith("op_attrib="));
+  if (!m) return null;
+  try { return JSON.parse(decodeURIComponent(m.slice("op_attrib=".length))); } catch { return null; }
 }

@@ -88,13 +88,16 @@ export default function PicksClient(props: {
         <div className="card pad spread">
           {props.submitted ? (
             <>
-              <div className="b" style={{ color: "var(--accent)" }}>✅ Picks are in. Now go talk your trash.</div>
+              <div>
+                <div className="b" style={{ color: "var(--accent)" }}>✅ Picks are in. Now go talk your trash.</div>
+                <div className="muted small" style={{ marginTop: 4 }}>🔒 Your card is locked — hit Undo to change anything before kickoff.</div>
+              </div>
               <button className="btn ghost" disabled={busy} onClick={undo} aria-label="Undo submission and edit my picks">↩ Undo — let me fix my picks</button>
             </>
           ) : (
             <>
-              <div className="muted small b">⏱ Each game locks at its own kickoff</div>
-              <button className="btn" disabled={busy} onClick={submit} aria-label="Submit my picks for this week">🚀 Send my picks</button>
+              <div className="muted small b">💾 Picks save as you tap and count once saved — each game locks at kickoff. Sending locks your card early.</div>
+              <button className="btn" disabled={busy} onClick={submit} aria-label="Lock in my picks for this week">🚀 Send my picks</button>
             </>
           )}
         </div>

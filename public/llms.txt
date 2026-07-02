@@ -1,0 +1,18 @@
+# Office Pick'em League
+
+> The office football pool everyone can play — a no-money, HR-safe NFL pick'em game for workplaces. No app and no buy-ins: players pick winners, point spreads, and over/unders in about two minutes a week, by web, text message, or a phone call. Always free for players; employers pay one flat seasonal rate.
+
+Office Pick'em League (officepickemleague.com) is built for companies with deskless and mixed-generation workforces — manufacturing, logistics, trades, dealerships, senior care — especially in NFL football towns like Pittsburgh, Buffalo, Cleveland, and Cincinnati. Because there is no money in the game (no pots, no cash prizes, no player payments), it complies with workplace no-gambling policies where a traditional money pool does not.
+
+Key facts:
+- Players never pay. No app download, no email, no password — join with a name and a phone number (or name + PIN on the web).
+- Game format: each NFL game offers three calls — Winner (1 pt), Spread (2 pts), Total over/under (2 pts) — plus a Power Pick "LOCK". Games lock at kickoff; scoring and standings are automatic.
+- Accessibility: play by text message or phone call, so it works for employees without smartphones or apps.
+- Employer pricing (Founding Season 2026): flat seasonal rate by company size, from $400/season (up to 50 employees) to $3,750/season (up to 1,000), locked for 3 seasons, midseason money-back guarantee. Standard rates roughly 2x.
+- Setup: a commissioner creates a league in about two minutes and shares one invite link.
+
+## Pages
+- [Home](https://officepickemleague.com/): what the game is + start or join a league
+- [Pricing](https://officepickemleague.com/pricing): full employer rate card
+- [SMS Terms](https://officepickemleague.com/sms-terms): texting terms
+- [Privacy](https://officepickemleague.com/privacy): privacy policy

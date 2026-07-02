@@ -7,3 +7,6 @@
 *.tsbuildinfo
 next-env.d.ts
 .DS_Store
+
+# sandbox mount artifacts
+.fuse_hidden*

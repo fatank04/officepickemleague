@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { fbTrack } from "@/lib/pixel";
 import { leagueLabel } from "@/lib/brand";
 
 export default function EnrollForm({
@@ -12,19 +13,21 @@ export default function EnrollForm({
   const [phone, setPhone] = useState("");
   const [consent, setConsent] = useState(false);
   const [busy, setBusy] = useState(false);
-  const [done, setDone] = useState(false);
+  const [done, setDone] = useState<null | { smsSent: boolean; pin: string | null }>(null);
   const [err, setErr] = useState<string | null>(null);
+  const [heard, setHeard] = useState("");
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
     setBusy(true); setErr(null);
     const res = await fetch("/api/sms-enroll", {
       method: "POST", headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ slug, name, phone, consent }),
+      body: JSON.stringify({ slug, name, phone, consent, heard }),
     });
     setBusy(false);
-    if (res.ok) setDone(true);
-    else setErr((await res.json().catch(() => ({})))?.error || "Something went wrong.");
+    const data = await res.json().catch(() => ({} as any));
+    if (res.ok) { fbTrack("CompleteRegistration"); setDone({ smsSent: data.smsSent !== false, pin: data.pin ?? null }); }
+    else setErr(data?.error || "Something went wrong.");
   }
 
   const wrap: React.CSSProperties = { minHeight: "100vh", background: "var(--bg)", color: "var(--text)", fontFamily: "system-ui", display: "flex", justifyContent: "center", padding: 24 };
@@ -44,7 +47,28 @@ export default function EnrollForm({
     <div style={wrap}><div style={card}>
       <Brandmark />
       <h2 style={{ marginTop: 6 }}>You’re in! 🏈</h2>
-      <p style={{ color: "var(--muted)" }}>Check your phone — we just texted you. Reply <b>LINES</b> to see this week’s games, then text your picks. No app needed.</p>
+      {done.smsSent ? (
+        <>
+          <p style={{ color: "var(--muted)" }}>Check your phone — we just texted you. Reply <b>LINES</b> to see this week’s games, then text your picks. No app needed.</p>
+          <p style={{ color: "var(--muted)", fontSize: 13.5 }}>
+            Prefer the web? Sign in any time (new players: your PIN is in the welcome text) at{" "}
+            <a href={`/signin/${slug}`} style={{ color: accent }}>officepickemleague.com/signin/{slug}</a>.
+          </p>
+        </>
+      ) : (
+        <>
+          <p style={{ color: "var(--muted)" }}>You’re on the roster — but game-day texts aren’t switched on for this league quite yet. You’ll start getting them automatically once they are. In the meantime, you can play on the web:</p>
+          {done.pin ? (
+            <div style={{ border: "1px solid var(--line)", borderRadius: 10, padding: "10px 14px", margin: "10px 0", background: "var(--bg)" }}>
+              <div style={{ fontSize: 13, color: "var(--muted)" }}>Your sign-in (save this — it won’t be shown again):</div>
+              <div style={{ fontSize: 15, marginTop: 4 }}>Name: <b>{name.trim()}</b> · PIN: <b>{done.pin}</b></div>
+            </div>
+          ) : (
+            <p style={{ color: "var(--muted)", fontSize: 13.5 }}>Use your name and the PIN you already have.</p>
+          )}
+          <a href={`/signin/${slug}`} style={{ ...btn, display: "block", textAlign: "center", textDecoration: "none", marginTop: 10 }}>Make my picks on the web →</a>
+        </>
+      )}
     </div></div>
   );
 
@@ -65,6 +89,16 @@ export default function EnrollForm({
         <input style={input} value={name} onChange={(e) => setName(e.target.value)} placeholder="Mike R" required />
         <label>Mobile number</label>
         <input style={input} value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="(412) 555-0123" inputMode="tel" required />
+        <label>How did you hear about us? <span style={{ color: "var(--muted)", fontWeight: 400 }}>(optional)</span></label>
+        <select style={input} value={heard} onChange={(e) => setHeard(e.target.value)}>
+          <option value="">Select…</option>
+          <option>My employer / office</option>
+          <option>Radio</option>
+          <option>Podcast</option>
+          <option>Instagram / Facebook</option>
+          <option>A friend or coworker</option>
+          <option>Other</option>
+        </select>
         <label style={{ display: "flex", gap: 10, alignItems: "flex-start", fontSize: 13.5, lineHeight: 1.45, color: "#aab6cf", margin: "4px 0 14px" }}>
           <input type="checkbox" checked={consent} onChange={(e) => setConsent(e.target.checked)} style={{ marginTop: 2, width: 20, height: 20, flexShrink: 0 }} />
           <span>I agree to receive recurring automated text messages (game reminders &amp; results) from {leagueLabel(leagueName)} at this number. Consent is not a condition of anything. Msg &amp; data rates may apply. Reply STOP to opt out, HELP for help. See our <a href="/sms-terms" style={{ color: accent }}>SMS Terms</a> &amp; <a href="/privacy" style={{ color: accent }}>Privacy Policy</a>.</span>

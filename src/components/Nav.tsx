@@ -9,7 +9,7 @@ export function NavLinks({ slug, isCommish }: { slug: string; isCommish: boolean
     ["standings", "Standings"],
     ["insights", "Insights"],
   ];
-  if (isCommish) items.push(["settings", "Settings"]);
+  if (isCommish) items.push(["settings", "Settings"], ["admin", "Admin"]);
   return (
     <div className="navlinks">
       {items.map(([k, label]) => {

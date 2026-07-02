@@ -30,8 +30,7 @@ export default async function InsightsPage() {
         <div className="spread"><span className="muted">🔒 Power-Pick hits</span><b>{me?.powerHits ?? 0}</b></div>
       </div>
       <p className="muted small">
-        Deeper insights (pick distribution, badges, league tendencies, weekly winners) are built in the prototype and can be
-        ported here next — see the README.
+        More insights — pick distribution, badges, league tendencies, weekly winners — unlock as the season plays out.
       </p>
     </>
   );

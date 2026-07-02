@@ -5,6 +5,7 @@ import { team } from "@/lib/teams";
 import PicksClient from "./PicksClient";
 import { brandOf } from "@/lib/brand";
 import BrandTheme from "@/components/BrandTheme";
+import InviteBanner from "@/components/InviteBanner";
 
 export const dynamic = "force-dynamic";
 
@@ -82,6 +83,7 @@ export default async function PicksPage({
   return (
     <>
       <BrandTheme accent={brand.accent} />
+      {ctx.player.isCommish && <InviteBanner slug={league.slug} compact={playersN > 1} />}
       <PicksClient
         slug={league.slug} week={week} weeks={weeks} format={league.format}
         anyOpen={anyOpen} submitted={!!sub} playersN={playersN} submittedN={submittedN} games={data}

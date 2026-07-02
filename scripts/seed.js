@@ -18,6 +18,13 @@ async function main() {
   const pin = process.env.SEED_PIN || "1234";
   const season = Number(process.env.SEASON || 2026);
 
+  // Ensure the geo-social landing exists (idempotent) so /kit/pgh-social is branded + tracked.
+  await prisma.kitAccount.upsert({
+    where: { slug: "pgh-social" },
+    update: {},
+    create: { slug: "pgh-social", company: "Pittsburgh", metro: "Pittsburgh", teamCity: "Pittsburgh", teamName: "Steelers", status: "ready", notes: "Geo-social paid landing" },
+  });
+
   // Idempotent: never overwrite a populated database on deploy. Set FORCE_SEED=1 to override.
   const existing = await prisma.league.count();
   if (existing > 0 && !process.env.FORCE_SEED) {

@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Brand } from "@/components/Brand";
+import { fbTrack } from "@/lib/pixel";
 
 export default function KitClient({
   company, teamCity, teamName, contact, kitSlug,
@@ -27,6 +28,7 @@ export default function KitClient({
     setBusy(false);
     const data = await res.json().catch(() => ({}));
     if (!res.ok) { setErr(data.error || "Something went wrong."); return; }
+    fbTrack("Lead");
     router.push(`/l/${data.slug}/picks`);
   }
 
