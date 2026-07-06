@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Office Pick'em League — 3 Ways to Play (Demo Walkthrough)</title>
+<style>
+  :root{
+    --navy:#13182B; --navy2:#1C2440; --panel:#181F36; --panel2:#20294a;
+    --violet:#6D5BF5; --violet2:#7c5cff; --green:#1DB573; --gold:#D4A017;
+    --ink:#1F2433; --mute:#5C6474; --pale:#F4F5FA; --line:#E3E6F0;
+    --dkline:#2a3550; --dktext:#E7ECF7; --dkmute:#93A1BC;
+  }
+  *{margin:0;box-sizing:border-box}
+  @page{size:letter landscape;margin:0}
+  body{font-family:Arial,Helvetica,sans-serif;color:var(--ink);width:11in;height:8.5in;margin:0 auto;background:#fff;display:flex;flex-direction:column}
+  .hero{background:var(--navy);color:#fff;padding:.28in .45in .22in;display:flex;justify-content:space-between;align-items:flex-end}
+  .brand{color:var(--violet);font-size:10px;font-weight:bold;letter-spacing:3px}
+  h1{font-size:24px;margin-top:5px}
+  .hero .sub{color:#AEB6D0;font-size:11px;margin-top:4px}
+  .hero .right{font-size:11px;color:#AEB6D0;text-align:right}
+  .hero .right b{color:var(--green);font-size:13px}
+  main{flex:1;display:flex;gap:.24in;padding:.24in .45in}
+  .colm{flex:1;display:flex;flex-direction:column}
+  .modal-h{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+  .modal-h .tag{font-size:10px;font-weight:bold;letter-spacing:1.5px;color:var(--violet);text-transform:uppercase}
+  .modal-h b{font-size:15px}
+  .stepline{font-size:9.5px;color:var(--mute);line-height:1.45;margin:5px 0}
+  .stepline b{color:var(--ink)}
+  .num{display:inline-flex;width:15px;height:15px;border-radius:50%;background:var(--violet);color:#fff;font-size:9px;font-weight:bold;align-items:center;justify-content:center;margin-right:5px;vertical-align:middle}
+
+  /* ---- WEB: faithful UI recreation ---- */
+  .ui{background:var(--navy);border-radius:10px;padding:10px;flex:1}
+  .ui .navbar{display:flex;align-items:center;gap:8px;font-size:8.5px;color:var(--dkmute);padding:2px 4px 8px}
+  .ui .navbar .logo{color:#fff;font-weight:bold;font-size:9.5px}
+  .ui .navbar .logo span{color:var(--violet2)}
+  .ui .navbar .on{color:#fff;background:var(--panel2);border-radius:6px;padding:2px 6px}
+  .gamecard{background:var(--panel);border:1px solid var(--dkline);border-radius:8px;margin-bottom:8px;overflow:hidden}
+  .gc-top{display:flex;justify-content:space-between;align-items:center;padding:7px 9px 5px}
+  .gc-teams{color:#fff;font-weight:bold;font-size:10.5px}
+  .gc-teams .at{color:var(--dkmute);font-weight:normal}
+  .gc-meta{font-size:7.5px;color:var(--dkmute);padding:0 9px 6px}
+  .star{font-size:7.5px;font-weight:bold;color:var(--gold);border:1px solid var(--dkline);border-radius:999px;padding:2px 7px}
+  .grid{display:flex;border-top:1px solid var(--dkline)}
+  .pcell{flex:1;padding:6px 8px;border-right:1px solid var(--dkline)}
+  .pcell:last-child{border-right:none}
+  .lbl{font-size:6.5px;letter-spacing:.8px;font-weight:800;margin-bottom:5px;text-transform:uppercase}
+  .lbl.w{color:#7fb2ff}.lbl.s{color:var(--gold)}.lbl.t{color:#c79cff}
+  .opt{display:flex;gap:4px}
+  .opt span{flex:1;text-align:center;background:var(--panel2);border:1px solid var(--dkline);color:var(--dktext);border-radius:5px;font-size:8px;font-weight:bold;padding:6px 2px;line-height:1.3}
+  .opt span small{display:block;font-weight:normal;color:var(--dkmute);font-size:7px}
+  .opt span.sel{background:linear-gradient(135deg,#6D5BF5,#2f6bf0);border-color:#6D5BF5;color:#fff}
+  .opt span.sel small{color:#D7DCEC}
+  .ui .send{display:flex;justify-content:space-between;align-items:center;margin-top:2px}
+  .ui .send .note{font-size:7.5px;color:var(--dkmute)}
+  .ui .send .btn{background:linear-gradient(135deg,#6D5BF5,#2f6bf0);color:#fff;font-size:8.5px;font-weight:bold;border-radius:6px;padding:6px 12px}
+
+  /* ---- SMS thread ---- */
+  .phone{background:var(--pale);border:1px solid var(--line);border-radius:10px;padding:12px 10px;flex:1;display:flex;flex-direction:column;gap:7px}
+  .bub{max-width:88%;border-radius:12px;padding:7px 10px;font-size:9px;line-height:1.45}
+  .them{background:#fff;border:1px solid var(--line);color:var(--ink);border-bottom-left-radius:3px;align-self:flex-start}
+  .me{background:var(--violet);color:#fff;border-bottom-right-radius:3px;align-self:flex-end;font-family:'Courier New',monospace;font-weight:bold}
+  .when{font-size:7.5px;color:var(--mute);text-align:center;margin:1px 0}
+
+  /* ---- Voice transcript ---- */
+  .call{background:var(--navy);border-radius:10px;padding:12px;flex:1;display:flex;flex-direction:column;gap:7px}
+  .call .hdr{display:flex;align-items:center;gap:7px;color:#fff;font-size:9.5px;font-weight:bold;padding-bottom:6px;border-bottom:1px solid var(--dkline)}
+  .call .hdr .dot{width:8px;height:8px;border-radius:50%;background:var(--green)}
+  .vline{font-size:9px;line-height:1.5;color:var(--dktext)}
+  .vline b{color:var(--green);font-weight:bold}
+  .vline.key{color:#fff;font-family:'Courier New',monospace;font-weight:bold;background:var(--panel2);border:1px solid var(--dkline);border-radius:6px;padding:5px 9px;align-self:flex-start;font-size:9px}
+  .call .end{font-size:8px;color:var(--dkmute);font-style:italic;margin-top:auto}
+
+  .foot{background:var(--navy);color:#fff;padding:.16in .45in;display:flex;justify-content:space-between;align-items:center}
+  .foot .l{font-size:11px}
+  .foot .l b{color:var(--green)}
+  .foot .r{font-size:11px;font-weight:bold;color:var(--green)}
+</style>
+</head>
+<body>
+  <div class="hero">
+    <div>
+      <div class="brand">OFFICE&nbsp;&nbsp;PICK'EM&nbsp;&nbsp;LEAGUE&nbsp;&nbsp;·&nbsp;&nbsp;DEMO</div>
+      <h1>Three ways to play. One league. Two minutes.</h1>
+      <div class="sub">Every player picks the same three calls per game — winner, spread, over/under — on whatever they already have in their pocket.</div>
+    </div>
+    <div class="right">Same league, same scoreboard —<br><b>modality is a per-player choice.</b></div>
+  </div>
+
+  <main>
+    <!-- WEB -->
+    <div class="colm">
+      <div class="modal-h"><span class="tag">Modality 1</span><b>🖥️ On the web</b></div>
+      <div class="stepline"><span class="num">1</span><b>Tap the invite link</b> from the break room, email, or group chat — name + PIN and you're in. No app.</div>
+      <div class="stepline"><span class="num">2</span><b>Tap your picks.</b> They save instantly; each game locks at kickoff.</div>
+      <div class="ui">
+        <div class="navbar"><span class="logo">Office <span>Pick'em</span></span><span class="on">Picks</span><span>Standings</span><span>Insights</span></div>
+        <div class="gamecard">
+          <div class="gc-top"><span class="gc-teams">Browns <span class="at">@</span> Steelers</span><span class="star">🔒 LOCK</span></div>
+          <div class="gc-meta">Steelers −3.5 · O/U 44.5 · Sun 1:00</div>
+          <div class="grid">
+            <div class="pcell"><div class="lbl w">Winner · 1pt</div><div class="opt"><span>Browns</span><span class="sel">Steelers</span></div></div>
+            <div class="pcell"><div class="lbl s">Spread · 2pts</div><div class="opt"><span>Browns<small>+3.5</small></span><span class="sel">Steelers<small>−3.5</small></span></div></div>
+            <div class="pcell"><div class="lbl t">Total · 2pts</div><div class="opt"><span>Over<small>44.5</small></span><span class="sel">Under<small>44.5</small></span></div></div>
+          </div>
+        </div>
+        <div class="gamecard">
+          <div class="gc-top"><span class="gc-teams">Jets <span class="at">@</span> Bills</span><span class="star" style="color:var(--dkmute)">☆ Power Pick</span></div>
+          <div class="gc-meta">Bills −6.5 · O/U 41.5 · Sun 1:00</div>
+          <div class="grid">
+            <div class="pcell"><div class="lbl w">Winner · 1pt</div><div class="opt"><span class="sel">Jets</span><span>Bills</span></div></div>
+            <div class="pcell"><div class="lbl s">Spread · 2pts</div><div class="opt"><span class="sel">Jets<small>+6.5</small></span><span>Bills<small>−6.5</small></span></div></div>
+            <div class="pcell"><div class="lbl t">Total · 2pts</div><div class="opt"><span class="sel">Over<small>41.5</small></span><span>Under<small>41.5</small></span></div></div>
+          </div>
+        </div>
+        <div class="send"><span class="note">💾 Picks save as you tap — each game locks at kickoff</span><span class="btn">🚀 Send my picks</span></div>
+      </div>
+    </div>
+
+    <!-- TEXT -->
+    <div class="colm">
+      <div class="modal-h"><span class="tag">Modality 2</span><b>💬 By text message</b></div>
+      <div class="stepline"><span class="num">1</span><b>Join once</b> (tap the link or text JOIN) — then the league texts you. Any phone works.</div>
+      <div class="stepline"><span class="num">2</span><b>Reply LINES, text your picks, done.</b> Confirmation comes right back.</div>
+      <div class="phone">
+        <div class="when">Thursday 10:02 AM</div>
+        <div class="bub them">Week 5 is live in Acme Pick'em! Reply LINES to see the games, then text your picks. Each game locks at kickoff.</div>
+        <div class="bub me">LINES</div>
+        <div class="bub them">Wk 5: 1) CLE@PIT — PIT −3.5, O/U 44.5&nbsp;&nbsp;2) NYJ@BUF — BUF −6.5, O/U 41.5&nbsp;&nbsp;3) BAL@CIN — BAL −2.5, O/U 48.5 … Reply e.g.: 1 PIT u&nbsp; LOCK 1</div>
+        <div class="bub me">1 PIT u&nbsp; 2 NYJ o&nbsp; 3 BAL&nbsp; LOCK 1</div>
+        <div class="bub them">Got it ✓ 3 saved, Lock set: 1) PIT · under · LOCK&nbsp; 2) NYJ · over&nbsp; 3) BAL. Reply MY PICKS to review.</div>
+        <div class="when">Monday 9:15 AM</div>
+        <div class="bub them">Week 5 Acme: +14 pts. You're 3rd of 14 (88 total). 🏈</div>
+      </div>
+    </div>
+
+    <!-- PHONE -->
+    <div class="colm">
+      <div class="modal-h"><span class="tag">Modality 3</span><b>📞 By phone call</b></div>
+      <div class="stepline"><span class="num">1</span><b>Dial the league number.</b> It recognizes you by your phone — no PIN to remember, works on a flip phone.</div>
+      <div class="stepline"><span class="num">2</span><b>Press buttons, not apps.</b> Auto-pick fills a whole week in ~20 seconds.</div>
+      <div class="call">
+        <div class="hdr"><span class="dot"></span> Acme Pick'em · connected 0:04</div>
+        <div class="vline"><b>League:</b> "Hi Mike. Welcome to Acme Pick'em, week five. Press 1 to make your picks. Press 2 to auto-pick the whole week. Press 3 to hear your score."</div>
+        <div class="vline key">[ 2 ]</div>
+        <div class="vline"><b>League:</b> "Press 1 for all favorites, 2 for home teams, 3 for underdogs, 4 for a random card."</div>
+        <div class="vline key">[ 1 ]</div>
+        <div class="vline"><b>League:</b> "Done — all sixteen games picked with the favorites. Good luck, Mike."</div>
+        <div class="vline key">[ 3 ]</div>
+        <div class="vline"><b>League:</b> "You have thirty-four points, in third place out of fourteen."</div>
+        <div class="end">Keypad, not speech recognition — deterministic on any phone, in any break room. Games already started are skipped automatically; the same kickoff lock protects every channel.</div>
+      </div>
+    </div>
+  </main>
+
+  <div class="foot">
+    <div class="l">One engine, one scoreboard — a 25-year-old on the web and a 71-year-old on a flip phone, <b>in the same league</b>.</div>
+    <div class="r">officepickemleague.com</div>
+  </div>
+</body>
+</html>

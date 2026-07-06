@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Office Pick'em League — One-Pager</title>
+<style>
+  :root{
+    --navy:#13182B; --navy2:#1C2440; --violet:#6D5BF5; --violet-l:#EEEBFF;
+    --green:#1DB573; --ink:#1F2433; --mute:#5C6474; --pale:#F4F5FA; --line:#E3E6F0;
+  }
+  *{margin:0;box-sizing:border-box}
+  @page{size:letter;margin:0}
+  body{font-family:Arial,Helvetica,sans-serif;color:var(--ink);width:8.5in;height:11in;margin:0 auto;background:#fff;display:flex;flex-direction:column}
+  .hero{background:var(--navy);color:#fff;padding:.42in .55in .34in}
+  .brand{color:var(--violet);font-size:11px;font-weight:bold;letter-spacing:4px}
+  h1{font-size:30px;margin:8px 0 6px;line-height:1.15}
+  .sub{color:#AEB6D0;font-size:12.5px;line-height:1.45;max-width:6.6in}
+  .chips{margin-top:12px}
+  .chip{display:inline-block;border:1px solid var(--violet);border-radius:999px;padding:5px 14px;font-size:11px;font-weight:bold;color:#fff;margin-right:8px;background:var(--navy2)}
+  main{padding:.3in .55in .2in;flex:1}
+  h2{font-size:13px;color:var(--violet);letter-spacing:1.5px;text-transform:uppercase;margin:0 0 8px}
+  .cols{display:flex;gap:.22in;margin-bottom:.24in}
+  .col{flex:1;background:var(--pale);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+  .col b{display:block;font-size:12.5px;margin-bottom:4px}
+  .col p{font-size:10.5px;color:var(--mute);line-height:1.45}
+  .steps{display:flex;gap:.22in;margin-bottom:.24in}
+  .step{flex:1;border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+  .n{display:inline-flex;width:22px;height:22px;border-radius:50%;background:var(--violet);color:#fff;font-weight:bold;font-size:12px;align-items:center;justify-content:center;margin-bottom:6px}
+  .step b{display:block;font-size:12px;margin-bottom:3px}
+  .step p{font-size:10px;color:var(--mute);line-height:1.4}
+  .row2{display:flex;gap:.22in;margin-bottom:.22in}
+  .pricing{flex:1.35;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+  table{width:100%;border-collapse:collapse;font-size:10.5px}
+  th{background:var(--navy);color:#fff;text-align:left;padding:7px 10px;font-size:10px}
+  td{padding:6px 10px;border-top:1px solid var(--line)}
+  td.f{color:var(--green);font-weight:bold}
+  td.s{color:var(--mute);text-decoration:line-through}
+  .guarantee{flex:1;background:#E9F7F0;border:1px solid #CBE9DA;border-radius:10px;padding:12px 14px}
+  .guarantee b{color:var(--green);font-size:11px;letter-spacing:1px;text-transform:uppercase;display:block;margin-bottom:6px}
+  .guarantee p{font-size:10.5px;line-height:1.5}
+  .free{background:var(--violet-l);border:1px solid #DCD5FB;border-radius:10px;padding:10px 14px;font-size:11px;margin-bottom:.22in}
+  .free b{color:var(--violet)}
+  .cta{background:var(--navy);color:#fff;padding:.26in .55in;display:flex;justify-content:space-between;align-items:center}
+  .cta .go{font-size:15px;font-weight:bold}
+  .cta .go span{color:var(--green)}
+  .cta .site{font-size:13px;font-weight:bold;color:var(--green)}
+  .cta .meta{font-size:10px;color:#AEB6D0;margin-top:3px}
+  .sms{font-family:'Courier New',monospace;font-weight:bold;font-size:11px;background:var(--navy2);color:#fff;border-radius:6px;padding:6px 10px;display:inline-block;margin-top:6px}
+</style>
+</head>
+<body>
+  <div class="hero">
+    <div class="brand">OFFICE&nbsp;&nbsp;PICK'EM&nbsp;&nbsp;LEAGUE</div>
+    <h1>The office pool everyone can play.</h1>
+    <div class="sub">An NFL prediction game your whole team plays in two minutes a week — by web, text message, or a phone call. From the shop floor to the front office, 21 to 71, everybody's in — and the scoreboard doesn't care who you are. Your picks do the talking.</div>
+    <div class="chips"><span class="chip">No money</span><span class="chip">No app</span><span class="chip">No one left out</span></div>
+  </div>
+
+  <main>
+    <h2>Why companies bring it in</h2>
+    <div class="cols">
+      <div class="col"><b>Legal says yes</b><p>Zero money anywhere — no buy-ins, no pots, no cash. The sanctioned alternative to the grey-area cash pool that's already happening in your building.</p></div>
+      <div class="col"><b>IT says yes</b><p>Nothing to install, no SSO, no directory access, no data grab. Plays in a browser, a text thread, or a phone call.</p></div>
+      <div class="col"><b>HR gets the proof</b><p>Opt-in rate, weekly players, web-vs-text mix — participation reporting you can take upstairs. Your branding, your prize, your win.</p></div>
+    </div>
+
+    <h2>How it works</h2>
+    <div class="steps">
+      <div class="step"><span class="n">1</span><b>Create your league — 2 minutes</b><p>Name it, set a PIN, done. Every game, every week, all season pre-loaded.</p></div>
+      <div class="step"><span class="n">2</span><b>Share one link</b><p>Break room, group text, newsletter. Players join with a name + phone number. No email, no password, no app.</p></div>
+      <div class="step"><span class="n">3</span><b>The season runs itself</b><p>Reminders out, games lock at kickoff, scores grade automatically, standings update. You enjoy the trash talk.</p><span class="sms">"1 PIT&nbsp; 2 BUF u&nbsp; LOCK 1"</span><p style="margin-top:4px;font-style:italic">— a full week's picks, from a flip phone.</p></div>
+    </div>
+
+    <h2>Founding Season 2026 — first 50 companies</h2>
+    <div class="row2">
+      <div class="pricing">
+        <table>
+          <tr><th>Company size</th><th>Founding / season</th><th>Standard</th></tr>
+          <tr><td>Up to 50 employees</td><td class="f">$400</td><td class="s">$750</td></tr>
+          <tr><td>Up to 150 employees</td><td class="f">$900</td><td class="s">$1,800</td></tr>
+          <tr><td>Up to 400 employees</td><td class="f">$1,900</td><td class="s">$3,900</td></tr>
+          <tr><td>Up to 1,000 employees</td><td class="f">$3,750</td><td class="s">$7,500</td></tr>
+          <tr><td>1,000+ / multi-site</td><td class="f">Let's talk</td><td class="s">Custom</td></tr>
+        </table>
+      </div>
+      <div class="guarantee"><b>The guarantee</b><p>Your rate is <strong>locked for three seasons (2026–2028)</strong> while standard rates climb.<br><br>Full midseason money-back guarantee: if your team isn't more engaged by Week&nbsp;8, every dollar back.</p></div>
+    </div>
+
+    <div class="free"><b>Players never pay — ever.</b> One flat seasonal rate, no per-head math, no penalty for people who don't play. Less than a pizza party per month of the season.</div>
+  </main>
+
+  <div class="cta">
+    <div>
+      <div class="go">Kickoff is <span>September 9</span> — get your league in before Week 1.</div>
+      <div class="meta">Start free today, no card, no contract. We set up your Founding rate with you.</div>
+    </div>
+    <div style="text-align:right">
+      <div class="site">officepickemleague.com</div>
+      <div class="meta">rate card: officepickemleague.com/pricing</div>
+    </div>
+  </div>
+</body>
+</html>

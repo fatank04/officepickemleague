@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Office Pick'em League — One-Pager</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0f17;--bg2:#111a26;--panel:#16202e;--panel2:#1d2a3a;--line:#2a3a4e;
+    --text:#eef3fa;--muted:#9fb0c6;--muted2:#6f8097;
+    --blue:#3f7fe6;--blued:#244e9e;--accent:#3f7fe6;--green:#1ec06f;--gold:#f7cf57;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:#070b11;color:var(--text);font-family:'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased;display:flex;justify-content:center;padding:24px}
+  .page{width:840px;max-width:100%;background:linear-gradient(180deg,#0c131c,#0a0f17);border:1px solid var(--line);border-radius:20px;overflow:hidden;box-shadow:0 24px 70px rgba(0,0,0,.5)}
+  h1,h2,h3,.bname,.hl,.kick{font-family:'Space Grotesk','Inter',sans-serif}
+  .pad{padding:30px 40px}
+  .top{display:flex;align-items:center;justify-content:space-between;padding:20px 40px;border-bottom:1px solid var(--line);background:linear-gradient(180deg,rgba(36,78,158,.22),transparent)}
+  .brand{display:flex;align-items:center;gap:12px}
+  .mark{width:46px;height:46px;border-radius:11px;background:linear-gradient(140deg,#5a93f0,#244e9e);display:grid;place-items:center;box-shadow:0 6px 18px rgba(63,127,230,.35)}
+  .mark svg{width:30px;height:30px}
+  .bname{font-weight:700;font-size:20px;line-height:1}.bname span{color:var(--blue)}
+  .pill{font-family:'Space Grotesk';font-size:11px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--muted);border:1px solid var(--line);background:var(--panel);border-radius:999px;padding:7px 13px}
+  .kick{color:var(--blue);font-weight:700;font-size:12px;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px}
+  .hl{font-weight:700;font-size:34px;line-height:1.1;margin:0;letter-spacing:.2px}
+  .hl em{font-style:normal;color:var(--blue)}
+  .sub{color:var(--muted);font-size:15px;line-height:1.6;margin-top:14px;max-width:670px}
+  .grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:6px}
+  .b{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:15px}
+  .b .ic{font-size:20px}
+  .b .t{font-family:'Space Grotesk';font-weight:700;font-size:14px;margin:8px 0 4px}
+  .b .d{color:var(--muted);font-size:12.3px;line-height:1.5}
+  .callout{display:flex;gap:14px;align-items:center;margin-top:22px;padding:16px 18px;border-radius:13px;border:1px solid #1e3c6e;background:linear-gradient(110deg,rgba(63,127,230,.14),transparent)}
+  .callout .tag{font-family:'Space Grotesk';font-weight:700;color:var(--blue);font-size:12px;letter-spacing:.8px;flex:none;text-transform:uppercase}
+  .callout .txt{font-size:13.3px;color:#cfe0f6;line-height:1.5}.callout b{color:#fff}
+  .steps{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:22px}
+  .step{padding:14px 12px;border:1px solid var(--line);border-radius:13px;background:var(--panel2)}
+  .step .n{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,var(--blue),var(--blued));color:#fff;font-weight:800;display:grid;place-items:center;margin-bottom:8px;font-family:'Space Grotesk';font-size:13px}
+  .step .st{font-weight:700;font-size:13px}.step .sd{color:var(--muted);font-size:12px;margin-top:3px;line-height:1.45}
+  .cta{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:24px;padding:20px 24px;border-radius:15px;background:linear-gradient(120deg,rgba(63,127,230,.16),rgba(30,192,111,.06));border:1px solid #1e3c6e;flex-wrap:wrap}
+  .cta .price{font-family:'Space Grotesk';font-weight:700;font-size:17px}
+  .cta .price small{display:block;color:var(--muted);font-size:11.5px;font-weight:500;font-family:'Inter';margin-top:3px}
+  .btn{background:linear-gradient(135deg,var(--blue),var(--blued));color:#fff;font-weight:800;font-size:15px;font-family:'Space Grotesk';padding:13px 20px;border-radius:10px;text-decoration:none;white-space:nowrap}
+  .runson{display:flex;gap:8px;align-items:center;margin-top:16px;color:var(--muted2);font-size:12px;flex-wrap:wrap}
+  .tagm{display:inline-flex;align-items:center;gap:7px;background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:6px 10px;font-size:12px;color:var(--muted);font-weight:600}
+  .foot{display:flex;align-items:center;justify-content:space-between;padding:15px 40px;border-top:1px solid var(--line);color:var(--muted2);font-size:11.5px}
+  .foot .big{font-family:'Space Grotesk';color:var(--text);font-weight:600;font-size:12.5px}
+  @media print{body{background:#fff;padding:0}.page{box-shadow:none;border:none;border-radius:0;width:100%}}
+  @media(max-width:680px){.grid,.steps{grid-template-columns:1fr}.hl{font-size:27px}.pad{padding:22px}}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="top">
+    <div class="brand">
+      <div class="mark"><svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><g transform="rotate(-20 16 16)"><ellipse cx="16" cy="16" rx="12.5" ry="7.5" fill="#fff"/><path d="M8.5 16h15" stroke="#244e9e" stroke-width="1.6" stroke-linecap="round"/><path d="M12 14.4v3.2M15 14v4M18 14v4M21 14.4v3.2" stroke="#244e9e" stroke-width="1.4" stroke-linecap="round"/></g></svg></div>
+      <div class="bname">Office<span>Pickem</span> League</div>
+    </div>
+    <div class="pill">For People &amp; Culture teams</div>
+  </div>
+
+  <div class="pad">
+    <div class="kick">Employee engagement · football season</div>
+    <h1 class="hl">Bring the whole company together — <em>no fantasy, no install.</em></h1>
+    <p class="sub">A two-minute weekly NFL prediction game that gets your team talking — from the diehard to the person who just likes picking winners. Employees predict each week's games and compete on a shared leaderboard. <b style="color:#fff">No money, no gambling, and nothing to install</b> in your systems — just friendly competition across desks, departments, and generations.</p>
+
+    <div class="grid">
+      <div class="b"><div class="ic">🤝</div><div class="t">Camaraderie across every desk</div><div class="d">A shared weekly ritual that bridges generations and teams. Two-thirds of HR pros say pools like this boost bonding — without the work.</div></div>
+      <div class="b"><div class="ic">🛡️</div><div class="t">Nothing to install, nothing to review</div><div class="d">No Slack/Teams app, no SSO, no access to your messages or directory. It's a website employees opt into — the easiest yes IT will give.</div></div>
+      <div class="b"><div class="ic">✅</div><div class="t">Compliant by design</div><div class="d">Zero money, zero entry fees — a skill-based prediction game, not a betting pool. Designed to be safe across all 50 states and remote teams.</div></div>
+      <div class="b"><div class="ic">⏱️</div><div class="t">Two minutes a week</div><div class="d">Async, low-distraction, and one tap to auto-fill a whole card for casual fans. No drafts, no research, no productivity black hole.</div></div>
+      <div class="b"><div class="ic">🙌</div><div class="t">Truly inclusive</div><div class="d">Play on the web, by text, or by phone call. Casuals pick winners; fans go deeper. Nobody is ever eliminated and left out mid-season.</div></div>
+      <div class="b"><div class="ic">📊</div><div class="t">Admin dashboard</div><div class="d">Roster &amp; opt-in controls, branding, prizes, and participation analytics — the report you take upstairs. Run it all from one web console.</div></div>
+    </div>
+
+    <div class="callout">
+      <div class="tag">The compliance edge</div>
+      <div class="txt">Office pools with money are <b>illegal in most states</b>, and Legal tells you to keep cash out. Office Pick'em League keeps money out entirely — and touches none of your systems. It's the <b>sanctioned, all-skill version of a thing employees already love.</b></div>
+    </div>
+
+    <div class="steps">
+      <div class="step"><div class="n">1</div><div class="st">Create your league</div><div class="sd">HR or any team lead sets it up on the web in under a minute.</div></div>
+      <div class="step"><div class="n">2</div><div class="st">Share one link</div><div class="sd">Employees opt in with a name — no downloads, no IT ticket.</div></div>
+      <div class="step"><div class="n">3</div><div class="st">It runs all season</div><div class="sd">Auto-scored weekly; reminders &amp; results by email/text.</div></div>
+    </div>
+
+    <div style="margin-top:22px;display:grid;grid-template-columns:repeat(3,1fr);gap:12px">
+      <div class="b" style="text-align:center"><div style="font-family:'Space Grotesk';font-size:26px;font-weight:700;color:var(--green)">63%</div><div class="d">fewer safety incidents on the most-engaged teams — plus 78% less absenteeism (Gallup Q12, 2024)</div></div>
+      <div class="b" style="text-align:center"><div style="font-family:'Space Grotesk';font-size:26px;font-weight:700;color:var(--blue)">+23%</div><div class="d">more profitable · with lower turnover, the most-engaged teams</div></div>
+      <div class="b" style="text-align:center"><div style="font-family:'Space Grotesk';font-size:26px;font-weight:700;color:var(--blue)">7×</div><div class="d">more engaged when people have a friend at work — only 2 in 10 do</div></div>
+    </div>
+    <div class="callout" style="margin-top:14px"><div class="tag">Safer than betting</div><div class="txt">Sports betting is normalizing at work, and problem gambling carries a ~$14B social cost with 2× the job-loss rate. Office Pick'em League delivers the same camaraderie and competition with <b>zero money</b> — the employer-sanctioned, harm-free alternative that actually improves employee outcomes.</div></div>
+    <div class="runson">
+      <span>Runs on:</span>
+      <span class="tagm">🌐 Web</span><span class="tagm">✉️ Email</span><span class="tagm">📱 Text</span><span class="tagm">📞 Voice</span>
+      <span style="margin-left:6px">— no install required</span>
+    </div>
+
+    <div style="margin-top:24px">
+      <div class="kick">Where it sits</div>
+      <h3 style="margin:0 0 2px;font-size:19px">The only option in the top-right corner</h3>
+      <div style="display:grid;grid-template-columns:1.12fr .88fr;gap:18px;align-items:center;margin-top:12px">
+        <div style="background:#0c131c;border:1px solid var(--line);border-radius:14px;padding:8px">
+          <svg viewBox="0 0 680 500" width="100%" xmlns="http://www.w3.org/2000/svg" style="display:block">
+  <rect x="367" y="62" width="271" height="185" rx="6" fill="#1ec06f" fill-opacity="0.08"/>
+  <text x="632" y="80" font-size="11.5" fill="#5fd99b" text-anchor="end">everyone plays · easy &amp; safe</text>
+  <line x1="90" y1="62" x2="90" y2="432" stroke="#2a3a4e" stroke-width="1.5"/>
+  <line x1="90" y1="432" x2="640" y2="432" stroke="#2a3a4e" stroke-width="1.5"/>
+  <line x1="367" y1="62" x2="367" y2="432" stroke="#1f2b3d" stroke-width="1" stroke-dasharray="4 4"/>
+  <line x1="90" y1="247" x2="640" y2="247" stroke="#1f2b3d" stroke-width="1" stroke-dasharray="4 4"/>
+  <text x="365" y="468" font-size="13" font-weight="700" fill="#9fb0c6" text-anchor="middle" font-family="Space Grotesk">whole-workforce participation  →</text>
+  <text x="32" y="247" font-size="13" font-weight="700" fill="#9fb0c6" text-anchor="middle" font-family="Space Grotesk" transform="rotate(-90 32 247)">easy &amp; low-risk to adopt  →</text>
+  <circle cx="310" cy="201" r="7" fill="#6f8097"/><text x="310" y="186" font-size="12.5" fill="#eef3fa" text-anchor="middle">Engagement apps</text>
+  <circle cx="409" cy="226" r="7" fill="#6f8097"/><text x="421" y="230" font-size="12.5" fill="#eef3fa" text-anchor="start">Office pools</text>
+  <circle cx="211" cy="255" r="7" fill="#6f8097"/><text x="199" y="259" font-size="12.5" fill="#eef3fa" text-anchor="end">DIY group text</text>
+  <circle cx="271" cy="305" r="7" fill="#6f8097"/><text x="271" y="324" font-size="12.5" fill="#eef3fa" text-anchor="middle">Team-building</text>
+  <circle cx="337" cy="388" r="7" fill="#6f8097"/><text x="337" y="407" font-size="12.5" fill="#eef3fa" text-anchor="middle">Real-money pools</text>
+  <circle cx="574" cy="97" r="12" fill="#1ec06f" stroke="#0a0f17" stroke-width="2.5"/>
+  <text x="557" y="93" font-size="13.5" font-weight="700" fill="#1ec06f" text-anchor="end" font-family="Space Grotesk">Office Pick'em League</text>
+  <text x="557" y="110" font-size="11.5" fill="#5fd99b" text-anchor="end">the only one top-right</text>
+</svg>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:13px;font-size:13.5px;line-height:1.5">
+          <div style="display:flex;gap:10px;align-items:flex-start"><span style="width:13px;height:13px;border-radius:50%;background:#f7cf57;flex:none;margin-top:3px"></span><div><b style="color:#fff">Genuinely fun &amp; sticky</b><br><span style="color:var(--muted)">Real NFL stakes, a weekly ritual. Sports pools and real-money apps live here.</span></div></div>
+          <div style="display:flex;gap:10px;align-items:flex-start"><span style="width:13px;height:13px;border-radius:50%;background:#3f7fe6;flex:none;margin-top:3px"></span><div><b style="color:#fff">Everyone actually plays</b><br><span style="color:var(--muted)">Web, text, or a phone call — nothing to install. Floor to front office, 21 to 71.</span></div></div>
+          <div style="display:flex;gap:10px;align-items:flex-start"><span style="width:13px;height:13px;border-radius:50%;background:#1ec06f;flex:none;margin-top:3px"></span><div><b style="color:#fff">Safe &amp; cheap for the company</b><br><span style="color:var(--muted)">Zero money, nothing installed, a flat annual tier. The easiest yes you'll get.</span></div></div>
+          <div style="color:var(--muted2);font-size:12px">Buyers really decide on two things — will everyone take part, and is it cheap and low-risk. Every alternative wins on at most one; only Office Pick'em League is in the top-right.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cta">
+      <div class="price">Founding Season — from $400/season<small>~50% off standard, locked for 3 seasons, full money-back guarantee · standard flat tiers by company size after (from $750/yr, ~$7.50–$15/employee) · a fraction of a typical $150+/employee team-building budget</small></div>
+      <a class="btn" href="mailto:hello@officepickemleague.com">Book a pilot →</a>
+    </div>
+  </div>
+
+  <div class="foot">
+    <span class="big">Friendly competition. All season long.</span>
+    <span>officepickemleague.com · a no-money, no-install 

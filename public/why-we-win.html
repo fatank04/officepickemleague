@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Why Office Pick'em League wins</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#0a0f17;--bg2:#0c131c;--panel:#16202e;--panel2:#1d2a3a;--line:#2a3a4e;
+    --text:#eef3fa;--muted:#9fb0c6;--muted2:#6f8097;
+    --blue:#3f7fe6;--blued:#244e9e;--green:#1ec06f;--gold:#f7cf57;--red:#ff8a8a;}
+  *{box-sizing:border-box}
+  body{margin:0;background:#070b11;color:var(--text);font-family:'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased;display:flex;justify-content:center;padding:24px}
+  .page{width:960px;max-width:100%;background:linear-gradient(180deg,#0c131c,#0a0f17);border:1px solid var(--line);border-radius:20px;overflow:hidden;box-shadow:0 24px 70px rgba(0,0,0,.5)}
+  h1,h2,h3,.bname,.hl,.kick{font-family:'Space Grotesk','Inter',sans-serif}
+  .pad{padding:30px 40px}
+  .top{display:flex;align-items:center;justify-content:space-between;padding:20px 40px;border-bottom:1px solid var(--line);background:linear-gradient(180deg,rgba(36,78,158,.22),transparent)}
+  .brand{display:flex;align-items:center;gap:12px}
+  .mark{width:44px;height:44px;border-radius:11px;background:linear-gradient(140deg,#5a93f0,#244e9e);display:grid;place-items:center}
+  .mark svg{width:29px;height:29px}
+  .bname{font-weight:700;font-size:19px;line-height:1}.bname span{color:var(--blue)}
+  .pill{font-family:'Space Grotesk';font-size:11px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--muted);border:1px solid var(--line);background:var(--panel);border-radius:999px;padding:7px 13px}
+  .kick{color:var(--blue);font-weight:700;font-size:12px;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px}
+  .hl{font-weight:700;font-size:30px;line-height:1.12;margin:0;letter-spacing:.2px}
+  .hl em{font-style:normal;color:var(--green)}
+  .sub{color:var(--muted);font-size:15px;line-height:1.6;margin:14px 0 0;max-width:760px}
+  .vennwrap{display:grid;grid-template-columns:1.05fr .95fr;gap:22px;margin-top:24px;align-items:center}
+  .venncard{background:var(--bg2);border:1px solid var(--line);border-radius:16px;padding:14px}
+  .legend{display:flex;flex-direction:column;gap:14px}
+  .lg{display:flex;gap:12px;align-items:flex-start}
+  .dot{width:14px;height:14px;border-radius:50%;flex:none;margin-top:3px}
+  .lg .t{font-family:'Space Grotesk';font-weight:700;font-size:15px}
+  .lg .d{color:var(--muted);font-size:13px;line-height:1.45;margin-top:2px}
+  .lg .d b{color:var(--text);font-weight:600}
+  table{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:26px}
+  th{text-align:left;color:var(--muted);font-weight:600;padding:10px 12px;border-bottom:1px solid var(--line);font-size:12px;letter-spacing:.3px;text-transform:uppercase}
+  td{padding:11px 12px;border-bottom:1px solid #1c2735;vertical-align:top;color:var(--muted)}
+  td .nm{color:var(--text);font-weight:600;font-family:'Space Grotesk'}
+  td .sb{color:var(--muted2);font-size:12px}
+  tr.win td{background:rgba(30,192,111,.10)}
+  tr.win td .nm{color:var(--green)}
+  tr.win td:last-child{color:var(--green);font-weight:700}
+  .cost{color:var(--text);font-weight:600;white-space:nowrap}
+  .slam{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:26px}
+  .sc{border:1px solid #1e3c6e;border-radius:16px;padding:20px 22px;background:linear-gradient(120deg,rgba(63,127,230,.14),rgba(30,192,111,.05))}
+  .sc .lab{font-family:'Space Grotesk';font-size:12px;letter-spacing:1px;text-transform:uppercase;color:var(--gold);font-weight:700}
+  .sc .big{font-family:'Space Grotesk';font-weight:700;font-size:28px;margin:8px 0 6px}
+  .sc .d{color:var(--muted);font-size:13.5px;line-height:1.55}
+  .sc.green{border-color:#1e6e47}.sc.green .lab{color:var(--green)}
+  .foot{display:flex;align-items:center;justify-content:space-between;padding:15px 40px;border-top:1px solid var(--line);color:var(--muted2);font-size:11.5px}
+  .foot .big{font-family:'Space Grotesk';color:var(--text);font-weight:600;font-size:12.5px}
+  @media print{body{background:#fff;padding:0}.page{box-shadow:none;border:none;border-radius:0;width:100%}}
+  @media(max-width:760px){.vennwrap,.slam{grid-template-columns:1fr}.hl{font-size:24px}.pad{padding:22px}}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="top">
+    <div class="brand">
+      <div class="mark"><svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><g transform="rotate(-20 16 16)"><ellipse cx="16" cy="16" rx="12.5" ry="7.5" fill="#fff"/><path d="M8.5 16h15" stroke="#244e9e" stroke-width="1.6" stroke-linecap="round"/><path d="M12 14.4v3.2M15 14v4M18 14v4M21 14.4v3.2" stroke="#244e9e" stroke-width="1.4" stroke-linecap="round"/></g></svg></div>
+      <div class="bname">Office<span>Pickem</span> League</div>
+    </div>
+    <div class="pill">Competitive value proposition</div>
+  </div>
+
+  <div class="pad">
+    <div class="kick">Why you'd use this — in one look</div>
+    <h1 class="hl">Buyers decide on two things. <em>Only one product wins on both.</em></h1>
+    <p class="sub">Every company already does <i>some</i> version of this — an office pool, an engagement app, a team-building event, or a spreadsheet someone runs by hand. But a buyer really decides on just two things: <b style="color:#fff">will everyone actually take part</b>, and <b style="color:#fff">is it cheap and low-risk to adopt</b>. Every alternative wins on at most one. Office Pick'em League is the only one in the top-right — high participation <i>and</i> an easy yes — at a price that's a rounding error and a commitment of a single season.</p>
+
+    <div class="vennwrap">
+      <div class="venncard">
+        <svg viewBox="0 0 680 500" width="100%" xmlns="http://www.w3.org/2000/svg" style="display:block">
+  <rect x="367" y="62" width="271" height="185" rx="6" fill="#1ec06f" fill-opacity="0.08"/>
+  <text x="632" y="80" font-size="11.5" fill="#5fd99b" text-anchor="end">everyone plays · easy &amp; safe</text>
+  <line x1="90" y1="62" x2="90" y2="432" stroke="#2a3a4e" stroke-width="1.5"/>
+  <line x1="90" y1="432" x2="640" y2="432" stroke="#2a3a4e" stroke-width="1.5"/>
+  <line x1="367" y1="62" x2="367" y2="432" stroke="#1f2b3d" stroke-width="1" stroke-dasharray="4 4"/>
+  <line x1="90" y1="247" x2="640" y2="247" stroke="#1f2b3d" stroke-width="1" stroke-dasharray="4 4"/>
+  <text x="365" y="468" font-size="13" font-weight="700" fill="#9fb0c6" text-anchor="middle" font-family="Space Grotesk">whole-workforce participation  →</text>
+  <text x="32" y="247" font-size="13" font-weight="700" fill="#9fb0c6" text-anchor="middle" font-family="Space Grotesk" transform="rotate(-90 32 247)">easy &amp; low-risk to adopt  →</text>
+  <circle cx="310" cy="201" r="7" fill="#6f8097"/><text x="310" y="186" font-size="12.5" fill="#eef3fa" text-anchor="middle">Engagement apps</text>
+  <circle cx="409" cy="226" r="7" fill="#6f8097"/><text x="421" y="230" font-size="12.5" fill="#eef3fa" text-anchor="start">Office pools</text>
+  <circle cx="211" cy="255" r="7" fill="#6f8097"/><text x="199" y="259" font-size="12.5" fill="#eef3fa" text-anchor="end">DIY group text</text>
+  <circle cx="271" cy="305" r="7" fill="#6f8097"/><text x="271" y="324" font-size="12.5" fill="#eef3fa" text-anchor="middle">Team-building</text>
+  <circle cx="337" cy="388" r="7" fill="#6f8097"/><text x="337" y="407" font-size="12.5" fill="#eef3fa" text-anchor="middle">Real-money pools</text>
+  <circle cx="574" cy="97" r="12" fill="#1ec06f" stroke="#0a0f17" stroke-width="2.5"/>
+  <text x="557" y="93" font-size="13.5" font-weight="700" fill="#1ec06f" text-anchor="end" font-family="Space Grotesk">Office Pick'em League</text>
+  <text x="557" y="110" font-size="11.5" fill="#5fd99b" text-anchor="end">the only one top-right</text>
+</svg>
+      </div>
+      <div class="legend">
+        <div class="lg"><div class="dot" style="background:#f7cf57"></div><div><div class="t">Genuinely fun &amp; sticky</div><div class="d">Real NFL stakes — winners, spreads, over/unders — and a <b>weekly ritual</b> that runs all season, not a one-off. This is why people actually show up Monday.</div></div></div>
+        <div class="lg"><div class="dot" style="background:#3f7fe6"></div><div><div class="t">Everyone actually plays</div><div class="d">Web, <b>text, or a phone call</b> — nothing to install. The floor, the warehouse, the 58-year-old who doesn't use Slack: all in. One tap auto-picks a card for casual fans.</div></div></div>
+        <div class="lg"><div class="dot" style="background:#1ec06f"></div><div><div class="t">Safe &amp; cheap for the company</div><div class="d"><b>Zero money</b> (designed to be compliant in all 50 states), <b>nothing installed</b> in your systems, and a flat annual tier (from $750; ~$8–15/employee/year) — the easiest yes Legal, IT, and Finance will give.</div></div></div>
+      </div>
+    </div>
+
+    <table>
+      <thead><tr><th>Next-best alternative</th><th>What it's built for</th><th>Why it falls short at work</th><th>$/emp/yr</th></tr></thead>
+      <tbody>
+        <tr><td><span class="nm">Office pools</span><br><span class="sb">RunYourPool, OFP, ESPN</span></td><td>one commissioner's bracket</td><td>Sold to an individual, not HR — no participation analytics, no admin controls. App/desk-centric, and a real-money sibling (Splash) Legal won't love.</td><td class="cost">~free*</td></tr>
+        <tr><td><span class="nm">Real-money pools</span><br><span class="sb">Splash Sports, DraftKings</span></td><td>cash peer-to-peer play</td><td>It's gambling. A compliance non-starter the moment HR or Legal is in the room — the exact thing companies are trying to keep <i>out</i> of the workplace.</td><td class="cost">n/a</td></tr>
+        <tr><td><span class="nm">Engagement apps</span><br><span class="sb">Bonusly, Nectar</span></td><td>recognition &amp; rewards</td><td>Useful, but not sports and not a weekly ritual — no natural water-cooler hook. Pricey ($36–72+/emp/yr platform fee, before reward budgets) on an annual contract.</td><td class="cost">$36–72+</td></tr>
+        <tr><td><span class="nm">Team-building</span><br><span class="sb">offsites, trivia vendors</span></td><td>one-off events</td><td>Expensive and episodic — a day, then it's over. Heavy scheduling, and it structurally excludes shift workers, multi-site, and remote staff.</td><td class="cost">$100–500</td></tr>
+        <tr><td><span class="nm">DIY</span><br><span class="sb">spreadsheet + group text</span></td><td>a free hack</td><td>Manual scoring breaks every week, no inclusivity or reminders, and it burns out the one person running it. Free until it quietly dies by Week 4.</td><td class="cost">~$0 (time)</td></tr>
+        <tr class="win"><td><span class="nm">Office Pick'em League</span><br><span class="sb">the whole workforce, all season</span></td><td>company-bought, HR-sponsored, everyone</td><td>Fun + inclusive + safe + cheap — the only one in the top-right corner. We run it; you get the camaraderie, the analytics, and zero risk.</td><td class="cost">~$8–15</td></tr>
+      </tbody>
+    </table>
+    <div style="font-size:11.5px;color:var(--muted2);margin-top:8px">*Office pools are marketed "free" but are per-entry priced and sold to an individual commissioner, with a real-money sibling product — not a company-bought, HR-sponsored engagement program.</div>
+
+    <div class="slam">
+      <div class="sc green">
+        <div class="lab">Cost — a rounding error</div>
+        <div class="big" style="color:var(--green)">flat — from $750/yr</div>
+        <div class="d">Simple annual tiers by company size — about <b style="color:#fff">$7.50–$15/employee/year</b>, still well under 10% of an engagement-app or team-building budget. A 400-person company runs <b style="color:#fff">~$3,900/year, total</b>. Nobody has to defend this line item.</div>
+      </div>
+      <div class="sc">
+        <div class="lab">Commitment — one season</div>
+        <div class="big" style="color:var(--blue)">≈ 4 months</div>
+        <div class="d">An NFL season is a contained program — <b style="color:#fff">2 minutes/week</b> per person, no annual lock-in, no IT project, no rollout. Try it for a season and renew only if it works. The risk of "yes" is almost zero.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="foot">
+    <span class="big">Fun + inclusive + safe + cheap — the only one in the top-right.</span>
+    <span>officepickemleague.com · a no-money, no-install prediction game</span>
+  </div>
+
+</div>
+</body>
+</html>
