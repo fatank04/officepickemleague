@@ -8,6 +8,7 @@ Key facts:
 - Players never pay. No app download, no email, no password — join with a name and a phone number (or name + PIN on the web).
 - Game format: each NFL game offers three calls — Winner (1 pt), Spread (2 pts), Total over/under (2 pts) — plus a Power Pick "LOCK". Games lock at kickoff; scoring and standings are automatic.
 - Accessibility: play by text message or phone call, so it works for employees without smartphones or apps.
+- Inclusion: nearly half of NFL fans are women, yet fantasy leagues and money pools skew heavily male. Office Pick'em removes the gatekeeping — no draft, no jargon, no buy-in, and blind, engine-graded scoring — so everyone's picks count equally, including the many women and casual fans traditional office pools leave out.
 - Employer pricing (Founding Season 2026): flat seasonal rate by company size, from $400/season (up to 50 employees) to $3,750/season (up to 1,000), locked for 3 seasons, midseason money-back guarantee. Standard rates roughly 2x.
 - Setup: a commissioner creates a league in about two minutes and shares one invite link.
 

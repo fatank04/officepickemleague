@@ -32,6 +32,10 @@ const faqs: [string, string][] = [
     "No — picking a winner is something anyone can do, and the spread and over/under picks give football fans the depth they want. Leagues stay competitive from the floor to the front office all season.",
   ],
   [
+    "What about people who never felt the office pool was for them?",
+    "That's exactly who this is built for. Nearly half of NFL fans are women, yet most fantasy leagues and money pools are overwhelmingly male — the old formats put a test at the door. Office Pick'em doesn't: no draft, no jargon, no buy-in, no permission needed, and the scoreboard is blind — picks are graded by the engine and standings don't care who you are. Your picks do the talking.",
+  ],
+  [
     "How do coworkers join a league?",
     "The commissioner shares one invite link. Each player enters a name and phone number (or just a name and PIN on the web) and they're in — no email, no password, no app.",
   ],
@@ -108,7 +112,9 @@ export default function Home() {
           <p style={{ margin: "0 0 10px" }}>
             Office Pick'em is the <b>anti-gambling</b> office game: no buy-ins, no pots, no cash — so it clears the policies a
             money pool never will, and nobody's left out over ten bucks. It's employee engagement your whole workforce actually
-            wants, built for deskless teams in football towns — Pittsburgh, Buffalo, Cleveland, Cincinnati, and beyond.
+            wants, built for deskless teams in football towns — Pittsburgh, Buffalo, Cleveland, Cincinnati, and beyond. And it's
+            the <b>great equalizer</b>: nearly half of NFL fans are women, but you'd never know it from the average office pool.
+            Here the scoreboard is blind — no draft-room gatekeeping, no test at the door, just picks that do the talking.
           </p>
           <p style={{ margin: 0 }}>
             <b>Always free for players.</b> Employers pay one flat seasonal rate —{" "}

@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Office Pick'em League — Customer Journey Portfolio</title>
+<style>
+  :root{
+    --navy:#13182B; --navy2:#1C2440; --panel:#181F36; --panel2:#20294a;
+    --violet:#6D5BF5; --violet2:#7c5cff; --green:#1DB573; --gold:#D4A017; --amber:#F7CF57;
+    --ink:#1F2433; --mute:#5C6474; --pale:#F4F5FA; --line:#E3E6F0;
+    --dkline:#2a3550; --dktext:#E7ECF7; --dkmute:#93A1BC;
+  }
+  *{margin:0;box-sizing:border-box}
+  @page{size:letter;margin:.4in}
+  body{font-family:Arial,Helvetica,sans-serif;color:var(--ink);background:#eceef4;padding:22px;line-height:1.5}
+  .doc{max-width:920px;margin:0 auto}
+  .hero{background:var(--navy);color:#fff;border-radius:14px;padding:26px 30px;margin-bottom:20px}
+  .brand{color:var(--violet2);font-size:11px;font-weight:bold;letter-spacing:4px}
+  .hero h1{font-size:29px;margin:8px 0 8px;line-height:1.12}
+  .hero p{color:#AEB6D0;font-size:13.5px;max-width:44em}
+  .hero .rail{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+  .hero .rail span{font-size:11px;font-weight:bold;border:1px solid var(--violet);border-radius:999px;padding:5px 13px;color:#fff;background:var(--navy2)}
+
+  .stage{background:#fff;border:1px solid var(--line);border-radius:14px;padding:20px 22px 22px;margin-bottom:16px;page-break-inside:avoid}
+  .shead{display:flex;align-items:center;gap:12px;margin-bottom:4px}
+  .snum{width:30px;height:30px;flex:none;border-radius:50%;background:var(--violet);color:#fff;font-weight:bold;font-size:14px;display:flex;align-items:center;justify-content:center}
+  .shead h2{font-size:18px;color:var(--ink)}
+  .shead .tag{margin-left:auto;font-size:10px;font-weight:bold;letter-spacing:1px;color:var(--mute);text-transform:uppercase}
+  .slead{font-size:12.5px;color:var(--mute);margin:2px 0 14px 42px}
+
+  .cols3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}
+  .cols2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .modh{display:flex;align-items:center;gap:7px;margin-bottom:8px}
+  .modh .mt{font-size:10px;font-weight:bold;letter-spacing:1.2px;color:var(--violet);text-transform:uppercase}
+  .modh b{font-size:13.5px}
+  .badge-new{font-size:8.5px;font-weight:bold;letter-spacing:.5px;color:#fff;background:var(--green);border-radius:5px;padding:2px 6px;text-transform:uppercase}
+  .badge-soon{font-size:8.5px;font-weight:bold;letter-spacing:.5px;color:#3a2f00;background:var(--amber);border-radius:5px;padding:2px 6px;text-transform:uppercase}
+
+  /* web UI recreation */
+  .ui{background:var(--navy);border-radius:10px;padding:10px}
+  .ui .navbar{display:flex;gap:8px;font-size:8.5px;color:var(--dkmute);padding:2px 4px 8px;align-items:center}
+  .ui .navbar .logo{color:#fff;font-weight:bold;font-size:9.5px}
+  .ui .navbar .logo span{color:var(--violet2)}
+  .ui .navbar .on{color:#fff;background:var(--panel2);border-radius:6px;padding:2px 6px}
+  .gamecard{background:var(--panel);border:1px solid var(--dkline);border-radius:8px;overflow:hidden}
+  .gc-top{display:flex;justify-content:space-between;align-items:center;padding:7px 9px 4px}
+  .gc-teams{color:#fff;font-weight:bold;font-size:10.5px}
+  .gc-teams .at{color:var(--dkmute);font-weight:normal}
+  .gc-meta{font-size:7.5px;color:var(--dkmute);padding:0 9px 6px}
+  .star{font-size:7.5px;font-weight:bold;color:var(--gold);border:1px solid var(--dkline);border-radius:999px;padding:2px 7px}
+  .grid{display:flex;border-top:1px solid var(--dkline)}
+  .pcell{flex:1;padding:6px 8px;border-right:1px solid var(--dkline)}
+  .pcell:last-child{border-right:none}
+  .lbl{font-size:6.5px;letter-spacing:.8px;font-weight:800;margin-bottom:5px;text-transform:uppercase}
+  .lbl.w{color:#7fb2ff}.lbl.s{color:var(--gold)}.lbl.t{color:#c79cff}
+  .opt{display:flex;gap:4px}
+  .opt span{flex:1;text-align:center;background:var(--panel2);border:1px solid var(--dkline);color:var(--dktext);border-radius:5px;font-size:8px;font-weight:bold;padding:6px 2px;line-height:1.3}
+  .opt span small{display:block;font-weight:normal;color:var(--dkmute);font-size:7px}
+  .opt span.sel{background:linear-gradient(135deg,#6D5BF5,#2f6bf0);border-color:#6D5BF5;color:#fff}
+  .opt span.sel small{color:#D7DCEC}
+  .savenote{font-size:7.5px;color:var(--dkmute);margin-top:7px;text-align:center}
+
+  /* text thread */
+  .phone{background:var(--pale);border:1px solid var(--line);border-radius:10px;padding:12px 10px;display:flex;flex-direction:column;gap:6px}
+  .bub{max-width:90%;border-radius:12px;padding:7px 10px;font-size:9px;line-height:1.45}
+  .them{background:#fff;border:1px solid var(--line);color:var(--ink);border-bottom-left-radius:3px;align-self:flex-start}
+  .me{background:var(--violet);color:#fff;border-bottom-right-radius:3px;align-self:flex-end;font-family:'Courier New',monospace;font-weight:bold}
+  .when{font-size:7.5px;color:var(--mute);text-align:center;margin:1px 0}
+
+  /* voice transcript */
+  .call{background:var(--navy);border-radius:10px;padding:12px;display:flex;flex-direction:column;gap:6px;height:100%}
+  .call .hdr{display:flex;align-items:center;gap:7px;color:#fff;font-size:9px;font-weight:bold;padding-bottom:6px;border-bottom:1px solid var(--dkline)}
+  .call .hdr .dot{width:8px;height:8px;border-radius:50%;background:var(--green)}
+  .vline{font-size:8.7px;line-height:1.5;color:var(--dktext)}
+  .vline b{color:var(--green);font-weight:bold}
+  .vline.key{color:#fff;font-family:'Courier New',monospace;font-weight:bold;background:var(--panel2);border:1px solid var(--dkline);border-radius:6px;padding:4px 8px;align-self:flex-start;font-size:8.7px}
+  .vline.say{color:#fff;font-style:italic;background:#20294a55;border-left:2px solid var(--violet2);padding:4px 8px}
+  .call .end{font-size:8px;color:var(--dkmute);font-style:italic;margin-top:auto;padding-top:6px}
+
+  /* scorecard (real /r card recreation) */
+  .score{display:grid;grid-template-columns:1.1fr .9fr;gap:14px;align-items:stretch}
+  .rcard{background:var(--navy);border-radius:12px;padding:16px 18px;color:#fff}
+  .rcard .rtop{display:flex;justify-content:space-between;align-items:flex-start}
+  .rcard .who{font-size:13px;font-weight:bold}
+  .rcard .wk{font-size:9px;color:var(--dkmute)}
+  .rcard .rank{text-align:right}
+  .rcard .rank .big{font-size:24px;font-weight:bold;color:var(--green)}
+  .rcard .rank .mv{font-size:9px;color:var(--green)}
+  .rcard .pts{font-size:34px;font-weight:bold;margin:8px 0 2px}
+  .rcard .pts small{font-size:12px;color:var(--dkmute);font-weight:normal}
+  .acc{display:flex;gap:7px;margin-top:12px}
+  .acc .a{flex:1;background:var(--panel2);border:1px solid var(--dkline);border-radius:8px;padding:8px 6px;text-align:center}
+  .acc .a .n{font-size:15px;font-weight:bold;color:#fff}
+  .acc .a .l{font-size:7px;color:var(--dkmute);letter-spacing:.5px;text-transform:uppercase;margin-top:2px}
+  .badges{display:flex;gap:6px;margin-top:12px}
+  .badges span{font-size:8px;font-weight:bold;letter-spacing:.5px;background:linear-gradient(135deg,var(--gold),#b8860b);color:#241c00;border-radius:5px;padding:3px 8px}
+  .scoreside{display:flex;flex-direction:column;gap:10px;justify-content:center}
+  .sctxt{font-size:11.5px;color:var(--mute);line-height:1.55}
+  .sctxt b{color:var(--ink)}
+
+  /* leaderboard */
+  .board{border:1px solid var(--line);border-radius:10px;overflow:hidden}
+  .board table{width:100%;border-collapse:collapse;font-size:11px}
+  .board th{background:var(--navy);color:#fff;text-align:left;padding:7px 12px;font-size:10px}
+  .board td{padding:7px 12px;border-top:1px solid var(--line)}
+  .board tr.you td{background:var(--pale);font-weight:bold}
+  .board td.r{color:var(--violet);font-weight:bold;width:36px}
+  .board td.p{text-align:right;font-weight:bold}
+
+  .callout{display:flex;gap:12px;align-items:center;background:var(--pale);border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin-top:12px}
+  .callout .k{font-size:10px;font-weight:bold;letter-spacing:.8px;color:var(--violet);text-transform:uppercase;flex:none}
+  .callout .t{font-size:11.5px;color:var(--ink);line-height:1.5}
+
+  .foot{background:var(--navy);color:#fff;border-radius:14px;padding:18px 24px;display:flex;justify-content:space-between;align-items:center;margin-top:6px}
+  .foot .l{font-size:13px}.foot .l b{color:var(--green)}
+  .foot .r{font-size:13px;font-weight:bold;color:var(--green)}
+  @media print{body{background:#fff;padding:0}.stage,.hero,.foot{box-shadow:none}}
+</style>
+</head>
+<body>
+<div class="doc">
+
+  <div class="hero">
+    <div class="brand">OFFICE&nbsp;&nbsp;PICK'EM&nbsp;&nbsp;LEAGUE&nbsp;&nbsp;·&nbsp;&nbsp;CUSTOMER JOURNEY</div>
+    <h1>What a season looks like — from the invite to the trophy.</h1>
+    <p>The whole arc a player lives, on whatever they've got in their pocket. Same league, same scoreboard, whether you're a 25-year-old on the web or a 71-year-old on a flip phone. Every screen here is the real product — nothing to install, no corporate email, no IT ticket.</p>
+    <div class="rail"><span>Join in 30 seconds</span><span>Pick 3 ways</span><span>Weekly scorecard</span><span>All 18 weeks</span></div>
+  </div>
+
+  <!-- STAGE 1 -->
+  <div class="stage">
+    <div class="shead"><div class="snum">1</div><h2>Getting in — no app, no password</h2><div class="tag">Onboarding</div></div>
+    <div class="slead">Two front doors: tap a link, or text one word. Either way you're playing in under a minute — with just a name and a phone number.</div>
+    <div class="cols2">
+      <div>
+        <div class="modh"><span class="mt">On the web</span><b>🔗 Tap the invite</b></div>
+        <div class="ui">
+          <div class="navbar"><span class="logo">Office <span>Pick'em</span></span><span>Acme Pick'em</span></div>
+          <div class="gamecard" style="padding:14px">
+            <div style="color:#fff;font-weight:bold;font-size:12px;margin-bottom:8px">You're invited to Acme Pick'em 🏈</div>
+            <div style="font-size:9px;color:var(--dkmute);margin-bottom:5px">Your name</div>
+            <div style="background:var(--panel2);border:1px solid var(--dkline);border-radius:6px;padding:7px 9px;color:#fff;font-size:9.5px;margin-bottom:8px">Mike Ramirez</div>
+            <div style="font-size:9px;color:var(--dkmute);margin-bottom:5px">League PIN</div>
+            <div style="background:var(--panel2);border:1px solid var(--dkline);border-radius:6px;padding:7px 9px;color:#fff;font-size:9.5px;letter-spacing:3px;margin-bottom:10px">4 8 2 1</div>
+            <div style="background:linear-gradient(135deg,#6D5BF5,#2f6bf0);color:#fff;font-size:10px;font-weight:bold;border-radius:6px;padding:8px;text-align:center">Join the league →</div>
+          </div>
+          <div class="savenote">No email · no password · no download</div>
+        </div>
+      </div>
+      <div>
+        <div class="modh"><span class="mt">By text</span><b>💬 Text JOIN</b></div>
+        <div class="phone">
+          <div class="when">Any phone · no smartphone needed</div>
+          <div class="bub me">JOIN ACME</div>
+          <div class="bub them">Welcome to Acme Pick'em, Mike! ✅ You're in. We'll text you each Thursday when the week's games are up. Reply STOP anytime. Msg&amp;data rates may apply.</div>
+          <div class="bub them">First up: reply LINES to see this week's slate.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STAGE 2 -->
+  <div class="stage">
+    <div class="shead"><div class="snum">2</div><h2>Making picks — three ways, one scoreboard</h2><div class="tag">The weekly play</div></div>
+    <div class="slead">Every player makes the same calls per game — winner, and (if they want) the spread and the over/under. How they enter them is their choice.</div>
+    <div class="cols3">
+      <!-- WEB -->
+      <div>
+        <div class="modh"><span class="mt">Modality 1</span><b>🖥️ Web</b></div>
+        <div class="ui">
+          <div class="navbar"><span class="logo">Office <span>Pick'em</span></span><span class="on">Picks</span><span>Standings</span><span>Insights</span></div>
+          <div class="gamecard" style="margin-bottom:7px">
+            <div class="gc-top"><span class="gc-teams">Browns <span class="at">@</span> Steelers</span><span class="star">🔒 LOCK</span></div>
+            <div class="gc-meta">Steelers −3.5 · O/U 44.5 · Sun 1:00</div>
+            <div class="grid">
+              <div class="pcell"><div class="lbl w">Winner · 1pt</div><div class="opt"><span>Cle</span><span class="sel">Pit</span></div></div>
+              <div class="pcell"><div class="lbl s">Spread · 2pts</div><div class="opt"><span>+3.5</span><span class="sel">−3.5</span></div></div>
+              <div class="pcell"><div class="lbl t">Total · 2pts</div><div class="opt"><span>O</span><span class="sel">U</span></div></div>
+            </div>
+          </div>
+          <div class="savenote">💾 Saves as you tap — locks at kickoff</div>
+        </div>
+      </div>
+      <!-- TEXT -->
+      <div>
+        <div class="modh"><span class="mt">Modality 2</span><b>💬 Text</b> <span class="badge-new">1 game at a time</span></div>
+        <div class="phone">
+          <div class="when">Thursday 10:02 AM</div>
+          <div class="bub them">Wk 5 is live! Game 1 of 5: Browns @ <b>Steelers</b>. Who wins? Reply CLE or PIT.</div>
+          <div class="bub me">PIT</div>
+          <div class="bub them">👍 Steelers. Game 2: Jets @ <b>Bills</b>? Reply NYJ or BUF (or DEEP to also call spreads &amp; totals).</div>
+          <div class="bub me">BUF</div>
+          <div class="bub them">Nice — 2 of 5 in. Keep going… (or reply DONE to stop here.)</div>
+          <div class="when" style="margin-top:2px">— one thumb, ten seconds a game —</div>
+        </div>
+      </div>
+      <!-- VOICE -->
+      <div>
+        <div class="modh"><span class="mt">Modality 3</span><b>📞 Phone</b></div>
+        <div class="call">
+          <div class="hdr"><span class="dot"></span> Acme Pick'em · keypad · live</div>
+          <div class="vline"><b>League:</b> "Hi Mike. Press 1 to pick, 2 to auto-pick the week, 3 to hear your score."</div>
+          <div class="vline key">[ 2 ]</div>
+          <div class="vline"><b>League:</b> "1 for favorites, 2 for home teams, 3 for underdogs, 4 for random."</div>
+          <div class="vline key">[ 1 ]</div>
+          <div class="vline"><b>League:</b> "Done — all 16 games picked with the favorites. Good luck, Mike."</div>
+          <div class="end">Keypad — deterministic on any phone, in any break room. Games already started are skipped automatically.</div>
+        </div>
+      </div>
+    </div>
+    <div class="callout">
+      <div class="k">Coming this season</div>
+      <div class="t"><b>Natural conversation on the phone.</b> Alongside the keypad, players will just <i>talk</i>: <i>"Steelers, under, and lock the Bills game"</i> → the agent reads it back and confirms. Same league, same scoreboard — now hands-free for the driver, the line worker, or anyone who'd rather say it than tap it. <span class="badge-soon">Rolling out</span></div>
+    </div>
+  </div>
+
+  <!-- STAGE 3 -->
+  <div class="stage">
+    <div class="shead"><div class="snum">3</div><h2>Instant confirmation</h2><div class="tag">Peace of mind</div></div>
+    <div class="slead">However they picked, players get a clear read-back — no wondering whether it counted.</div>
+    <div class="cols2">
+      <div class="phone">
+        <div class="bub me">1 PIT u&nbsp; 2 NYJ o&nbsp; 3 BAL&nbsp; LOCK 1</div>
+        <div class="bub them">Got it ✓ 3 saved, Lock set:<br>1) PIT · under · 🔒 LOCK<br>2) NYJ · over<br>3) BAL<br>Reply MY PICKS to review, or text a game # to change it.</div>
+        <div class="when">Batch power-users can still send a whole card in one line.</div>
+      </div>
+      <div style="display:flex;flex-direction:column;justify-content:center;gap:10px">
+        <div class="callout" style="margin:0"><div class="k">Locks</div><div class="t">Each game <b>locks at its own kickoff</b> — no picking after the ball's in the air. The same lock protects web, text, and phone equally.</div></div>
+        <div class="callout" style="margin:0"><div class="k">Change</div><div class="t">Free to change any pick right up to that game's kickoff. Reply <b>CHANGE 3</b> or just tap it again on the web.</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STAGE 4 -->
+  <div class="stage">
+    <div class="shead"><div class="snum">4</div><h2>The Monday scorecard — sent to every player</h2><div class="tag">The hook that brings them back</div></div>
+    <div class="slead">Games grade automatically. Every player gets their own card by text — points, rank, and how they did — with a link to a shareable results page. This is what makes Week 2 happen.</div>
+    <div class="score">
+      <div class="rcard">
+        <div class="rtop">
+          <div><div class="who">Mike Ramirez</div><div class="wk">Week 5 · Acme Pick'em</div></div>
+          <div class="rank"><div class="big">3rd</div><div class="mv">▲ up 2 · of 14</div></div>
+        </div>
+        <div class="pts">+14 <small>pts this week · 88 total</small></div>
+        <div class="acc">
+          <div class="a"><div class="n">4/5</div><div class="l">Winner</div></div>
+          <div class="a"><div class="n">3/5</div><div class="l">Spread</div></div>
+          <div class="a"><div class="n">3/5</div><div class="l">Over / Under</div></div>
+        </div>
+        <div class="badges"><span>🔒 LOCK HIT</span><span>🎯 BEST WEEK YET</span></div>
+      </div>
+      <div class="scoreside">
+        <div class="phone" style="margin:0">
+          <div class="when">Monday 9:15 AM</div>
+          <div class="bub them">Week 5 Acme: <b>+14 pts</b>. You're 3rd of 14 (88 total). 🏈 Your card: acme.pick/r/mike</div>
+        </div>
+        <div class="sctxt">The text lands Monday morning; the tap opens the <b>shareable card</b> on the left. It's the built-in reason to come back — and the thing people screenshot into the group chat.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STAGE 5 -->
+  <div class="stage">
+    <div class="shead"><div class="snum">5</div><h2>The leaderboard — where the trash talk lives</h2><div class="tag">All season long</div></div>
+    <div class="slead">One shared board the whole building watches. Nobody's ever eliminated — a bad week costs points, never your seat.</div>
+    <div class="board">
+      <table>
+        <tr><th>#</th><th>Player</th><th>Dept</th><th style="text-align:right">Points</th></tr>
+        <tr><td class="r">1</td><td>Dana Whitfield</td><td>Dispatch</td><td class="p">96</td></tr>
+        <tr><td class="r">2</td><td>Luis Ferro</td><td>Plant B</td><td class="p">91</td></tr>
+        <tr class="you"><td class="r">3</td><td>Mike Ramirez ← you</td><td>Maintenance</td><td class="p">88</td></tr>
+        <tr><td class="r">4</td><td>Priya Nair</td><td>QA</td><td class="p">84</td></tr>
+        <tr><td class="r">5</td><td>Tom Beckett</td><td>Front office</td><td class="p">81</td></tr>
+      </table>
+    </div>
+    <div class="callout"><div class="k">The point</div><div class="t">A warehouse lead, a QA tech, and the front office in the <b>same top five</b> — the board is the only place they all show up together every week.</div></div>
+  </div>
+
+  <!-- STAGE 6 -->
+  <div class="stage">
+    <div class="shead"><div class="snum">6</div><h2>Season's end — a champion, and a reason to renew</h2><div class="tag">Week 18</div></div>
+    <div class="slead">The season crowns a winner (your prize, your branding), and hands HR the one thing every other tool can't: proof it worked.</div>
+    <div class="cols2">
+      <div class="phone">
+        <div class="when">Championship week</div>
+        <div class="bub them">🏆 Final results are in! Congrats to <b>Dana Whitfield</b> — Acme Pick'em champion, 2026 season. Mike, you finished 3rd of 14. Same time next year?</div>
+      </div>
+      <div style="display:flex;flex-direction:column;justify-content:center;gap:10px">
+        <div class="callout" style="margin:0"><div class="k">For HR</div><div class="t"><b>Opt-in rate, weekly active players, web-vs-text-vs-phone mix</b> — the participation report you take upstairs. The proof that engagement actually reached the floor.</div></div>
+        <div class="callout" style="margin:0"><div class="k">For everyone</div><div class="t">18 weeks of a shared ritual — from the diehard to the person who'd never joined anything before. <b>That's the renewal.</b></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="foot">
+    <div class="l">One engine, one scoreboard — a 25-year-old on the web and a 71-year-old on a flip phone, <b>in the same league</b>.</div>
+    <div class="r">officepickemleague.com</div>
+  </div>
+
+</div>
+</body>
+</html>
