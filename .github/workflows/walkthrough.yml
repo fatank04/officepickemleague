@@ -1,6 +1,8 @@
 name: Record demo walkthrough
 on:
   workflow_dispatch: {}
+permissions:
+  contents: write        # allow pushing the finished video back to the repo
 jobs:
   record:
     runs-on: ubuntu-latest
@@ -37,6 +39,18 @@ jobs:
           mkdir -p "$GITHUB_WORKSPACE/recording"
           cp recording/walkthrough.* "$GITHUB_WORKSPACE/recording/"
           ls -la "$GITHUB_WORKSPACE/recording"
+      - name: Publish video to the app (served at a plain URL)
+        run: |
+          set -eux
+          cd "$GITHUB_WORKSPACE"
+          mkdir -p public
+          cp recording/walkthrough.mp4 public/walkthrough.mp4
+          cp recording/walkthrough.gif public/walkthrough.gif
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add public/walkthrough.mp4 public/walkthrough.gif
+          git commit -m "Publish demo walkthrough video [skip ci]" || echo "no change"
+          git push
       - uses: actions/upload-artifact@v4
         if: always()
         with:
