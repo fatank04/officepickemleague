@@ -89,6 +89,20 @@ export default function Home() {
         <HomeForm />
       </div>
 
+      <section style={{ marginTop: 30 }}>
+        <div style={{ textAlign: "center", marginBottom: 10 }}>
+          <div style={{ color: "var(--accent)", fontWeight: 700, fontSize: 12, letterSpacing: 1.2, textTransform: "uppercase" }}>See it in action</div>
+          <h2 style={{ fontSize: 17, margin: "4px 0 0" }}>What your team sees once you&apos;re in</h2>
+        </div>
+        <div className="card" style={{ padding: 8 }}>
+          <video src="/walkthrough.mp4" autoPlay muted loop playsInline controls preload="metadata"
+            style={{ width: "100%", display: "block", borderRadius: 10 }} />
+        </div>
+        <p className="muted small center" style={{ marginTop: 8 }}>
+          Standings, weekly picks, and per-player insights &mdash; the real app, in about forty seconds.
+        </p>
+      </section>
+
       <section style={{ marginTop: 36 }}>
         <h2 style={{ fontSize: 17 }}>How it works</h2>
         <div className="card pad" style={{ lineHeight: 1.6, fontSize: 14 }}>
