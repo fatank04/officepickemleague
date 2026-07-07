@@ -1,0 +1,30 @@
+name: Record demo walkthrough
+on:
+  workflow_dispatch: {}   # run manually from the Actions tab
+jobs:
+  record:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Install Playwright + Chromium
+        run: |
+          npm init -y >/dev/null 2>&1
+          npm i playwright@latest
+          npx playwright install --with-deps chromium
+      - name: Record walkthrough
+        run: node scripts/record-walkthrough.mjs
+      - name: Convert to MP4 + GIF
+        run: |
+          ffmpeg -y -i recording/walkthrough.webm -c:v libx264 -pix_fmt yuv420p -movflags +faststart recording/walkthrough.mp4
+          ffmpeg -y -i recording/walkthrough.webm -vf "fps=15,scale=1000:-1:flags=lanczos" recording/walkthrough.gif
+      - uses: actions/upload-artifact@v4
+        with:
+          name: demo-walkthrough
+          path: |
+            recording/walkthrough.mp4
+            recording/walkthrough.gif
+          retention-days: 14
