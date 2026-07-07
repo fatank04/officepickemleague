@@ -5,10 +5,10 @@ import { useRef, useState, useCallback } from "react";
 type Chapter = { t: number; label: string; sub: string };
 
 const CHAPTERS: Chapter[] = [
-  { t: 0, label: "Standings", sub: "Live leaderboard" },
-  { t: 10, label: "Make your picks", sub: "Two minutes a week" },
-  { t: 22, label: "Insights", sub: "Your record & trends" },
-  { t: 33, label: "Commissioner tools", sub: "Run the whole league" },
+  { t: 6, label: "Standings", sub: "Live leaderboard" },
+  { t: 16, label: "Make your picks", sub: "Two minutes a week" },
+  { t: 26.5, label: "Insights", sub: "Your record & trends" },
+  { t: 35.5, label: "Commissioner tools", sub: "Run the whole league" },
 ];
 
 export default function WalkthroughTease() {
