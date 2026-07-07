@@ -12,11 +12,14 @@ jobs:
           node-version: "22"
       - name: Install ffmpeg
         run: sudo apt-get update && sudo apt-get install -y ffmpeg
+      - name: Diagnostics
+        run: |
+          set -x
+          command -v node ffmpeg npx cp || true
+          node -v; npm -v; ffmpeg -version | head -1
       - name: Set up recorder (isolated from the app)
         run: |
           set -eux
-          node -v
-          npm -v
           mkdir -p "$RUNNER_TEMP/rec"
           cd "$RUNNER_TEMP/rec"
           npm init -y

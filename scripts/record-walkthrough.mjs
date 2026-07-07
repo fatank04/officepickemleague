@@ -1,15 +1,15 @@
 // Records a smooth-scroll walkthrough of the demo league as a video.
-// Runs headless in CI (or locally with: npm i playwright && npx playwright install chromium && node scripts/record-walkthrough.mjs)
+// Logs in as the commissioner first (league pages require a session), then
+// navigates + smooth-scrolls each page. Runs in CI (Playwright) headless.
 import { chromium } from "playwright";
 import fs from "fs";
 
-const BASE = process.env.WALK_BASE || "https://officepickemleague.com/l/demo-day-league-x8am";
-const PAGES = [
-  `${BASE}/standings`,
-  `${BASE}/picks?week=4`,
-  `${BASE}/insights`,
-  `${BASE}/admin`,
-];
+const ORIGIN = process.env.WALK_ORIGIN || "https://officepickemleague.com";
+const SLUG   = process.env.WALK_SLUG   || "demo-day-league-x8am";
+const NAME   = process.env.WALK_NAME   || "Ray Delgado";
+const PIN    = process.env.WALK_PIN    || "2468";
+const BASE   = `${ORIGIN}/l/${SLUG}`;
+const PAGES  = [`${BASE}/standings`, `${BASE}/picks?week=4`, `${BASE}/insights`, `${BASE}/admin`];
 const W = 1440, H = 1024;
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
@@ -37,17 +37,27 @@ const context = await browser.newContext({
 });
 const page = await context.newPage();
 
-// warm Render (it sleeps when idle; first hit can take ~30s)
-await page.goto(`${BASE}/standings`, { waitUntil: "domcontentloaded", timeout: 120000 }).catch(() => {});
-await sleep(4000);
+// 1) wake Render (it sleeps when idle)
+try { await page.goto(ORIGIN, { waitUntil: "load", timeout: 120000 }); } catch (e) { console.log("warmup:", e.message); }
+await sleep(3000);
 
+// 2) log in as commissioner -> sets the session cookie on the context
+const login = await context.request.post(`${ORIGIN}/api/join`, {
+  data: { slug: SLUG, name: NAME, pin: PIN, confirmNew: false },
+});
+console.log("login status:", login.status());
+if (!login.ok()) console.log("login body:", await login.text());
+
+// 3) walk each page with a smooth scroll
 for (const url of PAGES) {
-  await page.goto(url, { waitUntil: "networkidle", timeout: 120000 });
-  await sleep(2000);            // dwell at top
-  await smoothScroll(page, 5200); // smooth scroll top -> bottom
-  await sleep(1600);            // dwell at bottom
-  await page.evaluate(() => window.scrollTo({ top: 0, behavior: "smooth" }));
-  await sleep(900);
+  try {
+    await page.goto(url, { waitUntil: "load", timeout: 90000 });
+    await sleep(2200);              // dwell at top
+    await smoothScroll(page, 5200); // smooth scroll to bottom
+    await sleep(1600);              // dwell at bottom
+    await page.evaluate(() => window.scrollTo({ top: 0, behavior: "smooth" }));
+    await sleep(900);
+  } catch (e) { console.log("page failed:", url, e.message); }
 }
 
 await context.close(); // finalizes the .webm
