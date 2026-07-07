@@ -1,30 +1,42 @@
 name: Record demo walkthrough
 on:
-  workflow_dispatch: {}   # run manually from the Actions tab
+  workflow_dispatch: {}
 jobs:
   record:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: "20"
-      - name: Install Playwright + Chromium
+          node-version: "22"
+      - name: Install ffmpeg
+        run: sudo apt-get update && sudo apt-get install -y ffmpeg
+      - name: Set up recorder (isolated from the app)
         run: |
-          npm init -y >/dev/null 2>&1
+          set -eux
+          node -v
+          npm -v
+          mkdir -p "$RUNNER_TEMP/rec"
+          cd "$RUNNER_TEMP/rec"
+          npm init -y
           npm i playwright@latest
           npx playwright install --with-deps chromium
-      - name: Record walkthrough
-        run: node scripts/record-walkthrough.mjs
-      - name: Convert to MP4 + GIF
+      - name: Record + convert
         run: |
+          set -eux
+          cd "$RUNNER_TEMP/rec"
+          cp "$GITHUB_WORKSPACE/scripts/record-walkthrough.mjs" ./record.mjs
+          node record.mjs
+          ls -la recording
           ffmpeg -y -i recording/walkthrough.webm -c:v libx264 -pix_fmt yuv420p -movflags +faststart recording/walkthrough.mp4
           ffmpeg -y -i recording/walkthrough.webm -vf "fps=15,scale=1000:-1:flags=lanczos" recording/walkthrough.gif
+          mkdir -p "$GITHUB_WORKSPACE/recording"
+          cp recording/walkthrough.* "$GITHUB_WORKSPACE/recording/"
+          ls -la "$GITHUB_WORKSPACE/recording"
       - uses: actions/upload-artifact@v4
+        if: always()
         with:
           name: demo-walkthrough
-          path: |
-            recording/walkthrough.mp4
-            recording/walkthrough.gif
-          retention-days: 14
+          path: recording/*
+          if-no-files-found: warn
