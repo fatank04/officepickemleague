@@ -16,7 +16,7 @@ export default async function BrandingPage({ params }: { params: { slug: string 
     <main style={{ padding: 24, color: "#eef3fa", fontFamily: "system-ui", maxWidth: 720, margin: "0 auto" }}>
       <Link href={`/l/${ctx.league.slug}/admin`} style={{ color: "#7aa2ff", textDecoration: "none", fontSize: 13 }}>← Console</Link>
       <h1 style={{ margin: "6px 0 2px" }}>Branding &amp; prizes</h1>
-      <p style={{ color: "#93a1bc", fontSize: 13, marginTop: 0 }}>How your league looks to players, and what they're playing for.</p>
+      <p style={{ color: "#93a1bc", fontSize: 13, marginTop: 0 }}>How your league looks to players, and what they&apos;re playing for.</p>
       <BrandingClient
         initial={{
           name: ctx.league.name,

@@ -86,7 +86,7 @@ export default async function InsightsPage() {
   return (
     <>
       <h2>Insights</h2>
-      <p className="muted small">Your season so far — how you're playing, and how it stacks up against the league.</p>
+      <p className="muted small">Your season so far — how you&apos;re playing, and how it stacks up against the league.</p>
 
       <div className="card pad">
         <div className="row" style={{ gap: 10 }}>

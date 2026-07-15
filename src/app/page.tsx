@@ -113,10 +113,10 @@ export default function Home() {
         <h2 style={{ fontSize: 17 }}>For HR, owners &amp; office managers</h2>
         <div className="card pad" style={{ lineHeight: 1.6, fontSize: 14 }}>
           <p style={{ margin: "0 0 10px" }}>
-            Office Pick'em is the <b>anti-gambling</b> office game: no buy-ins, no pots, no cash — so it clears the policies a
-            money pool never will, and nobody's left out over ten bucks. It's employee engagement your whole workforce actually
-            wants, built for deskless teams in football towns — Pittsburgh, Buffalo, Cleveland, Cincinnati, and beyond. And it's
-            the <b>great equalizer</b>: nearly half of NFL fans are women, but you'd never know it from the average office pool.
+            Office Pick&apos;em is the <b>anti-gambling</b> office game: no buy-ins, no pots, no cash — so it clears the policies a
+            money pool never will, and nobody&apos;s left out over ten bucks. It&apos;s employee engagement your whole workforce actually
+            wants, built for deskless teams in football towns — Pittsburgh, Buffalo, Cleveland, Cincinnati, and beyond. And it&apos;s
+            the <b>great equalizer</b>: nearly half of NFL fans are women, but you&apos;d never know it from the average office pool.
             Here the scoreboard is blind — no draft-room gatekeeping, no test at the door, just picks that do the talking.
           </p>
           <p style={{ margin: 0 }}>

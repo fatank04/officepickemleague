@@ -46,7 +46,7 @@ export default function BrandingClient({ initial }: { initial: Brand }) {
         </div>
       </div>
       <div style={box}>
-        <label style={label}>Prize (what they're playing for)</label>
+        <label style={label}>Prize (what they&apos;re playing for)</label>
         <textarea style={{ ...input, minHeight: 64, resize: "vertical" }} value={b.prizeText} onChange={set("prizeText")} maxLength={280}
           placeholder="e.g. Winner gets a $100 gift card and the trophy on their desk till next season." />
         <div style={mut}>{b.prizeText.length}/280 — shown to players on the standings page.</div>
