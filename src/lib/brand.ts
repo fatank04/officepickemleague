@@ -41,8 +41,10 @@ export function brandOf(league: LeagueBrandFields | null | undefined): Brand {
 /** A short, SMS-safe welcome suffix from the commissioner's note (trimmed to fit a text). */
 export function welcomeSuffix(brand: Brand, max = 120): string {
   if (!brand.welcomeMessage) return "";
-  const m = brand.welcomeMessage.replace(/\s+/g, " ").trim();
-  return " " + (m.length > max ? m.slice(0, max - 1).trimEnd() + "…" : m);
+  // Strip any URL/bare-domain so outbound texts never embed a link (keeps the 10DLC
+  // campaign's "embedded links = no" declaration honest, regardless of commissioner input).
+  const m = brand.welcomeMessage.replace(/\b(?:https?:\/\/|www\.)\S+|\b[a-z0-9-]+(?:\.[a-z0-9-]+)*\.(?:com|net|org|io|co|us|app|gg|xyz|info|biz|link|dev|me)\b(?:\/\S*)?/gi, "").replace(/\s+/g, " ").trim();
+  return m ? " " + (m.length > max ? m.slice(0, max - 1).trimEnd() + "…" : m) : "";
 }
 
 /** "#1ed47a" -> "30, 212, 122" (for rgba(var(--accent-rgb), .12) tints). */

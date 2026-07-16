@@ -26,6 +26,13 @@ eq("welcome suffix prefixed with space", welcomeSuffix(brandOf({ welcomeMessage:
 const long = "x".repeat(200);
 eq("welcome suffix truncated", welcomeSuffix(brandOf({ welcomeMessage: long }), 20).length <= 21, true);
 
+// URL sanitizer: outbound texts must never embed a link (10DLC "embedded links = no").
+eq("strips https url", welcomeSuffix(brandOf({ welcomeMessage: "Join at https://evil.example/x now" })), " Join at now");
+eq("strips www url", welcomeSuffix(brandOf({ welcomeMessage: "See www.spam.io/deals!" })), " See");
+eq("strips bare domain + path", welcomeSuffix(brandOf({ welcomeMessage: "Visit officepickemleague.com/join today" })), " Visit today");
+eq("url-only message -> empty suffix", welcomeSuffix(brandOf({ welcomeMessage: "http://bit.ly/abc" })), "");
+eq("keeps normal punctuation with periods", welcomeSuffix(brandOf({ welcomeMessage: "Good luck. Have fun." })), " Good luck. Have fun.");
+
 
 eq("hexToRgb house green", hexToRgb("#1ed47a"), "30, 212, 122");
 eq("hexToRgb invalid -> default rgb", hexToRgb("nope"), hexToRgb(DEFAULT_ACCENT));
