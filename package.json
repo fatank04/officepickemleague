@@ -12,13 +12,14 @@
     "db:push": "prisma db push",
     "db:studio": "prisma studio",
     "test": "npm run test:all",
-    "test:all": "npm run test:scoring && npm run test:brand && npm run test:ord && npm run test:admin && npm run test:voice && npm run test:loop",
+    "test:all": "npm run test:scoring && npm run test:brand && npm run test:ord && npm run test:admin && npm run test:voice && npm run test:loop && npm run test:messaging",
     "test:scoring": "tsx src/lib/scoring.test.ts",
     "test:brand": "tsx src/lib/brand.test.ts",
     "test:ord": "tsx src/lib/ord.test.ts",
     "test:admin": "tsx src/lib/admin.test.ts",
     "test:voice": "tsx src/lib/voice.test.ts",
-    "test:loop": "tsx src/lib/weekly-loop.test.ts"
+    "test:loop": "tsx src/lib/weekly-loop.test.ts",
+    "test:messaging": "tsx src/lib/messaging.test.ts"
   },
   "dependencies": {
     "@prisma/client": "^5.20.0",
