@@ -6,20 +6,70 @@ on:
     - cron: '0 17 * * 6'   # Sat 17:00 UTC — one weekly reminder to non-pickers
     - cron: '0 15 * * 2'   # Tue 15:00 UTC — weekly results + share cards
   workflow_dispatch: {}
+
+# A slow cold start shouldn't let the next hourly tick pile on top of this one.
+concurrency:
+  group: cron
+  cancel-in-progress: false
+
 jobs:
   ping:
     runs-on: ubuntu-latest
+    timeout-minutes: 8
     steps:
       - name: Hit cron endpoint
         env:
           BASE: ${{ vars.CRON_BASE_URL || 'https://officepickemleague.com' }}
           SECRET: ${{ secrets.CRON_SECRET }}
         run: |
+          set -euo pipefail
+
+          if [ -z "${SECRET}" ]; then
+            echo "::error::CRON_SECRET repo secret is empty. Add it under Settings → Secrets and variables → Actions, matching the CRON_SECRET env var in Render."
+            exit 1
+          fi
+
           case "${{ github.event.schedule }}" in
             "0 10 * * 3") P="/api/cron/pull-lines" ;;
             "0 17 * * 6") P="/api/cron/notify?type=reminder" ;;
             "0 15 * * 2") P="/api/cron/notify?type=results" ;;
             *)            P="/api/cron/grade" ;;
           esac
+
+          # The free Render instance sleeps after ~15 min idle and its edge returns 502s for
+          # up to ~50s while it spins back up. Warm it first (failures here are fine — the
+          # authed retry loop below is the real gate).
+          echo "Warming $BASE/ ..."
+          curl -sS --fail-with-body \
+               --retry 8 --retry-all-errors --retry-connrefused --retry-delay 6 \
+               --connect-timeout 10 --max-time 90 \
+               -o /dev/null "$BASE/" || echo "Warmup did not return 2xx yet; continuing."
+
+          # Call the cron endpoint. Retry transient cold-start responses (5xx / 408 / 429 /
+          # connection failures); fail fast on definitive errors (e.g. 401). Always print the
+          # status + body so a genuine failure is diagnosable instead of a silent exit.
           echo "Pinging $BASE$P"
-          curl -fsS -H "Authorization: Bearer $SECRET" "$BASE$P"
+          CODE=000
+          for i in $(seq 1 10); do
+            CODE=$(curl -sS --connect-timeout 10 --max-time 120 \
+                     -H "Authorization: Bearer $SECRET" \
+                     -o response.txt -w "%{http_code}" "$BASE$P" || true)
+            CODE=${CODE:-000}
+            echo "attempt $i → HTTP $CODE"
+            case "$CODE" in
+              2*)              break ;;
+              000|408|429|5*)  echo "transient; retrying in 8s"; sleep 8 ;;
+              *)               echo "non-transient HTTP $CODE; not retrying"; break ;;
+            esac
+          done
+
+          echo "----- response body -----"
+          cat response.txt 2>/dev/null || true
+          echo
+          echo "-------------------------"
+
+          case "$CODE" in
+            2*)      echo "Cron $P OK ($CODE)" ;;
+            401|403) echo "::error::Cron $P returned $CODE — the GitHub CRON_SECRET does not match Render's CRON_SECRET env var."; exit 1 ;;
+            *)       echo "::error::Cron $P returned HTTP $CODE after retries"; exit 1 ;;
+          esac
