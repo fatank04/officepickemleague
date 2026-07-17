@@ -10,9 +10,9 @@ export const dynamic = "force-dynamic";
 export default async function GamesPage({ params, searchParams }: { params: { slug: string }; searchParams: { week?: string } }) {
   const ctx = await current();
   if (!ctx || ctx.league.slug !== params.slug)
-    return <main style={{ padding: 24, color: "#eef", fontFamily: "system-ui" }}>Sign in to view.</main>;
+    return <div className="card pad muted">Sign in to view.</div>;
   if (!ctx.player.isCommish)
-    return <main style={{ padding: 24, color: "#eef", fontFamily: "system-ui" }}>Commissioner only.</main>;
+    return <div className="card pad muted">Commissioner only.</div>;
 
   const season = ctx.league.season;
   const week = Number(searchParams.week) || nflWeek(new Date());
@@ -31,11 +31,12 @@ export default async function GamesPage({ params, searchParams }: { params: { sl
   }));
 
   return (
-    <main style={{ padding: 24, color: "#eef3fa", fontFamily: "system-ui", maxWidth: 880, margin: "0 auto" }}>
-      <Link href={`/l/${ctx.league.slug}/admin`} style={{ color: "#7aa2ff", textDecoration: "none", fontSize: 13 }}>← Console</Link>
-      <h1 style={{ margin: "6px 0 2px" }}>Games &amp; scores</h1>
-      <p style={{ color: "#93a1bc", fontSize: 13, marginTop: 0 }}>Correct a final, regrade the week, or fix a missing line before kickoff. Standings recompute automatically.</p>
+    <>
+      <Link href={`/l/${ctx.league.slug}/admin`} className="muted small">← Console</Link>
+      <div className="app-kicker" style={{ marginTop: 6 }}>Commissioner</div>
+      <h2 style={{ margin: "0 0 2px" }}>Games &amp; scores</h2>
+      <p className="muted small" style={{ marginTop: 0 }}>Correct a final, regrade the week, or fix a missing line before kickoff. Standings recompute automatically.</p>
       <GamesClient slug={ctx.league.slug} week={week} weeks={weeks} rows={rows} />
-    </main>
+    </>
   );
 }

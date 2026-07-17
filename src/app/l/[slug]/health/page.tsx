@@ -5,14 +5,14 @@ import { isGameLocked } from "@/lib/lock";
 
 export const dynamic = "force-dynamic";
 
-const box: React.CSSProperties = { background: "#141c2e", border: "1px solid #2a3550", borderRadius: 12, padding: 16, margin: "10px 0" };
-const num: React.CSSProperties = { fontSize: 30, fontWeight: 700, color: "#4f8cff" };
-const mut: React.CSSProperties = { color: "#93a1bc", fontSize: 13 };
+const box: React.CSSProperties = { background: "var(--panel)", border: "1px solid var(--line)", borderRadius: 16, padding: 16, margin: "10px 0" };
+const num: React.CSSProperties = { fontSize: 30, fontWeight: 700, color: "var(--accent)", fontFamily: "var(--font-grotesk), sans-serif" };
+const mut: React.CSSProperties = { color: "var(--muted)", fontSize: 13 };
 
 export default async function HealthPage() {
   const ctx = await current();
-  if (!ctx) return <main style={{ padding: 24, color: "#eef" }}>Sign in to view.</main>;
-  if (!ctx.player.isCommish) return <main style={{ padding: 24, color: "#eef" }}>Commissioner only.</main>;
+  if (!ctx) return <div className="card pad muted">Sign in to view.</div>;
+  if (!ctx.player.isCommish) return <div className="card pad muted">Commissioner only.</div>;
 
   const leagueId = ctx.league.id;
   const season = ctx.league.season;
@@ -57,7 +57,7 @@ export default async function HealthPage() {
   const pct = (x: number) => `${Math.round(x * 100)}%`;
 
   return (
-    <main style={{ padding: 24, color: "#eef3fa", fontFamily: "system-ui", maxWidth: 820 }}>
+    <>
       <h1 style={{ fontSize: 22 }}>League health — {ctx.league.name}</h1>
 
       <div style={box}>
@@ -95,6 +95,6 @@ export default async function HealthPage() {
       </div>
 
       <p style={mut}>Read-only. Refresh to update. Commissioner-only.</p>
-    </main>
+    </>
   );
 }

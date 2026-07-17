@@ -156,7 +156,7 @@ export default async function PrintPage({ searchParams }: { searchParams: { doc?
         <div className="sheet" key={a.id}><div className="insert"><div className="top">
           <div className="ey">{lbl(a.company).toUpperCase()} · SEASON KICKOFF KIT</div>
           <h1>Floor to front office — everybody&apos;s in.</h1>
-          <p>The office football pool your <b>whole</b> team can actually play. No money. No app. Pick winners, spreads &amp; over/unders in <b>two minutes a week</b> — by text, web, or even a phone call. Grandpa in shipping and the VP of Finance, same league.</p>
+          <p>The office football pool your <b>whole</b> team can actually play. No money. No app. Pick winners, spreads &amp; over/unders in <b>two minutes a week</b> — by text, web, or even a phone call. Shipping and the VP of Finance, same league — and shipping is winning.</p>
           <div className="ready">We already built {a.company}&apos;s league. It&apos;s ready to launch.</div>
           <ul>
             <li><b>A rounding error.</b> A few dollars a head for the whole season — cheaper than one team lunch.</li>

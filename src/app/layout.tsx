@@ -26,7 +26,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary",
     title: "Office Pick'em League — the office pool everyone can play",
-    description: "No money, no app — the NFL pick'em game your whole workplace can play, from the floor to the front office.",
+    description: "No money, no app — the NFL pick'em game your whole workplace can play, night shift to nine-to-five.",
   },
 };
 

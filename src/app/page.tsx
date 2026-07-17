@@ -6,6 +6,8 @@ import PromoVideo from "@/components/PromoVideo";
 import LandingNav from "@/components/landing/LandingNav";
 import LandingFX from "@/components/landing/LandingFX";
 import HeroCanvas from "@/components/landing/HeroCanvas";
+import ModalityJourney from "@/components/landing/ModalityJourney";
+import { promoVideoJsonLd } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: { absolute: "Office Pick'em League — the office football pool everyone can play" },
@@ -25,7 +27,7 @@ const faqs: [string, string][] = [
   ],
   [
     "Do players need to download an app?",
-    "No app, ever. Everyone plays by text message, on the web, or even by a phone call — so it works for the shop floor and the front office alike, including folks who don't do apps.",
+    "No app, ever. Everyone plays by text message, on the web, by a quick phone call — or on paper: grab a sheet from the break-room stack, check your boxes, and text us a photo of it. We type it in for you and text your picks back to confirm. If you can send a text or answer the phone, you can play.",
   ],
   [
     "How much time does it take?",
@@ -33,11 +35,11 @@ const faqs: [string, string][] = [
   ],
   [
     "Do you have to know football?",
-    "No — picking a winner is something anyone can do, and the spread and over/under picks give football fans the depth they want. Leagues stay competitive from the floor to the front office all season.",
+    "No — picking a winner is something anyone can do, and the spread and over/under picks give football fans the depth they want. First-timers beat film junkies every single week — that's half the fun, and it keeps the whole building competitive all season.",
   ],
   [
     "What about people who never felt the office pool was for them?",
-    "That's exactly who this is built for. Nearly half of NFL fans are women, yet most fantasy leagues and money pools are overwhelmingly male — the old formats put a test at the door. Office Pick'em doesn't: no draft, no jargon, no buy-in, no permission needed, and the scoreboard is blind — picks are graded by the engine and standings don't care who you are. Your picks do the talking.",
+    "That's exactly who this is built for. Nearly half of NFL fans are women, and plenty of great players of every age have been sitting out — not for lack of interest, but because the old formats added gatekeeping nobody needed: drafts, jargon, buy-ins, insider cliques. Office Pick'em removes all of it. No draft, no jargon, no buy-in, no permission needed — and the scoreboard is blind. Picks are graded by the engine, standings only count results, and some of the best records every season belong to first-time players. Your picks do the talking.",
   ],
   [
     "How do coworkers join a league?",
@@ -88,16 +90,7 @@ export default function Home() {
           acceptedAnswer: { "@type": "Answer", text: a },
         })),
       },
-      {
-        "@type": "VideoObject",
-        name: "Office Pick'em League — Give them a season (30s)",
-        description:
-          "30-second spot: every fall the league returns. Pick on the web, by text, or a phone call — no money, no app, two minutes a week, from the loading dock to the front office.",
-        thumbnailUrl: "https://officepickemleague.com/promo-hero-poster.jpg",
-        contentUrl: "https://officepickemleague.com/promo-hero.mp4",
-        uploadDate: "2026-07-16",
-        duration: "PT34S",
-      },
+      promoVideoJsonLd,
     ],
   };
 
@@ -160,7 +153,7 @@ export default function Home() {
               <h3>Everyone joins their way</h3>
               <p>
                 Coworkers tap the link and play by text, on the web, or by phone call — no app, no email, no
-                password. From the shop floor to the front office, everybody&apos;s in.
+                password. Night shift or nine-to-five, everybody&apos;s in.
               </p>
             </div>
             <div className="ld-step">
@@ -171,6 +164,21 @@ export default function Home() {
                 trash.
               </p>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ===== Three ways in (interactive) ===== */}
+      <section className="ld-section" id="play">
+        <div className="ld-wrap">
+          <div className="ld-kicker" data-reveal>Four ways in</div>
+          <h2 className="ld-h2" data-reveal>Pick however you like. Confirm before it counts.</h2>
+          <p className="ld-lead" data-reveal>
+            Same league, same standings — by text, by a quick call, on the web, or on plain old paper.
+            Whichever you choose, your picks are echoed back to you and stay changeable until kickoff.
+          </p>
+          <div data-reveal>
+            <ModalityJourney />
           </div>
         </div>
       </section>
@@ -187,22 +195,20 @@ export default function Home() {
           <div className="ld-bento" data-reveal-group>
             <div className="ld-cell wide">
               <div className="glow" aria-hidden="true" />
-              <div className="ico">🎯</div>
-              <h3>Three ways to play</h3>
-              <p>Same league, same standings — everyone picks however they like.</p>
-              <div className="ld-modes">
-                <div className="ld-mode"><span className="tag">WEB</span> Sleek one-tap picks — save as you go, no login gymnastics</div>
-                <div className="ld-mode"><span className="tag">TEXT</span> Guided SMS: <code>&quot;1 SEA u&nbsp; 2 LAR o&nbsp; LOCK 1&quot;</code> and you&apos;re done</div>
-                <div className="ld-mode"><span className="tag">CALL</span> Dial in and talk to the AI — it reads the lines, you say your picks</div>
-              </div>
-            </div>
-            <div className="ld-cell wide">
-              <div className="glow" aria-hidden="true" />
               <div className="ico">⚙️</div>
               <h3>Commissioner autopilot</h3>
               <p>
                 Lines load themselves, games lock at kickoff, ESPN finals grade every pick, weekly recap texts go
                 out on their own. Running the league is a two-minute-a-week job with a fancy title.
+              </p>
+            </div>
+            <div className="ld-cell wide">
+              <div className="glow" aria-hidden="true" />
+              <div className="ico">✅</div>
+              <h3>Nothing locks unseen</h3>
+              <p>
+                Text, call, web, or paper sheet — every pick is echoed back to you before kickoff makes it final.
+                Check your card anytime; no surprises on Sunday.
               </p>
             </div>
             <div className="ld-cell">

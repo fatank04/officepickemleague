@@ -106,6 +106,10 @@ export default function EnrollForm({
         {err && <div style={{ color: "#ff7a7a", marginBottom: 10, fontSize: 13 }}>{err}</div>}
         <button style={btn} disabled={busy}>{busy ? "Setting you up…" : "Text me my games"}</button>
         <p style={{ textAlign: "center", fontSize: 12.5, color: "var(--muted)", margin: "12px 0 0" }}>Always free to play — no app, no charges, ever.</p>
+        <p style={{ textAlign: "center", fontSize: 12.5, color: "var(--muted)", margin: "10px 0 0", lineHeight: 1.5 }}>
+          Rather skip texting? <a href={`/signin/${slug}`} style={{ color: accent }}>Play on the web</a> with just a name and PIN.
+          <br />Same league either way — text, web, phone call, or a paper sheet in the break room.
+        </p>
       </form>
     </div></div>
   );

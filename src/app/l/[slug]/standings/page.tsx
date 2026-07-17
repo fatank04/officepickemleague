@@ -18,7 +18,8 @@ export default async function StandingsPage() {
     const colorOf = (id: string) => view.rows.find((r) => r.playerId === id)?.color ?? "#4f8cff";
     return (
       <>
-        <h2>Playoffs</h2>
+        <div className="app-kicker">League</div>
+        <h2 style={{ marginTop: 0 }}>Playoffs</h2>
         <p className="muted small">
           Weeks {league.seasonStart}–{Math.min(league.playoffStart - 1, league.seasonEnd)} seed the bracket; top {league.playoffTeams} advance.
           Title = seed bonus ((teams − seed) × {league.seedStep}) + playoff points.
@@ -65,14 +66,15 @@ export default async function StandingsPage() {
   const top3 = view.rows.slice(0, 3);
   return (
     <>
-      <h2>Standings</h2>
+      <div className="app-kicker">League</div>
+      <h2 style={{ marginTop: 0 }}>Standings</h2>
       <p className="muted small">Season-long race, Weeks {league.seasonStart}–{league.seasonEnd}. Tiebreaker: The Gauntlet.</p>
       <ShareButton slug={league.slug} pid={meId} />
       {top3.length === 3 && (
         <div className="podium">
-          <div className="stand p2"><div className="muted">🥈</div><div className="nm">{top3[1].name}</div><div className="pts">{top3[1].pts} pts</div></div>
-          <div className="stand p1"><div className="muted">🥇</div><div className="nm">{top3[0].name}</div><div className="pts">{top3[0].pts} pts</div></div>
-          <div className="stand p3"><div className="muted">🥉</div><div className="nm">{top3[2].name}</div><div className="pts">{top3[2].pts} pts</div></div>
+          <div className="stand p2">{av(top3[1].name, top3[1].color)}<div className="muted">🥈</div><div className="nm">{top3[1].name}</div><div className="pts">{top3[1].pts} pts</div></div>
+          <div className="stand p1">{av(top3[0].name, top3[0].color)}<div className="muted">🥇</div><div className="nm">{top3[0].name}</div><div className="pts">{top3[0].pts} pts</div></div>
+          <div className="stand p3">{av(top3[2].name, top3[2].color)}<div className="muted">🥉</div><div className="nm">{top3[2].name}</div><div className="pts">{top3[2].pts} pts</div></div>
         </div>
       )}
       <div className="card">

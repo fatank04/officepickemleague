@@ -47,10 +47,30 @@ export default function PicksClient(props: {
     return c;
   };
 
+  const madeSlots = props.games.reduce((s, g) => s + (g.su ? 1 : 0) + (g.ats ? 1 : 0) + (g.ou ? 1 : 0), 0);
+  const totalSlots = props.games.length * 3;
+  // Show the lock GAME (matchup), not an inferred side — the star can be set before any pick.
+  const lockLabel = (() => {
+    const lg = props.games.find((g) => g.powerRank === 0);
+    return lg ? `${lg.awayAbbr}@${lg.homeAbbr}` : null;
+  })();
+
   return (
     <>
       <div className="hero">
-        <span className="hero-line">Floor to front office — <em>everybody&apos;s in.</em></span>
+        <div className="app-kicker">Week {props.week}</div>
+        <span className="hero-line">Everybody&apos;s in — <em>night shift to nine-to-five.</em></span>
+        {totalSlots > 0 && (
+          <div style={{ marginTop: 12, maxWidth: 380 }}>
+            <div className="spread small" style={{ marginBottom: 5 }}>
+              <span className="muted">Your card</span>
+              <span className="b" style={{ color: "var(--accent)" }}>{madeSlots}/{totalSlots} picks made</span>
+            </div>
+            <div className="progress" aria-hidden="true">
+              <div className="fill" style={{ width: `${totalSlots ? Math.round((madeSlots / totalSlots) * 100) : 0}%` }} />
+            </div>
+          </div>
+        )}
       </div>
       <details className="card pad" style={{ marginBottom: 12 }}>
         <summary style={{ cursor: "pointer", fontWeight: 600 }}>🆕 New here? How it works (30 sec)</summary>
@@ -83,25 +103,6 @@ export default function PicksClient(props: {
           {allLocked ? "🔒 all games locked" : `● ${props.submittedN}/${props.playersN} submitted`}
         </span>
       </div>
-
-      {props.anyOpen && (
-        <div className="card pad spread">
-          {props.submitted ? (
-            <>
-              <div>
-                <div className="b" style={{ color: "var(--accent)" }}>✅ Picks are in. Now go talk your trash.</div>
-                <div className="muted small" style={{ marginTop: 4 }}>🔒 Your card is locked — hit Undo to change anything before kickoff.</div>
-              </div>
-              <button className="btn ghost" disabled={busy} onClick={undo} aria-label="Undo submission and edit my picks">↩ Undo — let me fix my picks</button>
-            </>
-          ) : (
-            <>
-              <div className="muted small b">💾 Picks save as you tap and count once saved — each game locks at kickoff. Sending locks your card early.</div>
-              <button className="btn" disabled={busy} onClick={submit} aria-label="Lock in my picks for this week">🚀 Send my picks</button>
-            </>
-          )}
-        </div>
-      )}
 
       {props.games.map((g, i) => {
         const ed = editableGame(g);
@@ -167,6 +168,28 @@ export default function PicksClient(props: {
 
       {props.games.length === 0 && (
         <div className="card pad muted">No games posted for this week yet — the lines go up midweek. Check back soon.</div>
+      )}
+
+      {props.anyOpen && (
+        <div className="pickbar pad spread">
+          {props.submitted ? (
+            <>
+              <div>
+                <div className="b" style={{ color: "var(--accent)" }}>✅ Card sent — {madeSlots}/{totalSlots} picks in. Go talk your trash.</div>
+                <div className="muted small" style={{ marginTop: 4 }}>🔒 Locked early by you — Undo reopens it any time before kickoff.</div>
+              </div>
+              <button className="btn ghost" disabled={busy} onClick={undo} aria-label="Undo submission and edit my picks">↩ Undo — fix my picks</button>
+            </>
+          ) : (
+            <>
+              <div>
+                <div className="b small">💾 {madeSlots}/{totalSlots} picked{lockLabel ? <> · 🔒 Lock: <b style={{ color: "var(--gold)" }}>{lockLabel}</b></> : null} — saved as you tap.</div>
+                <div className="muted small" style={{ marginTop: 3 }}>Every pick stays changeable until its game kicks off. Sending locks your card early.</div>
+              </div>
+              <button className="btn" disabled={busy} onClick={submit} aria-label="Lock in my picks for this week">🚀 Send my picks</button>
+            </>
+          )}
+        </div>
       )}
     </>
   );

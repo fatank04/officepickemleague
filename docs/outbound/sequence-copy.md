@@ -40,7 +40,7 @@ Quick one, {{firstName}} —
 
 Gallup's engagement research says top-quartile teams run +23% profitability, +18%
 productivity, and 63% fewer safety incidents. Nobody's claiming a football pool does all
-that by itself. But eighteen weeks of the plant floor and the front office talking trash
+that by itself. But eighteen weeks of dispatch and the corner office talking trash
 in the same standings? That's the cheapest engagement line item you'll buy this year —
 most companies spend $100–500 per employee on team-building that nobody remembers by Friday.
 

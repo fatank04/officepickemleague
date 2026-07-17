@@ -11,8 +11,12 @@ Cuts land on the music accent grid (re-measured for this track section at assemb
 
 ## VO (Sterling, speech_rate -15 / pitch -3 / loudness +10)
 - OPEN  @2.0s: "Every fall... something's missing on the floor. Then... it returns."
-- BODY  @14.2s: "Pick on the web. Text 'em in. Or just call — our AI answers. Everyone locks in,
-  from the loading dock to the front office. No money. No app. Two minutes a week."
+- BODY  @11.9s (v2, 2026-07-17): "Pick on the web. Text 'em in. Or just call — say your picks,
+  hear your final card read back, done. No money, no app, two minutes a week — and everybody's in."
+  (v1 "our AI answers… loading dock to the front office" superseded per tone rules: the call is a
+  two-way conversational agent with confirmation, never "talk to an AI"; merism varied. v1 audio
+  kept as narration-hero-body-v1-superseded.mp3. The v2 B2C cut's "even Doris is in" line also
+  violates the Doris-always-wins rule — cutA/cutB v2 audio is superseded for any future use.)
 - BUTTON @27.5s: "Office Pick'em League. Give them a season."  ← reuse narration-v3-cutB-button.mp3
 
 ## Shotlist

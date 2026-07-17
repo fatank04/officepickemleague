@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import PromoVideo from "@/components/PromoVideo";
+import { promoVideoJsonLd } from "@/lib/seo";
 
 export const metadata: Metadata = {
   title: { absolute: "Pricing — Office Pick'em League" },
@@ -17,17 +18,7 @@ const tiers = [
   { name: "Enterprise", size: "1,000+ / multi-site", founding: "Let's talk", standard: "Custom" },
 ];
 
-const videoJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "VideoObject",
-  name: "Office Pick'em League — Give them a season (30s)",
-  description:
-    "30-second spot: every fall the league returns. Pick on the web, by text, or a phone call — no money, no app, two minutes a week, from the loading dock to the front office.",
-  thumbnailUrl: "https://officepickemleague.com/promo-hero-poster.jpg",
-  contentUrl: "https://officepickemleague.com/promo-hero.mp4",
-  uploadDate: "2026-07-16",
-  duration: "PT34S",
-};
+const videoJsonLd = { "@context": "https://schema.org", ...promoVideoJsonLd };
 
 export default function PricingPage() {
   return (

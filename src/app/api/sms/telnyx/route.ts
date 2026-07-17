@@ -34,7 +34,13 @@ export async function POST(req: Request) {
   const text = payload?.text ?? "";
   if (!from) return new Response("", { status: 200 });
 
-  const reply = await handleInboundSms(from, text);
+  const mediaUrls: string[] = (Array.isArray(payload?.media) ? payload.media : [])
+    .map((m: any) => m?.url)
+    .filter((u: any) => typeof u === "string");
+  const reply = await handleInboundSms(
+    from, text, new Date(),
+    mediaUrls.length ? { urls: mediaUrls, provider: "telnyx" } : undefined
+  );
   // Reply is best-effort: a hard failure (e.g. carrier-level opt-out after STOP) shouldn't 500 the webhook.
   if (reply) { try { await sendSms(from, reply); } catch { /* swallow */ } }
   return new Response("", { status: 200 });

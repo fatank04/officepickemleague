@@ -1,5 +1,6 @@
 // Run: npx tsx src/lib/messaging.test.ts
 import {
+  displaySmsNumber,
   resolveProviderKey,
   buildTwilioOpts,
   buildTelnyxRequest,
@@ -65,6 +66,12 @@ truthy("telnyx configured", isSmsConfigured({ SMS_PROVIDER: "telnyx", TELNYX_API
 eq("status reports active provider",
   smsProviderStatus({ SMS_PROVIDER: "telnyx", TELNYX_API_KEY: "K", TELNYX_FROM_NUMBER: "+1855" }),
   { provider: "telnyx", configured: true });
+
+// ---- display number follows the active provider ----
+eq("display: explicit override wins", displaySmsNumber({ NEXT_PUBLIC_SMS_NUMBER: "(412) 555-0100", TELNYX_FROM_NUMBER: "+1999" }), "(412) 555-0100");
+eq("display: telnyx provider number", displaySmsNumber({ SMS_PROVIDER: "telnyx", TELNYX_FROM_NUMBER: "+1888" }), "+1888");
+eq("display: tollfree falls back to from", displaySmsNumber({ SMS_PROVIDER: "twilio-tollfree", TWILIO_FROM_NUMBER: "+1777" }), "+1777");
+eq("display: nothing configured -> null", displaySmsNumber({}), null);
 
 console.log(`\n${pass} passed, ${fail} failed`);
 if (fail) process.exit(1);

@@ -28,6 +28,13 @@ export async function POST(req: Request) {
     return new Response("SMS not configured", { status: 503 });
   }
 
-  const reply = await handleInboundSms(params["From"] || "", params["Body"] || "");
+  const numMedia = parseInt(params["NumMedia"] || "0", 10) || 0;
+  const mediaUrls = Array.from({ length: numMedia }, (_, i) => params[`MediaUrl${i}`]).filter(Boolean);
+  const reply = await handleInboundSms(
+    params["From"] || "",
+    params["Body"] || "",
+    new Date(),
+    mediaUrls.length ? { urls: mediaUrls, provider: "twilio" } : undefined
+  );
   return twiml(reply);
 }

@@ -94,6 +94,19 @@ export function smsProviderStatus(env: Env = process.env): { provider: SmsProvid
   return { provider: resolveProviderKey(env), configured: isSmsConfigured(env) };
 }
 
+/**
+ * The phone number to SHOW humans (printed sheets, UI). Follows the active provider's
+ * sending number so it can't silently diverge from the number that receives texts;
+ * NEXT_PUBLIC_SMS_NUMBER acts only as an explicit display override (e.g. a pretty format).
+ */
+export function displaySmsNumber(env: Env = process.env): string | null {
+  if (env.NEXT_PUBLIC_SMS_NUMBER) return env.NEXT_PUBLIC_SMS_NUMBER;
+  const key = resolveProviderKey(env);
+  if (key === "telnyx") return env.TELNYX_FROM_NUMBER || null;
+  if (key === "twilio-tollfree") return env.TWILIO_TOLLFREE_NUMBER || env.TWILIO_FROM_NUMBER || null;
+  return env.TWILIO_FROM_NUMBER || null;
+}
+
 // ---- Send ----
 
 /**

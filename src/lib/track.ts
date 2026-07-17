@@ -6,7 +6,7 @@ export type EventInput = {
   playerId?: string;
   season?: number;
   week?: number;
-  channel?: "web" | "sms" | "voice" | "email";
+  channel?: "web" | "sms" | "voice" | "email" | "sheet";
   meta?: Record<string, unknown>;
 };
 

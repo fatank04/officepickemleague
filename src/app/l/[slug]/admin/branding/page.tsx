@@ -7,16 +7,17 @@ export const dynamic = "force-dynamic";
 export default async function BrandingPage({ params }: { params: { slug: string } }) {
   const ctx = await current();
   if (!ctx || ctx.league.slug !== params.slug)
-    return <main style={{ padding: 24, color: "#eef", fontFamily: "system-ui" }}>Sign in to view.</main>;
+    return <div className="card pad muted">Sign in to view.</div>;
   if (!ctx.player.isCommish)
-    return <main style={{ padding: 24, color: "#eef", fontFamily: "system-ui" }}>Commissioner only.</main>;
+    return <div className="card pad muted">Commissioner only.</div>;
 
   const l = ctx.league as any;
   return (
-    <main style={{ padding: 24, color: "#eef3fa", fontFamily: "system-ui", maxWidth: 720, margin: "0 auto" }}>
-      <Link href={`/l/${ctx.league.slug}/admin`} style={{ color: "#7aa2ff", textDecoration: "none", fontSize: 13 }}>← Console</Link>
-      <h1 style={{ margin: "6px 0 2px" }}>Branding &amp; prizes</h1>
-      <p style={{ color: "#93a1bc", fontSize: 13, marginTop: 0 }}>How your league looks to players, and what they&apos;re playing for.</p>
+    <>
+      <Link href={`/l/${ctx.league.slug}/admin`} className="muted small">← Console</Link>
+      <div className="app-kicker" style={{ marginTop: 6 }}>Commissioner</div>
+      <h2 style={{ margin: "0 0 2px" }}>Branding &amp; prizes</h2>
+      <p className="muted small" style={{ marginTop: 0 }}>How your league looks to players, and what they&apos;re playing for.</p>
       <BrandingClient
         initial={{
           name: ctx.league.name,
@@ -26,6 +27,6 @@ export default async function BrandingPage({ params }: { params: { slug: string 
           logoUrl: l.logoUrl ?? "",
         }}
       />
-    </main>
+    </>
   );
 }

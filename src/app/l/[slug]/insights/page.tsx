@@ -85,7 +85,8 @@ export default async function InsightsPage() {
 
   return (
     <>
-      <h2>Insights</h2>
+      <div className="app-kicker">Your season</div>
+      <h2 style={{ marginTop: 0 }}>Insights</h2>
       <p className="muted small">Your season so far — how you&apos;re playing, and how it stacks up against the league.</p>
 
       <div className="card pad">
@@ -104,8 +105,8 @@ export default async function InsightsPage() {
             { n: best ? `${best.pts}` : "—", l: best ? `best week (W${best.w})` : "best week" },
             { n: `${me.pts ?? 0}`, l: behind > 0 ? `${behind} behind leader` : "league leader" },
           ].map((s, i) => (
-            <div key={i} style={{ background: "var(--panel2)", border: `1px solid ${LN}`, borderRadius: 12, padding: "12px 12px" }}>
-              <div className="b" style={{ fontSize: 22, color: A }}>{s.n}</div>
+            <div key={i} className="stat-tile">
+              <div className="n">{s.n}</div>
               <div className="muted small" style={{ marginTop: 2, lineHeight: 1.3 }}>{s.l}</div>
             </div>
           ))}
@@ -150,7 +151,7 @@ export default async function InsightsPage() {
             <div key={key} style={{ marginTop: 14 }}>
               <div className="spread" style={{ marginBottom: 6 }}>
                 <span className="b" style={{ color: col }}>{label}</span>
-                <span className="small" style={{ color: MU }}><b style={{ color: TX }}>{mine[key].c}/{mine[key].n}</b> · {mp}% · {ord(cr)} of {N}</span>
+                <span className="small" style={{ color: MU }}><b style={{ color: TX }}>{mine[key].c}/{mine[key].n}</b> · {mp}% · {cr > 0 ? `${ord(cr)} of ${N}` : "unranked"}</span>
               </div>
               <div style={{ position: "relative", height: 12, background: "var(--panel2)", border: `1px solid ${LN}`, borderRadius: 999 }}>
                 <div style={{ position: "absolute", top: 0, bottom: 0, left: 0, width: `${mp}%`, background: col, opacity: 0.85, borderRadius: 999 }} />

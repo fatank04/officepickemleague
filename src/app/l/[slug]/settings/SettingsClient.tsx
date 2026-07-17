@@ -44,7 +44,8 @@ export default function SettingsClient({ slug, league, games }: { slug: string; 
 
   return (
     <>
-      <h2>Settings</h2>
+      <div className="app-kicker">Commissioner</div>
+      <h2 style={{ marginTop: 0 }}>Settings</h2>
       <p className="muted small">Commissioner only. Set these before the season — they stay constant all year.</p>
 
       <div className="card pad">
