@@ -11,7 +11,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   const { account } = await getKit(params.slug);
   const label = /pick'?em/i.test(account.company) ? account.company : `${account.company} Pick'em`;
   const title = `${label} — your league is ready`;
-  const description = `Your whole team's office football pool, pre-built. No money, no app — pick in two minutes a week by text, web, or phone. Tap to launch ${label}.`;
+  const description = `Your whole team's office football pool, pre-built. No money, no app — pick in two minutes a week by text, web, phone, or paper. Tap to launch ${label}.`;
   return { title, description, openGraph: { title, description, type: "website" }, twitter: { card: "summary_large_image", title, description } };
 }
 

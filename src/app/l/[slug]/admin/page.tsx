@@ -28,7 +28,7 @@ export default async function AdminHome({ params }: { params: { slug: string } }
     { href: `/l/${league.slug}/admin/roster`, ico: "👥", t: "Roster", d: "Add/remove players, reset PINs, manage commissioners, resend text invites." },
     { href: `/l/${league.slug}/admin/games`, ico: "🏈", t: "Games & scores", d: "Correct a final score, regrade a week, fix a missing line before kickoff." },
     { href: `/l/${league.slug}/admin/branding`, ico: "🎨", t: "Branding & prizes", d: "League name, accent color, the prize players are competing for, welcome note." },
-    { href: `/l/${league.slug}/health`, ico: "📈", t: "Engagement & health", d: "Opt-in %, weekly-active, retention, and how many play by web / text / phone." },
+    { href: `/l/${league.slug}/health`, ico: "📈", t: "Engagement & health", d: "Opt-in %, weekly-active, retention, and how many play by web / text / phone / paper." },
     { href: `/l/${league.slug}/admin/sheets`, ico: "📄", t: "Paper pick sheets", d: "Print the weekly stack for the break room — players check boxes, snap a photo, text it in." },
   ];
 

@@ -81,7 +81,7 @@ export default async function HealthPage() {
 
       {channels.length > 0 && (
         <div style={box}>
-          <div style={mut}>CHANNEL MIX (picks saved) — your text/voice moat</div>
+          <div style={mut}>CHANNEL MIX (picks saved) — your text/voice/paper moat</div>
           {channels.map((c) => <div key={c.channel ?? "?"}>{c.channel ?? "web"}: <b>{c.n}</b></div>)}
         </div>
       )}

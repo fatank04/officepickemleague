@@ -65,7 +65,7 @@ export default function PricingPage() {
 
       <div className="card pad" style={{ marginTop: 12, fontSize: 14, lineHeight: 1.6 }}>
         <div style={{ fontWeight: 700, marginBottom: 6 }}>Every league includes</div>
-        The full NFL season game (winners, spreads, over/unders, Power Picks) · play by <b>web, text, or phone call</b> — no app ·
+        The full NFL season game (winners, spreads, over/unders, Power Picks) · play by <b>web, text, phone call, or paper sheet</b> — no app ·
         automatic scoring, grading &amp; standings · commissioner console with roster tools, custom branding &amp; prize board ·
         weekly reminder &amp; results texts once your league&apos;s texting is live.
       </div>

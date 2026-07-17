@@ -12,7 +12,7 @@ import { promoVideoJsonLd } from "@/lib/seo";
 export const metadata: Metadata = {
   title: { absolute: "Office Pick'em League — the office football pool everyone can play" },
   description:
-    "A no-money, HR-safe NFL pick'em game for workplaces. No app, no buy-ins — your whole team picks winners, spreads & over/unders in two minutes a week, by web, text, or a phone call.",
+    "A no-money, HR-safe NFL pick'em game for workplaces. No app, no buy-ins — your whole team picks winners, spreads & over/unders in two minutes a week, by web, text, phone call, or paper sheet.",
   alternates: { canonical: "/" },
 };
 
@@ -74,7 +74,7 @@ export default function Home() {
         operatingSystem: "Web, SMS",
         url: "https://officepickemleague.com",
         description:
-          "A no-money, HR-safe NFL pick'em game for workplaces. No app, no buy-ins — teams pick winners, spreads and over/unders in two minutes a week by web, text, or phone call.",
+          "A no-money, HR-safe NFL pick'em game for workplaces. No app, no buy-ins — teams pick winners, spreads and over/unders in two minutes a week by web, text, phone call, or paper sheet.",
         offers: {
           "@type": "Offer",
           price: "400",
@@ -113,7 +113,7 @@ export default function Home() {
           </h1>
           <p className="ld-sub" data-reveal>
             No money, no app — your whole team picks winners, spreads &amp; over/unders in two minutes a
-            week. By web, by text, or by a phone call.
+            week. By web, by text, by phone call — or on paper.
           </p>
           <div className="ld-cta-row" data-reveal>
             <a href="#start" className="btn blue lg" data-magnetic>Start your league — free</a>
@@ -152,8 +152,8 @@ export default function Home() {
               <div className="num">02</div>
               <h3>Everyone joins their way</h3>
               <p>
-                Coworkers tap the link and play by text, on the web, or by phone call — no app, no email, no
-                password. Night shift or nine-to-five, everybody&apos;s in.
+                Coworkers tap the link and play by text, on the web, by phone call — or on a paper sheet from
+                the break room. No app, no email, no password. Night shift or nine-to-five, everybody&apos;s in.
               </p>
             </div>
             <div className="ld-step">
@@ -168,7 +168,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ===== Three ways in (interactive) ===== */}
+      {/* ===== Four ways in (interactive) ===== */}
       <section className="ld-section" id="play">
         <div className="ld-wrap">
           <div className="ld-kicker" data-reveal>Four ways in</div>

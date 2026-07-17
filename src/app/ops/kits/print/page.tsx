@@ -156,12 +156,12 @@ export default async function PrintPage({ searchParams }: { searchParams: { doc?
         <div className="sheet" key={a.id}><div className="insert"><div className="top">
           <div className="ey">{lbl(a.company).toUpperCase()} · SEASON KICKOFF KIT</div>
           <h1>Floor to front office — everybody&apos;s in.</h1>
-          <p>The office football pool your <b>whole</b> team can actually play. No money. No app. Pick winners, spreads &amp; over/unders in <b>two minutes a week</b> — by text, web, or even a phone call. Shipping and the VP of Finance, same league — and shipping is winning.</p>
+          <p>The office football pool your <b>whole</b> team can actually play. No money. No app. Pick winners, spreads &amp; over/unders in <b>two minutes a week</b> — by text, web, a phone call — or plain old paper. Shipping and the VP of Finance, same league — and shipping is winning.</p>
           <div className="ready">We already built {a.company}&apos;s league. It&apos;s ready to launch.</div>
           <ul>
             <li><b>A rounding error.</b> A few dollars a head for the whole season — cheaper than one team lunch.</li>
             <li><b>No procurement, no IT, no contract.</b> Founding Season is flat by company size, locked 3 seasons, money-back guaranteed.</li>
-            <li><b>Everyone plays — for real.</b> Frontline crews who&apos;ll never open an app play by text or a phone call.</li>
+            <li><b>Everyone plays — for real.</b> Frontline crews who&apos;ll never open an app play by text, a phone call, or a paper sheet off the break-room stack.</li>
           </ul>
           <div className="cta"><span className="big">You&apos;re the commissioner{a.contact ? `, ${a.contact}` : ""}. Scan the football — set up in 60 seconds.</span><span className="url">{shortUrl(a.slug)}</span></div>
           <p style={{ fontSize: "9pt", color: "#888", marginTop: 14 }}>Founding Season: from $400 by company size · locked 3 seasons · money-back. Players never pay. {team} season starts now.</p>

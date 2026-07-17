@@ -14,13 +14,13 @@ export const metadata: Metadata = {
     default: "Office Pick'em League — the office pool everyone can play",
     template: "%s · Office Pick'em League",
   },
-  description: "A no-money, no-install NFL prediction game your whole team can play in two minutes a week — by web, text, or a phone call.",
+  description: "A no-money, no-install NFL prediction game your whole team can play in two minutes a week — by web, text, phone call, or even a paper sheet.",
   keywords: ["office football pool", "NFL pick'em", "office pickem league", "workplace pick'em", "no-money football pool", "employee engagement game", "HR-safe office pool"],
   openGraph: {
     type: "website",
     siteName: "Office Pick'em League",
     title: "Office Pick'em League — the office pool everyone can play",
-    description: "No money, no app — your whole team picks winners, spreads & over/unders in two minutes a week. By web, text, or a phone call.",
+    description: "No money, no app — your whole team picks winners, spreads & over/unders in two minutes a week. By web, text, phone call, or paper sheet.",
     url: "https://officepickemleague.com",
   },
   twitter: {

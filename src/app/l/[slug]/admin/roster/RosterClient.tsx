@@ -89,7 +89,7 @@ export default function RosterClient({ slug, rows }: { slug: string; rows: Roste
             onChange={(e) => setNewName(e.target.value)} onKeyDown={(e) => e.key === "Enter" && add()} />
           <button style={btn} disabled={busy === "add" || !newName.trim()} onClick={add}>{busy === "add" ? "Adding…" : "Add"}</button>
         </div>
-        <div style={{ color: "#93a1bc", fontSize: 12, marginTop: 6 }}>Creates a web PIN to share. For text/voice play, send them the join link so they consent themselves.</div>
+        <div style={{ color: "#93a1bc", fontSize: 12, marginTop: 6 }}>Creates a web PIN to share. For text, voice, or paper play, send them the join link so they consent themselves.</div>
       </div>
 
       <div style={box}>
