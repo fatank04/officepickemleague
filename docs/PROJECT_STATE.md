@@ -42,16 +42,21 @@ Updated 2026-07-07. EIN is in hand, dated 7/7/2026 → can submit the Standard b
 
 ---
 
-## GTM — $1,500 staged envelope (kits stage-gated, not killed)
+## GTM — $1,500 fused funnel (v2, rebuilt 2026-07-17 — SUPERSEDES the staged envelope)
 
-- ~$300 for 100 branded footballs now (3–4 week lead time).
-- ~$150 for 25 Pittsburgh first-wave kits.
-- ~$125 enrichment.
-- $550 geo-social flight (synced to the kit window).
-- $0 PR.
-- ~$350 gated reserve. Release triggers: ≥2 demos or 1 pilot from the 25 kits → fund wave 2; social CPL ≤$40 → shift budget to ads.
-- Doc: `07-gtm/gtm-1500-budget-plan-2026-07-01.md`.
-- Note: the GTM motion is the dimensional-mail KIT + geo-social + local PR, Pittsburgh-first. The old "postcard → 400–500 buyers" framing is dead — see CANONICAL_FACTS.
+- **Canonical doc: `docs/outbound/gtm-plan.md`** + the four playbooks beside it
+  (apollo-icp-spec, refinement-schema, sequence-copy, metrics-sheet, kit-and-call-playbook).
+- Goal: **5–10 leagues LIVE by Sept 9** (activation, not signed checks — free to start).
+  Motion: three concentric rings, one offer ("free to start, I set it up myself"):
+  Ring 1 = 20 full-size football kits + calls + LinkedIn (~$560) · Ring 2 = 30 mini kits +
+  calls (~$330) · Ring 3 = cold email ~1,000–1,500 contacts (~$300 stack) · phone ~$35 ·
+  gated reserve ~$275 (trigger: ≥2 leagues or ≥4 hot convos from the 50 kits).
+- **DEAD, evidence-based — do not resurrect:** the $550 geo-social flight (Meta learning-phase
+  math: sub-$600 B2B flights are structurally too small), Sales Navigator, the 14–21-day
+  warmup assumption (2026 floor is 30 days), and demo-first CTAs (offer-CTAs win decisively).
+- Footballs ship in 3–7 days, not the old "3–4 week" assumption; minis have 100-unit
+  minimums (extras = wave-2 stock). Old `07-gtm/gtm-1500-budget-plan-2026-07-01.md` is
+  historical only.
 
 ---
 
