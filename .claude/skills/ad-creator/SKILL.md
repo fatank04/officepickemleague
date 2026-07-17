@@ -105,6 +105,28 @@ render final chunks.
 `EDIT-PLAN.md` (timeline, scripts, beat grid, shotlist), and the assembly script (re-render =
 one command). Vertical 9:16 derivative = re-crop, zero generation cost.
 
+## Alternate video provider: Seedance 2.0 via OpenRouter (verified 2026-07)
+- `POST https://openrouter.ai/api/v1/videos` (Bearer key), model `bytedance/seedance-2.0`,
+  ~$0.067/sec (5s 720p ≈ $0.34). i2v via `frame_images:[{type:"image_url",image_url:{url},
+  frame_type:"first_frame"}]`. Async: poll `polling_url`, download `/videos/{id}/content?index=0`.
+  Persist submitted job ids to a state file — a crashed poller loses billed jobs otherwise.
+  Working generator: `promo-assets/seedance-generate.py` (resumable, key from
+  ~/.config/openrouter/key, never in the repo).
+- **Face filter:** ByteDance REJECTS i2v keyframes containing realistic frontal faces
+  (`InputImageSensitiveContentDetected.PrivacyInformation`). Distant/turned faces pass.
+  Plan people close-ups as t2v on Seedance, or keep faces small in keyframes.
+- **UI screens on Seedance:** arc/orbit moves force a 3D re-render that hallucinates the UI
+  outright (invented logos, garbled layout). A planar slow push-in preserves LARGE text
+  (headlines/banners) but dense small UI text still mutates over 5s ("week"→"weak",
+  "Winners"→"Wniers") — verified with a matched-keyframe retry. Kling 3.0 held the same
+  frames pixel-true under both moves. Rule: real UI/dense text → Kling; Seedance only for
+  big-type frames, and check the LAST second of the clip, not just the middle (drift
+  accumulates over duration).
+- **Brand marks:** Seedance restyles logos toward the scene's aesthetic (e.g. flat app icon
+  → neon sign); Kling reproduces them flatly. If strict mark fidelity matters, prefer Kling
+  for the packshot or composite the logo in post.
+- Seedance output is 24fps ~5.04s for a "5s" request; normalize with fps=25 in assembly.
+
 ## Refuted claims — do NOT use
 - "Brand lift happens in <1 second" (Facebook/Nielsen figure — failed verification).
 - "Start/end-frame control is new in Kling 3.0" (existed earlier).
