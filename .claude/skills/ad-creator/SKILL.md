@@ -125,6 +125,13 @@ one command). Vertical 9:16 derivative = re-crop, zero generation cost.
 - **Brand marks:** Seedance restyles logos toward the scene's aesthetic (e.g. flat app icon
   → neon sign); Kling reproduces them flatly. If strict mark fidelity matters, prefer Kling
   for the packshot or composite the logo in post.
+- **Kling drifts on dense UI too (verified 2026-07-17):** a leaderboard screenshot's large
+  heading mutated from frame one across two Kling i2v attempts. When a UI shot's text must be
+  pixel-true, skip AI generation entirely: ffmpeg Ken Burns (`-loop 1` + `zoompan`) on the
+  hi-res screenshot gives a deterministic push-in, $0, always legible. Reserve i2v for UI
+  shots where an organic arc/parallax matters more than every glyph.
+- **Recapture pipeline:** app footage comes from Playwright recordings against a seeded local
+  DB (see capture script pattern) — segments retimed with setpts to match chapter maps.
 - Seedance output is 24fps ~5.04s for a "5s" request; normalize with fps=25 in assembly.
 
 ## Refuted claims — do NOT use
