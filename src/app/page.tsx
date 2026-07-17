@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Brand } from "@/components/Brand";
 import HomeForm from "@/components/HomeForm";
 import WalkthroughTease from "@/components/WalkthroughTease";
+import PromoVideo from "@/components/PromoVideo";
 
 export const metadata: Metadata = {
   title: { absolute: "Office Pick'em League — the office football pool everyone can play" },
@@ -69,6 +70,16 @@ export default function Home() {
           acceptedAnswer: { "@type": "Answer", text: a },
         })),
       },
+      {
+        "@type": "VideoObject",
+        name: "Office Pick'em League — Give them a season (30s)",
+        description:
+          "30-second spot: every fall the league returns. Pick on the web, by text, or a phone call — no money, no app, two minutes a week, from the loading dock to the front office.",
+        thumbnailUrl: "https://officepickemleague.com/promo-hero-poster.jpg",
+        contentUrl: "https://officepickemleague.com/promo-hero.mp4",
+        uploadDate: "2026-07-16",
+        duration: "PT34S",
+      },
     ],
   };
 
@@ -125,6 +136,7 @@ export default function Home() {
             seasons, with a midseason money-back guarantee.
           </p>
         </div>
+        <PromoVideo caption="30 seconds: what your team gets this fall." />
       </section>
 
       <section style={{ marginTop: 26, marginBottom: 8 }}>
