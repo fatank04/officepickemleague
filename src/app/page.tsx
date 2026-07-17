@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Brand } from "@/components/Brand";
 import HomeForm from "@/components/HomeForm";
 import WalkthroughTease from "@/components/WalkthroughTease";
 import PromoVideo from "@/components/PromoVideo";
+import LandingNav from "@/components/landing/LandingNav";
+import LandingFX from "@/components/landing/LandingFX";
+import HeroCanvas from "@/components/landing/HeroCanvas";
 
 export const metadata: Metadata = {
   title: { absolute: "Office Pick'em League — the office football pool everyone can play" },
@@ -41,6 +43,22 @@ const faqs: [string, string][] = [
     "How do coworkers join a league?",
     "The commissioner shares one invite link. Each player enters a name and phone number (or just a name and PIN on the web) and they're in — no email, no password, no app.",
   ],
+];
+
+const ticker = [
+  <>WEEK 6 · <b>DISPATCH</b> TAKES THE LEAD</>,
+  <>DORIS: <b>8–2</b> · NOBODY KNOWS HOW</>,
+  <>FLOOR <b>210</b> — FRONT OFFICE <b>198</b></>,
+  <>NO MONEY · NO APP · <b>2 MIN A WEEK</b></>,
+  <>LOCK OF THE WEEK: <b>THE INTERN</b></>,
+  <>KICKOFF <b>SEPT 9</b> · FOUNDING SEASON OPEN</>,
+];
+
+const tiers = [
+  { name: "Starter", size: "Up to 50 employees", founding: "$400", standard: "$750" },
+  { name: "Team", size: "Up to 150 employees", founding: "$900", standard: "$1,800" },
+  { name: "Company", size: "Up to 400 employees", founding: "$1,900", standard: "$3,900" },
+  { name: "Large", size: "Up to 1,000 employees", founding: "$3,750", standard: "$7,500" },
 ];
 
 export default function Home() {
@@ -84,69 +102,227 @@ export default function Home() {
   };
 
   return (
-    <div className="wrap" style={{ maxWidth: 640 }}>
+    <div className="ld-page">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <LandingNav />
+      <LandingFX />
 
-      <div style={{ textAlign: "center", margin: "30px 0 18px" }}>
-        <div style={{ display: "inline-block" }}>
-          <Brand />
+      {/* ===== Hero ===== */}
+      <section className="ld-hero">
+        <HeroCanvas />
+        <div className="ld-hero-glow" aria-hidden="true" />
+        <div className="ld-wrap">
+          <div className="ld-chip" data-reveal>
+            🏈 <b>Founding Season 2026</b> · Kickoff Sept 9 · first 50 companies
+          </div>
+          <h1 className="ld-h1" data-reveal>
+            The office football pool <em>everyone</em> can play.
+          </h1>
+          <p className="ld-sub" data-reveal>
+            No money, no app — your whole team picks winners, spreads &amp; over/unders in two minutes a
+            week. By web, by text, or by a phone call.
+          </p>
+          <div className="ld-cta-row" data-reveal>
+            <a href="#start" className="btn blue lg" data-magnetic>Start your league — free</a>
+            <Link href="/pricing" className="btn ghost lg">See pricing</Link>
+          </div>
+          <div className="ld-hero-media" data-reveal>
+            <PromoVideo />
+          </div>
         </div>
-        <h1 style={{ fontSize: 20, margin: "14px 0 6px" }}>The office football pool everyone can play.</h1>
-        <p className="muted" style={{ margin: 0 }}>
-          No money, no app — pick winners, spreads &amp; over/unders in two minutes a week. By web, text, or a phone call.
-        </p>
-      </div>
-
-      <div style={{ maxWidth: 460, margin: "0 auto" }}>
-        <HomeForm />
-      </div>
-
-      <WalkthroughTease />
-
-      <section style={{ marginTop: 36 }}>
-        <h2 style={{ fontSize: 17 }}>How it works</h2>
-        <div className="card pad" style={{ lineHeight: 1.6, fontSize: 14 }}>
-          <p style={{ margin: "0 0 10px" }}>
-            <b>1. Start your league (2 minutes).</b> Name it, set a PIN, done. You get one invite link for your whole team.
-          </p>
-          <p style={{ margin: "0 0 10px" }}>
-            <b>2. Everyone joins their way.</b> Coworkers tap your link and play by text, on the web, or by phone call — no app,
-            no email, no password. From the shop floor to the front office, everybody&apos;s in.
-          </p>
-          <p style={{ margin: 0 }}>
-            <b>3. Two minutes a week, all season.</b> Pick winners, spreads &amp; over/unders. Games lock at kickoff, scores grade
-            themselves, standings update automatically. You just talk trash.
-          </p>
+        <div className="ld-ticker" aria-hidden="true">
+          <div className="ld-ticker-track">
+            {[0, 1].map((dup) => (
+              <span key={`set-${dup}`}>
+                {ticker.map((t, i) => (
+                  <span key={i}>{t}</span>
+                ))}
+              </span>
+            ))}
+          </div>
         </div>
       </section>
 
-      <section style={{ marginTop: 26 }}>
-        <h2 style={{ fontSize: 17 }}>For HR, owners &amp; office managers</h2>
-        <div className="card pad" style={{ lineHeight: 1.6, fontSize: 14 }}>
-          <p style={{ margin: "0 0 10px" }}>
-            Office Pick&apos;em is the <b>anti-gambling</b> office game: no buy-ins, no pots, no cash — so it clears the policies a
-            money pool never will, and nobody&apos;s left out over ten bucks. It&apos;s employee engagement your whole workforce actually
-            wants, built for deskless teams in football towns — Pittsburgh, Buffalo, Cleveland, Cincinnati, and beyond. And it&apos;s
-            the <b>great equalizer</b>: nearly half of NFL fans are women, but you&apos;d never know it from the average office pool.
-            Here the scoreboard is blind — no draft-room gatekeeping, no test at the door, just picks that do the talking.
-          </p>
-          <p style={{ margin: 0 }}>
-            <b>Always free for players.</b> Employers pay one flat seasonal rate —{" "}
-            <Link href="/pricing" style={{ color: "var(--accent, #1ed47a)" }}>Founding Season from $400</Link>, locked for three
-            seasons, with a midseason money-back guarantee.
-          </p>
+      {/* ===== How it works ===== */}
+      <section className="ld-section" id="how">
+        <div className="ld-wrap">
+          <div className="ld-kicker" data-reveal>How it works</div>
+          <h2 className="ld-h2" data-reveal>Two minutes to start. Two minutes a week to play.</h2>
+          <p className="ld-lead" data-reveal>One person sets it up. Everyone else just picks.</p>
+          <div className="ld-steps" data-reveal-group>
+            <div className="ld-step">
+              <div className="num">01</div>
+              <h3>Start your league</h3>
+              <p>Name it, set a PIN, done — about two minutes. You get one invite link for your whole team.</p>
+            </div>
+            <div className="ld-step">
+              <div className="num">02</div>
+              <h3>Everyone joins their way</h3>
+              <p>
+                Coworkers tap the link and play by text, on the web, or by phone call — no app, no email, no
+                password. From the shop floor to the front office, everybody&apos;s in.
+              </p>
+            </div>
+            <div className="ld-step">
+              <div className="num">03</div>
+              <h3>The season runs itself</h3>
+              <p>
+                Picks lock at kickoff, scores grade themselves, standings update automatically. You just talk
+                trash.
+              </p>
+            </div>
+          </div>
         </div>
-        <PromoVideo caption="30 seconds: what your team gets this fall." />
       </section>
 
-      <section style={{ marginTop: 26, marginBottom: 8 }}>
-        <h2 style={{ fontSize: 17 }}>Common questions</h2>
-        {faqs.map(([q, a]) => (
-          <details className="card pad" key={q} style={{ marginBottom: 8 }}>
-            <summary style={{ cursor: "pointer", fontWeight: 600, fontSize: 14 }}>{q}</summary>
-            <p className="muted" style={{ marginTop: 8, fontSize: 13.5, lineHeight: 1.55 }}>{a}</p>
-          </details>
-        ))}
+      {/* ===== Features bento ===== */}
+      <section className="ld-section" id="features">
+        <div className="ld-wrap">
+          <div className="ld-kicker" data-reveal>Features</div>
+          <h2 className="ld-h2" data-reveal>Built for the whole building.</h2>
+          <p className="ld-lead" data-reveal>
+            Most pools die because half the office can&apos;t — or won&apos;t — use the tool. This one meets
+            people where they are.
+          </p>
+          <div className="ld-bento" data-reveal-group>
+            <div className="ld-cell wide">
+              <div className="glow" aria-hidden="true" />
+              <div className="ico">🎯</div>
+              <h3>Three ways to play</h3>
+              <p>Same league, same standings — everyone picks however they like.</p>
+              <div className="ld-modes">
+                <div className="ld-mode"><span className="tag">WEB</span> Sleek one-tap picks — save as you go, no login gymnastics</div>
+                <div className="ld-mode"><span className="tag">TEXT</span> Guided SMS: <code>&quot;1 SEA u&nbsp; 2 LAR o&nbsp; LOCK 1&quot;</code> and you&apos;re done</div>
+                <div className="ld-mode"><span className="tag">CALL</span> Dial in and talk to the AI — it reads the lines, you say your picks</div>
+              </div>
+            </div>
+            <div className="ld-cell wide">
+              <div className="glow" aria-hidden="true" />
+              <div className="ico">⚙️</div>
+              <h3>Commissioner autopilot</h3>
+              <p>
+                Lines load themselves, games lock at kickoff, ESPN finals grade every pick, weekly recap texts go
+                out on their own. Running the league is a two-minute-a-week job with a fancy title.
+              </p>
+            </div>
+            <div className="ld-cell">
+              <div className="glow" aria-hidden="true" />
+              <div className="ico">🏆</div>
+              <h3>Standings that talk</h3>
+              <p>Live leaderboard with a weekly podium — perfect for the break-room TV.</p>
+            </div>
+            <div className="ld-cell">
+              <div className="glow" aria-hidden="true" />
+              <div className="ico">📊</div>
+              <h3>Insights</h3>
+              <p>Accuracy by pick type, streaks, and how you stack up against the league average.</p>
+            </div>
+            <div className="ld-cell">
+              <div className="glow" aria-hidden="true" />
+              <div className="ico">🛡️</div>
+              <h3>HR-safe by design</h3>
+              <p>No buy-ins, no pots, no cash — clears the policies a money pool never will.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ===== Proof (in lieu of testimonials — pre-launch, no fabricated quotes) ===== */}
+      <section className="ld-section">
+        <div className="ld-wrap">
+          <div className="ld-proof" data-reveal>
+            <div className="ld-kicker">Why engagement is worth buying</div>
+            <h2 className="ld-h2">The math your CFO already believes.</h2>
+            <div className="ld-stats">
+              <div className="ld-stat">
+                <div className="n" data-countup="23" data-prefix="+" data-suffix="%">+23%</div>
+                <div className="l">profitability — top-quartile engaged teams</div>
+              </div>
+              <div className="ld-stat">
+                <div className="n" data-countup="18" data-prefix="+" data-suffix="%">+18%</div>
+                <div className="l">productivity</div>
+              </div>
+              <div className="ld-stat">
+                <div className="n" data-countup="63" data-suffix="%">63%</div>
+                <div className="l">fewer safety incidents</div>
+              </div>
+            </div>
+            <p className="ld-lead" style={{ margin: "10px auto 0", textAlign: "center" }}>
+              Companies spend $100–500 per employee a year on team-building nobody remembers by Friday. Eighteen
+              weeks of the plant floor and the front office in the same standings — they&apos;ll remember that.
+            </p>
+            <div className="ld-cite">Engagement outcomes: Gallup Q12 meta-analysis (11th ed.), top vs. bottom quartile. Team-building spend: SPIN research.</div>
+          </div>
+        </div>
+      </section>
+
+      {/* ===== Product tour ===== */}
+      <section className="ld-section">
+        <div className="ld-wrap" data-reveal>
+          <div className="ld-kicker">See it</div>
+          <h2 className="ld-h2">Take the 30-second tour.</h2>
+          <WalkthroughTease />
+        </div>
+      </section>
+
+      {/* ===== Pricing teaser ===== */}
+      <section className="ld-section" id="pricing">
+        <div className="ld-wrap">
+          <div className="ld-kicker" data-reveal>Pricing</div>
+          <h2 className="ld-h2" data-reveal>One flat rate. Players never pay.</h2>
+          <p className="ld-lead" data-reveal>
+            Founding Season 2026 — about half off the standard rate, <b style={{ color: "var(--text)" }}>locked for
+            three seasons</b>, with a Week-8 money-back guarantee.
+          </p>
+          <div className="ld-tiers" data-reveal-group>
+            {tiers.map((t) => (
+              <div className="ld-tier" key={t.name}>
+                <div className="t">{t.name}</div>
+                <div className="s">{t.size}</div>
+                <div className="p">{t.founding}</div>
+                <div className="std">{t.standard}</div>
+                <div className="per">per season</div>
+              </div>
+            ))}
+          </div>
+          <div style={{ textAlign: "center" }} data-reveal>
+            <Link href="/pricing" className="btn ghost">Full pricing &amp; guarantee →</Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ===== FAQ ===== */}
+      <section className="ld-section" id="faq">
+        <div className="ld-wrap" style={{ maxWidth: 720 }}>
+          <div className="ld-kicker" data-reveal>FAQ</div>
+          <h2 className="ld-h2" data-reveal>Common questions</h2>
+          <div data-reveal-group style={{ marginTop: 18 }}>
+            {faqs.map(([q, a]) => (
+              <details className="card pad" key={q} style={{ marginBottom: 8 }}>
+                <summary style={{ cursor: "pointer", fontWeight: 600, fontSize: 14 }}>{q}</summary>
+                <p className="muted" style={{ marginTop: 8, fontSize: 13.5, lineHeight: 1.55 }}>{a}</p>
+              </details>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ===== Final CTA ===== */}
+      <section className="ld-final" id="start">
+        <div className="ld-hero-glow" aria-hidden="true" />
+        <div className="ld-wrap">
+          <div className="ld-kicker" data-reveal>Founding Season 2026</div>
+          <h2 className="ld-h1" style={{ fontSize: "clamp(30px,5vw,46px)" }} data-reveal>
+            Give them a <em>season</em>.
+          </h2>
+          <p className="ld-sub" data-reveal>
+            Kickoff is September 9. Set your league up now — it takes two minutes, and the first week&apos;s
+            picks text themselves out.
+          </p>
+          <div className="ld-final-form" data-reveal>
+            <HomeForm />
+          </div>
+        </div>
       </section>
     </div>
   );
