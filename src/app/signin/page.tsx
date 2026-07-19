@@ -18,7 +18,7 @@ export default function SignInLanding() {
         <Link href="/" style={{ display: "inline-block" }}><Brand /></Link>
       </div>
       <div className="card pad">
-        <h2 style={{ marginTop: 0 }}>Sign in to your league</h2>
+        <h1 style={{ marginTop: 0, fontSize: 24 }}>Sign in to your league</h1>
         <p className="muted small" style={{ marginTop: 0 }}>
           Each league has its own sign-in link. Yours came in your welcome text or email and looks
           like <b>officepickemleague.com/signin/your-league</b>. Paste it below, or just type your
