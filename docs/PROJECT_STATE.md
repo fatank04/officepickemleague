@@ -60,6 +60,15 @@ Updated 2026-07-07. EIN is in hand, dated 7/7/2026 → can submit the Standard b
 
 ---
 
+## Hosting — Render for now; edge migration is an off-season project (decided 2026-07-19)
+
+- **Current:** Render **free** web service (Next.js `next start`), plus a **UptimeRobot** 5-min HTTP monitor keeping the dyno warm (free tier spins down after ~15 min idle → ~50s cold start). Plan: flip to Render **Starter ($7/mo, always-on)** at launch if spin-down starts hurting real traffic. Cron runs via GitHub Actions (CRON_SECRET set, green).
+- **Evaluated Cloudflare Workers and Deno Deploy as cheaper no-spin-down alternatives — DEFERRED, do not migrate before the 2026 season.** Both are **edge V8-isolate runtimes, not Node** — moving there is a *port*, not a host swap: (a) Prisma needs the Neon **driver adapter** (`@prisma/adapter-neon` + `driverAdapters`) since the query-engine binary won't run on isolates; (b) the Telnyx **Ed25519 webhook verification uses Node `crypto`** → rewrite to WebCrypto/`SubtleCrypto`; (c) Buffer/MMS-media handling, voice/IVR webhooks, and cron endpoints all need re-testing on the new runtime.
+- **Cloudflare vs Deno verdict:** if we ever migrate, **Cloudflare (`@opennextjs/cloudflare`) is the more proven Next.js edge target**; free tier no-spin-down, paid **$5/mo**. **Deno Deploy is weaker for this app** — Next.js-on-Deno is far less proven, smaller ecosystem, platform mid-transition (Deploy EA/v2), paid historically higher (~$20). Deno's one edge is broader Node-API compat (the crypto rewrite would hurt less).
+- **Why defer:** the spin-down we'd be fixing is **gated by Telnyx** (only bites once live SMS/voice traffic flows — not live yet), so there's no urgent problem, and a port 7 weeks from kickoff competes with the real priorities (Telnyx appeal, kits, warmup) for zero launch benefit. **Trigger to revisit:** off-season (post-Sept, ideally post-2026-season) — port + test webhooks properly, then bank the no-spin-down-free + cheaper-paid economics with no launch risk.
+
+---
+
 ## Housekeeping
 
 - **Delete test data:** "ZZ Test League" (slug `zz-test-league-68nr`), plus players "ZZ Test Commish" and "ZZ Test Player". ("ZZ Nobody Test" in the demo league was a confirm-step test only, never created.)
