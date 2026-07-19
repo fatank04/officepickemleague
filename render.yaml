@@ -11,7 +11,10 @@ services:
     autoDeploy: true
     healthCheckPath: /
     # postinstall runs `prisma generate`; then push schema, seed (idempotent), build.
-    buildCommand: npm install && npx prisma db push && node scripts/seed.js && npm run build
+    # `prisma db push` uses the DIRECT (non-pooled) Neon endpoint, which auto-suspends on
+    # free tier — a build landing on a cold DB throws P1001. Retry up to 5× (48s) to let
+    # Neon resume before failing the deploy.
+    buildCommand: npm install && (n=0; until npx prisma db push; do n=$((n+1)); [ "$n" -ge 5 ] && exit 1; echo "prisma db push failed; retry $n/4 in 12s (Neon cold start?)"; sleep 12; done) && node scripts/seed.js && npm run build
     startCommand: npm run start
     envVars:
       - key: NODE_VERSION
