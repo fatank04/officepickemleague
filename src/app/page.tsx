@@ -10,9 +10,9 @@ import ModalityJourney from "@/components/landing/ModalityJourney";
 import { promoVideoJsonLd } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  title: { absolute: "Office Pick'em League — the office football pool everyone can play" },
+  title: { absolute: "Office Pick'em League — the workplace football pool for employee engagement" },
   description:
-    "A no-money, HR-safe NFL pick'em game for workplaces. No app, no buy-ins — your whole team picks winners, spreads & over/unders in two minutes a week, by web, text, or paper sheet.",
+    "The no-money, HR-safe NFL pick'em game employers run for employee engagement. Companies pay one flat seasonal rate; players never pay. No app, no buy-ins — your whole team picks winners, spreads & over/unders in two minutes a week, by web, text, or paper sheet.",
   alternates: { canonical: "/" },
 };
 
@@ -112,13 +112,16 @@ export default function Home() {
             The office football pool <em>everyone</em> can play.
           </h1>
           <p className="ld-sub" data-reveal>
-            No money, no app — your whole team picks winners, spreads &amp; over/unders in two minutes a
-            week. By web, by text, or on paper.
+            The employee-engagement game companies run all season — no money, no app. Your whole team,
+            floor to front office, picks winners, spreads &amp; over/unders in two minutes a week by web, text, or paper.
           </p>
           <div className="ld-cta-row" data-reveal>
             <a href="#start" className="btn blue lg" data-magnetic>Start your league — free</a>
             <Link href="/pricing" className="btn ghost lg">See pricing</Link>
           </div>
+          <p className="muted small" data-reveal style={{ margin: "14px 0 0", letterSpacing: ".2px" }}>
+            An employee-engagement benefit for companies of 20–1,000 · the employer sponsors the season · <b style={{ color: "var(--text)" }}>players never pay a cent</b>
+          </p>
           <div className="ld-hero-media" data-reveal>
             <PromoVideo />
           </div>

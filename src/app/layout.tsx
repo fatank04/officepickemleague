@@ -11,16 +11,16 @@ const grotesk = Space_Grotesk({ subsets: ["latin"], weight: ["500", "600", "700"
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL || "https://officepickemleague.com"),
   title: {
-    default: "Office Pick'em League — the office pool everyone can play",
+    default: "Office Pick'em League — workplace football pool for employee engagement",
     template: "%s · Office Pick'em League",
   },
-  description: "A no-money, no-install NFL prediction game your whole team can play in two minutes a week — by web, text, or even a paper sheet.",
+  description: "The no-money, HR-safe NFL pick'em game employers run for employee engagement. Companies pay a flat seasonal rate; players never pay. Your whole team plays in two minutes a week — by web, text, or even a paper sheet.",
   keywords: ["office football pool", "NFL pick'em", "office pickem league", "workplace pick'em", "no-money football pool", "employee engagement game", "HR-safe office pool"],
   openGraph: {
     type: "website",
     siteName: "Office Pick'em League",
-    title: "Office Pick'em League — the office pool everyone can play",
-    description: "No money, no app — your whole team picks winners, spreads & over/unders in two minutes a week. By web, text, or paper sheet.",
+    title: "Office Pick'em League — workplace football pool for employee engagement",
+    description: "The employee-engagement game employers run all season. No money, no app — your whole team picks winners, spreads & over/unders in two minutes a week. By web, text, or paper sheet.",
     url: "https://officepickemleague.com",
   },
   twitter: {
