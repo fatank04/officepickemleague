@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { LegalPage } from "@/components/Legal";
 import { LEGAL } from "@/lib/legal";
-export const metadata: Metadata = { title: "Terms of Service — Office Pick'em League" };
+export const metadata: Metadata = { title: { absolute: "Terms of Service — Office Pick'em League" } };
 const C = LEGAL.companyName;
 export default function Terms() {
   return <LegalPage title="Terms of Service" sections={[
