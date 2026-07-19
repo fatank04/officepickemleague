@@ -66,7 +66,7 @@ export default function KitClient({
       <div className="card pad">
         <div className="muted small b" style={{ marginBottom: 8, letterSpacing: 0.6 }}>WHAT YOUR TEAM GETS</div>
         <div className="row" style={{ gap: 10, marginBottom: 6 }}><span>⏱️</span> Pick in two minutes a week</div>
-        <div className="row" style={{ gap: 10, marginBottom: 6 }}><span>💬</span> Play by text, web, phone call — or a paper sheet</div>
+        <div className="row" style={{ gap: 10, marginBottom: 6 }}><span>💬</span> Play by text, web — or a paper sheet</div>
         <div className="row" style={{ gap: 10 }}><span>🚫</span> Players never pay — no app, no buy-in</div>
       </div>
 

@@ -26,7 +26,7 @@ CAN-SPAM footer on every send: real physical mailing address + one-line opt-out
 money changes hands, and somebody in HR quietly has a heart attack.
 
 Office Pick'em League keeps the fun and takes out the money. No buy-ins, no app — your whole
-crew picks winners by text, on the web, by phone call, or on a paper sheet in the break room.
+crew picks winners by text, on the web, or on a paper sheet in the break room.
 Two minutes a week. {{personalLine}}
 
 It's free to start — no card, no contract. I do the setup myself; you forward one link.

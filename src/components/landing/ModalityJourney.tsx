@@ -2,8 +2,10 @@
 import { useState } from "react";
 
 /**
- * Interactive "four ways in" section: tabbed mock conversations showing the
- * real journey for TEXT, CALL, WEB, and PAPER — each ending in a visible confirmation,
+ * Interactive "three ways in" section: tabbed mock conversations showing the
+ * real journey for the three base ways — TEXT, WEB, PAPER — plus CALL, the concierge
+ * phone line offered as a premium add-on (tab kept last, labelled as such). Each ends
+ * in a visible confirmation,
  * because the promise is: nothing counts until you've seen your picks echoed back.
  * Animations are pure CSS keyframes (compositor-safe); switching tabs remounts
  * the panel (React key) so the sequence replays. Reduced motion: static.
@@ -12,9 +14,9 @@ type Mode = "text" | "call" | "web" | "paper";
 
 const tabs: { id: Mode; label: string; sub: string }[] = [
   { id: "text", label: "Text", sub: "like texting a friend" },
-  { id: "call", label: "Call", sub: "a quick conversation" },
   { id: "web", label: "Web", sub: "one tap per pick" },
   { id: "paper", label: "Paper", sub: "check, snap, text" },
+  { id: "call", label: "Call", sub: "concierge add-on" },
 ];
 
 export default function ModalityJourney() {
@@ -79,7 +81,8 @@ export default function ModalityJourney() {
           </div>
           <p className="ld-mj-caption">
             A simple two-way conversation. Say your picks in plain words, hear your final list read back,
-            and confirm — nothing counts until you say so.
+            and confirm — nothing counts until you say so. The concierge phone line is an optional add-on
+            for teams that want call-in play.
           </p>
         </div>
       )}

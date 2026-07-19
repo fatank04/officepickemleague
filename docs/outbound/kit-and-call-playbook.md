@@ -31,7 +31,7 @@ follow-up call is half a kit — budget assumes founder calls on all 50.
 > **This football is a job application.**
 > I'd like to run {{company}}'s office football pool this season — the kind with no money,
 > no app, and everybody in it. Winners, spreads, over/unders — two minutes a week, by web,
-> by text, by phone call, or on paper sheets like the ones in this box (check boxes, snap a
+> by text, or on paper sheets like the ones in this box (check boxes, snap a
 > photo, text it in — that's a real way to play).
 > **It's free to start.** I do the setup; you forward one link to the crew.
 > [QR → officepickemleague.com/?utm_source=kit1] · [TEXT-TO-JOIN LINE — only if Telnyx VERIFIED]
@@ -53,7 +53,7 @@ follow-up call is half a kit — budget assumes founder calls on all 50.
   Did it land on your desk?" *(pause — this line does all the work)*
 - **The pitch (15 seconds):** "It wasn't a stunt — I want to run your office football pool
   this season. No money in it, no app, whole crew plays two minutes a week — text, web,
-  phone, or those paper sheets in the box. Free to start, and I do the setup myself.
+  or those paper sheets in the box. Free to start, and I do the setup myself.
   Want me to have {{company}}'s league live before kickoff?"
 - **Yes →** get roster size + how the crew communicates; build the league SAME DAY; send the
   invite link + commissioner cheat sheet; offer to print their real Week-1 sheets.

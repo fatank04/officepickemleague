@@ -65,9 +65,22 @@ export default function PricingPage() {
 
       <div className="card pad" style={{ marginTop: 12, fontSize: 14, lineHeight: 1.6 }}>
         <div style={{ fontWeight: 700, marginBottom: 6 }}>Every league includes</div>
-        The full NFL season game (winners, spreads, over/unders, Power Picks) · play by <b>web, text, phone call, or paper sheet</b> — no app ·
-        automatic scoring, grading &amp; standings · commissioner console with roster tools, custom branding &amp; prize board ·
-        weekly reminder &amp; results texts once your league&apos;s texting is live.
+        The full NFL season game (winners, spreads, over/unders, Power Picks) · play by <b>web, text, or paper sheet</b> — no app ·
+        automatic scoring, grading &amp; standings · commissioner console with roster tools, your league&apos;s name, colors, logo &amp; prize board ·
+        weekly reminder &amp; results texts.
+        <div className="muted small" style={{ marginTop: 8, lineHeight: 1.5 }}>
+          Web play works day one. Text features — reminders, pick-by-text, and texting in a paper photo — switch on once your league&apos;s messaging is verified, typically within the first weeks.
+        </div>
+      </div>
+
+      <div className="card pad" style={{ marginTop: 12, fontSize: 14, lineHeight: 1.6 }}>
+        <div style={{ fontWeight: 700, marginBottom: 6 }}>Premium add-ons</div>
+        Optional upgrades on any tier — talk to us:
+        <ul style={{ margin: "8px 0 0", paddingLeft: 18 }}>
+          <li><b>Concierge phone line</b> — call-in play with a conversational voice agent.</li>
+          <li><b>Multi-department / multi-site</b> — separate or combined sub-league standings.</li>
+          <li><b>White-label</b> — your own domain, our marks removed, co-branded paper sheets.</li>
+        </ul>
       </div>
 
       <div className="card pad" style={{ marginTop: 12, textAlign: "center" }}>
@@ -82,7 +95,7 @@ export default function PricingPage() {
       </div>
 
       <p className="muted small center" style={{ marginTop: 14 }}>
-        Nonprofits &amp; schools: 30% off. Multi-department leagues, custom branding, and pick-by-phone concierge available as add-ons.
+        Nonprofits &amp; schools: 30% off. Enterprise (1,000+ / multi-site): let&apos;s talk.
       </p>
     </div>
   );

@@ -12,7 +12,7 @@ import { promoVideoJsonLd } from "@/lib/seo";
 export const metadata: Metadata = {
   title: { absolute: "Office Pick'em League — the office football pool everyone can play" },
   description:
-    "A no-money, HR-safe NFL pick'em game for workplaces. No app, no buy-ins — your whole team picks winners, spreads & over/unders in two minutes a week, by web, text, phone call, or paper sheet.",
+    "A no-money, HR-safe NFL pick'em game for workplaces. No app, no buy-ins — your whole team picks winners, spreads & over/unders in two minutes a week, by web, text, or paper sheet.",
   alternates: { canonical: "/" },
 };
 
@@ -27,7 +27,7 @@ const faqs: [string, string][] = [
   ],
   [
     "Do players need to download an app?",
-    "No app, ever. Everyone plays by text message, on the web, by a quick phone call — or on paper: grab a sheet from the break-room stack, check your boxes, and text us a photo of it. We type it in for you and text your picks back to confirm. If you can send a text or answer the phone, you can play.",
+    "No app, ever. Everyone plays by text message, on the web, or on paper: grab a sheet from the break-room stack, check your boxes, and text us a photo of it. We type it in for you and text your picks back to confirm. If you can send a text, you can play. And if some folks would rather call in their picks, a concierge phone line is available as an add-on.",
   ],
   [
     "How much time does it take?",
@@ -74,7 +74,7 @@ export default function Home() {
         operatingSystem: "Web, SMS",
         url: "https://officepickemleague.com",
         description:
-          "A no-money, HR-safe NFL pick'em game for workplaces. No app, no buy-ins — teams pick winners, spreads and over/unders in two minutes a week by web, text, phone call, or paper sheet.",
+          "A no-money, HR-safe NFL pick'em game for workplaces. No app, no buy-ins — teams pick winners, spreads and over/unders in two minutes a week by web, text, or paper sheet.",
         offers: {
           "@type": "Offer",
           price: "400",
@@ -113,7 +113,7 @@ export default function Home() {
           </h1>
           <p className="ld-sub" data-reveal>
             No money, no app — your whole team picks winners, spreads &amp; over/unders in two minutes a
-            week. By web, by text, by phone call — or on paper.
+            week. By web, by text, or on paper.
           </p>
           <div className="ld-cta-row" data-reveal>
             <a href="#start" className="btn blue lg" data-magnetic>Start your league — free</a>
@@ -152,7 +152,7 @@ export default function Home() {
               <div className="num">02</div>
               <h3>Everyone joins their way</h3>
               <p>
-                Coworkers tap the link and play by text, on the web, by phone call — or on a paper sheet from
+                Coworkers tap the link and play by text, on the web, or on a paper sheet from
                 the break room. No app, no email, no password. Night shift or nine-to-five, everybody&apos;s in.
               </p>
             </div>
@@ -168,14 +168,15 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ===== Four ways in (interactive) ===== */}
+      {/* ===== Three ways in (interactive) ===== */}
       <section className="ld-section" id="play">
         <div className="ld-wrap">
-          <div className="ld-kicker" data-reveal>Four ways in</div>
+          <div className="ld-kicker" data-reveal>Three ways in</div>
           <h2 className="ld-h2" data-reveal>Pick however you like. Confirm before it counts.</h2>
           <p className="ld-lead" data-reveal>
-            Same league, same standings — by text, by a quick call, on the web, or on plain old paper.
+            Same league, same standings — by text, on the web, or on plain old paper.
             Whichever you choose, your picks are echoed back to you and stay changeable until kickoff.
+            Prefer to call in? A concierge phone line is available as an add-on.
           </p>
           <div data-reveal>
             <ModalityJourney />
@@ -207,7 +208,7 @@ export default function Home() {
               <div className="ico">✅</div>
               <h3>Nothing locks unseen</h3>
               <p>
-                Text, call, web, or paper sheet — every pick is echoed back to you before kickoff makes it final.
+                Text, web, or paper sheet — every pick is echoed back to you before kickoff makes it final.
                 Check your card anytime; no surprises on Sunday.
               </p>
             </div>
