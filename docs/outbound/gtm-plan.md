@@ -14,10 +14,10 @@ asks cut replies ~44%.)
 
 | Ring | Who | Touch | Cost |
 |---|---|---|---|
-| 1 | Top 20 hand-picked accounts | Full-size football kit → call → LinkedIn | ~$560 |
+| 1 | Top 20 hand-picked accounts | Full-size football kit → call → Facebook | ~$560 |
 | 2 | Next 30 accounts | Mini-football kit → call | ~$330 |
 | 3 | Rest of qualified metro (~1,000–1,500 contacts) | Cold email, offer-CTA | ~$300 stack |
-| — | Free layer | Founder calls (8–9a/4–5p windows) + manual LinkedIn (10–15 req/wk, kit recipients only) | ~$35 phone |
+| — | Free layer | Founder calls (8–9a/4–5p windows) + Facebook-organic (groups + DMs, ~30 min/day — facebook-organic-playbook.md) | ~$35 phone |
 
 ## Budget ($1,500)
 
@@ -33,8 +33,11 @@ asks cut replies ~44%.)
 - **Paid geo-social ($550 → $0).** Meta needs ~50 conversions/wk to exit learning ≈ $2k/wk at
   real B2B CPLs. $550 ≈ 285 clicks at an audience Meta can't optimize toward. Structurally too
   small — not a "test," a donation.
-- **Sales Navigator ($99/mo → $0).** Apollo covers targeting at 50–100 accounts. LinkedIn is a
-  free manual second-touch on kit recipients; persona under-indexes there (expect 10–20% accepts).
+- **LinkedIn — both tiers ($99/mo Sales Navigator AND the free manual layer → $0).** Apollo
+  already covers targeting, and this blue-collar owner persona under-indexes on LinkedIn.
+  Replaced by **Facebook-organic** (groups + friend requests + DMs) — where these owners
+  actually are, $0, founder-time (~30 min/day). See facebook-organic-playbook.md. (Paid
+  Facebook *ads* stay dead — a different thing; see the geo-social bullet above.)
 - **14–21 day warmup (metrics-sheet v1).** 2026 consensus: 30-day floor, 4–6 weeks to full
   volume. Domains must be bought the week of July 21 or email misses the season.
 - **Demo-first CTA.** Concierge activation ("I'll set it up myself") is the primary offer in
@@ -44,11 +47,11 @@ asks cut replies ~44%.)
 
 | When | What |
 |---|---|
-| Wk of Jul 21 | Buy getofficepickem.com + tryofficepickem.com, 6 inboxes, warmup ON. Order footballs (20 full + 100 minis — mini minimums; extras = wave-2 stock). Apollo account → verify Pittsburgh list depth. |
+| Wk of Jul 21 | Buy getofficepickem.com + tryofficepickem.com, 6 inboxes, warmup ON. Order footballs (20 full + 100 minis — mini minimums; extras = wave-2 stock). Apollo account → verify Pittsburgh list depth. Set up Facebook profile, join 5–10 owner groups, begin warmup (facebook-organic-playbook.md). |
 | Jul 24–27 | Telnyx checkpoint. Verified → text-to-join is the kit insert hero. Not → QR/web-join hero (documented fallback). Print inserts AFTER this. |
 | Aug 1–4 | Goods arrive; assemble 50 kits (DIY). |
 | Aug 4–8 | Staggered kit drop (10–15/day so calls can follow deliveries). |
-| Aug 8–22 | Call blocks on delivered kits; email ramps toward ~150/day; LinkedIn touches on Ring 1. |
+| Aug 8–22 | Call blocks on delivered kits; email ramps toward ~150/day; Facebook-organic DMs open (profile warmed, groups joined). |
 | Aug 25 | Gate review: release or hold the $275 reserve. |
 | Sept 9 | Kickoff. Every live league's Week-1 picks text themselves out. Messaging flips to "join mid-season — scoring starts where you start." |
 

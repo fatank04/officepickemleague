@@ -70,10 +70,12 @@ follow-up call is half a kit — budget assumes founder calls on all 50.
   total for the campaign. Do NOT call from the personal cell (caller-ID hygiene + a number
   that can be answered/texted later).
 
-## LinkedIn layer (free, manual, Ring 1 only)
-10–15 personalized connection requests/wk, kit recipients only, no pitch in the request
-("I'm the one who mailed the football" is the note). It's a second touch, not a channel.
-NEVER automate — the founder account is irreplaceable.
+## Facebook second-touch (free, manual — kit recipients)
+When you've got a kit owner's name, send a Facebook friend request as a warm second touch — no
+pitch in the request ("I'm the one who mailed the football" is the note). This dovetails with
+the standalone **Facebook-organic channel** (groups + DMs to the wider metro) — see
+facebook-organic-playbook.md for the full method, the 4-stage DM, and the daily routine. NEVER
+automate — the founder account is irreplaceable.
 
 ## What done looks like
 Every Ring 1–2 row has: delivered ✓, ≥3 call attempts logged, email variant sequenced, and a

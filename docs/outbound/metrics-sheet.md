@@ -31,9 +31,12 @@ Rebuilt 2026-07-17 for the $1,500 fused-funnel plan (see gtm-plan.md). North sta
 | Positive share of replies | 25% | 40% | 50% |
 | Positive → league created (concierge) | 30% | 50% | 65% |
 
-### LinkedIn (free layer, kit recipients only, manual)
-Accept 10–20% is normal for this persona — it's a second touch, not a channel. No automation
-EVER (ban risk is real; the founder account is irreplaceable). 10–15 personalized requests/wk.
+### Facebook-organic (free layer, groups + DMs — see facebook-organic-playbook.md)
+Replaces LinkedIn (this owner persona lives on Facebook, not LinkedIn). ~30 min/day, 5 days/wk.
+Weekly funnel once warmed: ~50–75 friend requests → ~50% accept → 10–25 DM conversations →
+positive convo ≈ activation (free league closes in the DM, no call gate). No automation EVER
+(ban risk; the founder account is irreplaceable). 1–2 wk warmup before DMing, so near-zero
+before ~Aug, compounds after. Track: requests / accepts / convos / leagues, weekly.
 
 **The math to the goal:** 50 kits at "good" ≈ 4–5 convos ≈ 2–3 leagues. Email at "good"
 (~1,200 contacts, 4.5% reply, 40% positive, 50% activate) ≈ 8–10 leagues; at "floor" ≈ 2.
