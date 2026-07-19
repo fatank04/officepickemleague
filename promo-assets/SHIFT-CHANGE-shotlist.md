@@ -1,4 +1,30 @@
-# SHIFT CHANGE — 30s hero ad · script + shotlist (Gate 1)
+# SHIFT CHANGE — 30s hero ad · script + shotlist
+
+## v4 (2026-07-19) — CURRENT. Script A "The Play-by-Play" (research-backed rewrite)
+
+Rewrite rationale: prior VO was trailer-voice cheese ("Every fall... something's missing...").
+Research (ESPN This-is-SportsCenter / NFL Films / Workday craft rules): epic PICTURES + flat
+WORDS, gravitas from nouns, no ellipses, ≤65 words, rule-of-three modalities, one dry
+undercut, packshot line ≤6 words. Also: **voice/call is now a premium add-on — it must NOT
+appear as a base modality; the third base modality is PAPER.**
+
+- OPEN  @2.0s  (narration-v4-open.mp3): "Week One comes to the loading dock the same morning
+  it comes to the stadium."
+- BODY  @11.9s (narration-v4-body.mp3): "Pick on the site. Pick by text. Or pick like Doris —
+  on paper."
+- PROOF @20.95s (narration-v4-proof.mp3): "No money. Nothing to install. Two minutes a week.
+  And receiving still hasn't lost."
+- BUTTON @28.9s (reuse narration-v3-cutB-button.mp3): "Office Pick'em League. Give them a season."
+
+Shot change: 3c call (sd-3c-call.mp4) → **hero-3c-paper.mp4** (Kling i2v from
+keyframe: pick sheet + pen + phone on break-room table, hi-vis bokeh; slow push-in).
+Back half retimed +0.85s (huddle 4.45s, packshot 27.95–34.85, total 35s) so the proof line
+clears before the button plays in silence. Assembly: `assemble-hero-v4.sh` →
+promo-hero-shift-change-v4.mp4 → web-encoded to public/promo-hero.mp4.
+
+---
+
+## v3 and earlier (historical — superseded script below)
 
 Structure: Problem (0-8) → Turn (8-14) → Solution ×3 (14-22) → Proof (22-27) → Packshot (27-30).
 All video = Kling 3.0 image-to-video from approved keyframes, 16:9, silent, 5s (stretched to slot).
