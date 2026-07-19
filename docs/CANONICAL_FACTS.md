@@ -28,6 +28,7 @@ This set had crept into: investor deck slide 15, the financial-model-summary hea
 
 ## Other locked facts
 
+- **Pricing card (updated 2026-07-18 — comp-substantiated reprice):** Founding Season 2026 (unchanged): **$400 / $900 / $1,900 / $3,750** for up-to 50 / 150 / 400 / 1,000 employees, locked 3 seasons, Week-8 money-back guarantee, no card to start. **Standard rates: $750 / $2,250 / $5,400 / $9,900** (old $1,800/$3,900/$7,500 are DEAD — purge on sight). Messaging: founding = "**more than half off** the standard rate" (no longer "about half off"). Substantiation: wellness-challenge comps — Count.It meters an 18-week challenge at ~$1,775 (150 emp) / ~$4,925 (400) / ~$12,485 (1,000); Terryberry ~$15.75/participant per 18 wks; Big Team Challenge ~$935–$5,800 for only 6 weeks; every new standard number sits inside the verified comp band (research 2026-07-18). Enterprise 1,000+ custom; nonprofits/schools 30% off.
 - **2026 NFL kickoff = Wednesday, September 9, 2026** (Seahawks–Patriots). Not "Sep 10." Fixed in the investor deck and foundation doc; the sales deck and strategy deck were already right.
 - **Gallup Q12, 11th edition:** **+23% profitability / +18% productivity / 63% fewer safety incidents** (top vs. bottom quartile). Verified correct. The "+22% / +21%" that appeared in the exec summary and foundation doc was an older edition — fixed.
 - **Team-building spend = $100–500 per employee per year** (SPIN research). Fixed the sales deck's "$100–350 engagement."
