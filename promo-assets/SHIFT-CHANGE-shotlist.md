@@ -1,6 +1,20 @@
 # SHIFT CHANGE — 30s hero ad · script + shotlist
 
-## v4 (2026-07-19) — CURRENT. Script A "The Play-by-Play" (research-backed rewrite)
+## v5 (2026-07-19) — CURRENT: strengthened packshot (real logo composite)
+
+Same script/timeline as v4 below; only the ending changed. The AI-rendered app icon in the
+packshot was replaced with the **real brand mark** (`logo-512.png`) composited over a clean
+logo-free football plate (`packshot-plate.png`, soul_2 — NFL-shield candidate rejected for
+trademark; chosen plate has a generic embossed panel). Build = `build-packshot-v2.sh`:
+deterministic ffmpeg Ken Burns push-in + logo fade-in + a **radial-gaussian brand-blue glow**
+(geq, not a blurred square — a blurred square reads as a box). Title/tag/url lockup moved to
+the RIGHT under the logo (football is lower-left in the new plate). Assembly =
+`assemble-hero-v5.sh` → promo-hero-shift-change-v5.mp4 → web encode public/promo-hero.mp4.
+Spend: 4 keyframes total (~4 credits); all motion/composite is $0 ffmpeg. Rationale: Seedance
+restyles brand marks (flat icon → neon sign) so it's the wrong tool to "strengthen a logo" —
+composite the real vector mark in post instead (ad-creator skill: strict mark fidelity → post).
+
+## v4 (2026-07-19) — script A "The Play-by-Play" (research-backed rewrite)
 
 Rewrite rationale: prior VO was trailer-voice cheese ("Every fall... something's missing...").
 Research (ESPN This-is-SportsCenter / NFL Films / Workday craft rules): epic PICTURES + flat
