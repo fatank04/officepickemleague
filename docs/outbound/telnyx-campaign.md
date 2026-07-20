@@ -2,7 +2,8 @@
 
 Paste-ready values for the Telnyx campaign, all consistent with the live `/sms-terms` page (TCR
 reviewers check that the campaign matches published terms). Reuse for resubmission and for Wave-2
-campaigns (Buffalo/Cleveland/Cincinnati). Status: **submitted 2026-07-19, awaiting approval.**
+campaigns (Buffalo/Cleveland/Cincinnati). Status: **rejected 2026-07-20 (opt-in workflow — see
+Message Flow note); resubmitting with single-method opt-in + form link/screenshot.**
 
 ## Setup selections
 - **Brand:** the verified Office Pick'em brand (VERIFIED 2026-07-19).
@@ -24,11 +25,22 @@ campaigns (Buffalo/Cleveland/Cincinnati). Status: **submitted 2026-07-19, awaiti
 > MY PICKS, STANDINGS, SCORE, HELP) and receive replies.
 
 ## Message Flow (opt-in description — the LONG field)
-> Employees join their employer's free league by entering their name and mobile number on the
-> enrollment page at officepickemleague.com and checking a box agreeing to receive recurring
-> automated texts, or by texting JOIN to the league number. Consent is not a condition of purchase.
-> Message frequency is ~1–4 msgs/week during the NFL season plus command replies. Message and data
-> rates may apply. Full terms: officepickemleague.com/sms-terms.
+**Single opt-in method only** — the first submission was rejected (`TELNYX_FAILED`, 2026-07-20) for
+naming *two* methods (web form + text JOIN) without full detail/proof for each. Use ONE method (the
+web form), quote the checkbox verbatim, and attach the form link/screenshot.
+> Consumers opt in through the web enrollment form at https://officepickemleague.com/j/demo (each
+> league has its own form at officepickemleague.com/j/{league}). The consumer enters their name and
+> mobile number and checks a consent box that is unchecked by default and reads: "I agree to receive
+> recurring automated text messages (game reminders & results) from [League] at this number. Consent
+> is not a condition of anything. Msg & data rates may apply. Reply STOP to opt out, HELP for help.
+> See our SMS Terms & Privacy Policy." The box must be checked and the form submitted to opt in.
+> Consent is not a condition of purchase. Message frequency is ~1-4 msgs/week during the NFL season
+> plus replies to commands the user texts. Full terms: officepickemleague.com/sms-terms.
+
+**Opt-in form proof (required by TCR):** link `https://officepickemleague.com/j/demo` (public demo
+league, seeded on every deploy) — shows the mobile-number field + the full consent-checkbox language.
+Attach a screenshot of it too if the field allows. The `/j/{slug}` form (src/app/j/[slug]/EnrollForm.tsx)
+is already compliant: phone field + unchecked-by-default consent box with STOP/HELP + Terms/Privacy links.
 
 ## Opt-in Message (the SHORT field — 242 chars, under the 320 cap)
 ```
