@@ -2,8 +2,9 @@
 
 Paste-ready values for the Telnyx campaign, all consistent with the live `/sms-terms` page (TCR
 reviewers check that the campaign matches published terms). Reuse for resubmission and for Wave-2
-campaigns (Buffalo/Cleveland/Cincinnati). Status: **rejected 2026-07-20 (opt-in workflow — see
-Message Flow note); resubmitting with single-method opt-in + form link/screenshot.**
+campaigns (Buffalo/Cleveland/Cincinnati). Status: **rejected twice 2026-07-20 on opt-in workflow
+(1st: multiple methods; 2nd: checkbox missing message-frequency disclosure). Fixed both — form
+now states frequency; resubmitting with single-method Message Flow + form link + screenshot.**
 
 ## Setup selections
 - **Brand:** the verified Office Pick'em brand (VERIFIED 2026-07-19).
@@ -31,9 +32,10 @@ web form), quote the checkbox verbatim, and attach the form link/screenshot.
 > Consumers opt in through the web enrollment form at https://officepickemleague.com/j/demo (each
 > league has its own form at officepickemleague.com/j/{league}). The consumer enters their name and
 > mobile number and checks a consent box that is unchecked by default and reads: "I agree to receive
-> recurring automated text messages (game reminders & results) from [League] at this number. Consent
-> is not a condition of anything. Msg & data rates may apply. Reply STOP to opt out, HELP for help.
-> See our SMS Terms & Privacy Policy." The box must be checked and the form submitted to opt in.
+> recurring automated text messages (game reminders & results) from [League] at this number. Msg
+> frequency varies (~1-4/wk in season). Consent is not a condition of anything. Msg & data rates may
+> apply. Reply STOP to opt out, HELP for help. See our SMS Terms & Privacy Policy." The box must be
+> checked and the form submitted to opt in.
 > Consent is not a condition of purchase. Message frequency is ~1-4 msgs/week during the NFL season
 > plus replies to commands the user texts. Full terms: officepickemleague.com/sms-terms.
 
