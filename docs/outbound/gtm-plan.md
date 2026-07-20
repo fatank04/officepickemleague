@@ -53,7 +53,7 @@ of 2026-07-19 (full-size dropped, poor cost/value). Ring-1 differentiation is no
 | When | What |
 |---|---|
 | Wk of Jul 21 | Buy getofficepickem.com + tryofficepickem.com, 6 inboxes, warmup ON. **Footballs ordered 2026-07-19: 150 First Down minis, white-on-Reflex-Blue, in-hands Jul 28 ✓.** Apollo account → verify Pittsburgh list depth. Set up Facebook profile, join 5–10 owner groups, begin warmup (facebook-organic-playbook.md). |
-| Jul 24–27 | ~~Telnyx checkpoint~~ **Telnyx brand VERIFIED 2026-07-19 ✓ → text-to-join (insert Variant A) is GO.** Remaining gate before printing inserts: campaign approved + number provisioned + FOOTBALL keyword routing live. |
+| Jul 24–27 | ~~Telnyx checkpoint~~ **Telnyx brand VERIFIED + A2P campaign SUBMITTED 2026-07-19 ✓** (Low Volume Mixed; awaiting approval, usually minutes–1 day). Remaining before insert Variant A prints: campaign approved + number attached + FOOTBALL keyword live → then set `SMS_PROVIDER=telnyx` in Render. Fields saved: telnyx-campaign.md. |
 | Aug 1–4 | Goods arrive; assemble 50 kits (DIY). |
 | Aug 4–8 | Staggered kit drop (10–15/day so calls can follow deliveries). |
 | Aug 8–22 | Call blocks on delivered kits; email ramps toward ~150/day; Facebook-organic DMs open (profile warmed, groups joined). |
