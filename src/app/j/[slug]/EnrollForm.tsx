@@ -101,7 +101,7 @@ export default function EnrollForm({
         </select>
         <label style={{ display: "flex", gap: 10, alignItems: "flex-start", fontSize: 13.5, lineHeight: 1.45, color: "#aab6cf", margin: "4px 0 14px" }}>
           <input type="checkbox" checked={consent} onChange={(e) => setConsent(e.target.checked)} style={{ marginTop: 2, width: 20, height: 20, flexShrink: 0 }} />
-          <span>I agree to receive recurring automated text messages (game reminders &amp; results) from {leagueLabel(leagueName)} at this number. Consent is not a condition of anything. Msg &amp; data rates may apply. Reply STOP to opt out, HELP for help. See our <a href="/sms-terms" style={{ color: accent }}>SMS Terms</a> &amp; <a href="/privacy" style={{ color: accent }}>Privacy Policy</a>.</span>
+          <span>I agree to receive recurring automated text messages (game reminders &amp; results) from {leagueLabel(leagueName)} at this number. Msg frequency varies (~1&ndash;4/wk in season). Consent is not a condition of anything. Msg &amp; data rates may apply. Reply STOP to opt out, HELP for help. See our <a href="/sms-terms" style={{ color: accent }}>SMS Terms</a> &amp; <a href="/privacy" style={{ color: accent }}>Privacy Policy</a>.</span>
         </label>
         {err && <div style={{ color: "#ff7a7a", marginBottom: 10, fontSize: 13 }}>{err}</div>}
         <button style={btn} disabled={busy}>{busy ? "Setting you up…" : "Text me my games"}</button>
