@@ -16,6 +16,9 @@ Rebuilt 2026-07-17 for the $1,500 fused-funnel plan (see gtm-plan.md). North sta
 ## Funnel targets
 
 ### Kits (Rings 1–2, n=50)
+*Minis-only as of 2026-07-19 (full-size dropped). A boxed mini foam football is still dimensional
+mail but a lighter wow than a leather ball — read Response toward the floor and lean on the
+Ring-1 handwritten note + the founder call to lift it.*
 | Stage | Floor | Good | Great |
 |---|---|---|---|
 | Delivered (tracked) | 95% | 98% | 100% |
@@ -50,8 +53,8 @@ Blended honest expectation: **4–7 leagues live; 10 = everything breaks right.*
 4. Leagues created this week + cumulative vs. the 5–10 goal.
 
 ## Kill / scale gates
-- **Reserve release ($275):** ≥2 leagues live OR ≥4 hot conversations from the 50 kits →
-  wave-2 kits (hot email repliers get one) or Buffalo minis (extra mini stock already in hand).
+- **Reserve release ($365):** ≥2 leagues live OR ≥4 hot conversations from the 50 kits →
+  wave-2 kits (hot email repliers get one) or Buffalo minis (~100 already in hand from the 150 order).
 - **Email kill:** 1,000+ sends at full personalization, reply <2% AND zero activations →
   stop spend, keep domains warming, revisit list/offer.
 - **Call kill:** none — calls are free. If connects <10% after 100 dials, shift windows

@@ -4,27 +4,34 @@ The physical spearhead and its follow-through, as one motion: **the kit earns th
 call earns the conversation, the conversation becomes a league.** A kit that never gets a
 follow-up call is half a kit — budget assumes founder calls on all 50.
 
-## Vendor spec — order week of July 21
+## Vendor spec — footballs ORDERED 2026-07-19 (minis-only)
 
-### Ring 1: 20 full-size kits (~$28/kit all-in ≈ $560)
-- **Ball:** full-size synthetic-leather football, 1-color imprint (logo + officepickemleague.com),
-  brand blue #4f8cff on white panel. 4imprint-class vendor: ~$13.25–18/unit, **min qty 10,
-  ships 3–7 days**. Order 22 (2 spares).
-- **Ship it DEFLATED + include a $1 hand pump** — keeps the box ≤1 lb and under dim-weight
-  postage tiers. (Also: an owner pumping up a football at their desk is the moment we want.)
-- **Box:** ~10×10×4 kraft mailer + 4" brand sticker (Vistaprint/Packlane low-minimum). ~$2–4.
-- **Inserts (print AFTER the July 24–27 Telnyx checkpoint):**
+### The ball (both rings) — ordered ✓
+- **Ball:** 4imprint **First Down Mini Foam Football #147355**, **150 units** @ $2.25 + $60 setup
+  ≈ **~$400 all-in**. **Reflex Blue ball, WHITE 1-color imprint** — art in
+  `brand-assets/opl-imprint-mini.pdf`, fitted to the **1"H × 2.5"W** imprint area. **In-hands Jul 28.**
+  Foam = no inflation, no pump. ~100 extras = wave-2 (Buffalo) stock at zero marginal cost.
+- **Decision (2026-07-19):** full-size synthetic-leather footballs **DROPPED** — cost/value didn't
+  pencil (~$28/kit all-in with deflated shipping + pump vs ~$11 for a mini). **Ring-1 premium moves
+  to the box, not the ball.**
+- **Proof watch:** approve the vendor's digital proof same-day when it lands (~1 business day) —
+  confirm ink is WHITE and layout matches `brand-assets/proof-mini.png`. This is the only thing that
+  can still slip Jul 28.
+
+### Ring 1: 20 kits (top accounts) — richer box (~$12/kit)
+- Mini ball + **10-sheet Week-1 paper pick-sheet pad** + a **handwritten note** on the welcome card
+  (the personal touch replaces the full-size wow).
+- **Box:** ~9×6×2 kraft mailer + 4" brand sticker (~$2–4).
+- **Inserts (Telnyx VERIFIED 2026-07-19 → print Variant A / text-to-join; see kit-inserts.md):**
   1. Welcome letter (below), 8.5×5.5 card stock.
-  2. **Week-1 paper pick-sheet pad, 10 sheets** — the kit contains the product; paper is a
-     real modality. Generated from /l/{slug}/admin/sheets once their league exists — for the
-     kit, print the demo-league sheet marked SAMPLE.
-- **Postage:** USPS Ground Advantage ~1 lb, ~$6–8 into Pittsburgh metro. Buy tracking.
+  2. **Week-1 paper pick-sheet pad, 10 sheets** — the kit contains the product; paper is a real
+     modality. Generated from /l/{slug}/admin/sheets once their league exists — for the kit, print
+     the demo-league sheet marked SAMPLE.
+- **Postage:** USPS Ground Advantage <1 lb, ~$4.50–5.50 into Pittsburgh metro. Buy tracking.
 
-### Ring 2: 30 mini kits (~$11/kit all-in ≈ $330)
-- **Ball:** mini foam/plastic football, 1-color imprint, ~$1.50–3/unit — **minimums are
-  100–150**, so order 100; the ~70 extras are wave-2 stock (Buffalo) at zero marginal cost.
-- **Pack:** small padded mailer + sticker + the same welcome letter + 3 sample pick sheets.
-- **Postage:** Ground Advantage under 1 lb, ~$4.50–5.50.
+### Ring 2: 30 kits — lighter (~$10/kit)
+- Same mini ball + the welcome card + **3 sample pick sheets**.
+- **Pack:** small padded mailer + sticker. Postage Ground Advantage <1 lb, ~$4.50–5.50.
 
 ### Insert copy (welcome letter — both rings)
 
@@ -36,8 +43,10 @@ follow-up call is half a kit — budget assumes founder calls on all 50.
 > **It's free to start.** I do the setup; you forward one link to the crew.
 > [QR → officepickemleague.com/?utm_source=kit1] · [TEXT-TO-JOIN LINE — only if Telnyx VERIFIED]
 > Kickoff is Sept 9. Doris in receiving is going to win your league. — Ankur
-- Ring 2 letter identical, utm_source=kit2. If Telnyx isn't VERIFIED at print time, the QR is
-  the hero and the text line is omitted (documented fallback) — do not hold the drop for it.
+- Ring 2 letter identical, utm_source=kit2. **Brand is VERIFIED (2026-07-19) → Variant A
+  (text-to-join) is the path.** Only condition left: the Telnyx campaign + number + FOOTBALL
+  keyword must be live at print time; if they're not yet, fall back to the QR-hero (Variant B) —
+  do not hold the drop for it. Full variant copy: kit-inserts.md.
 
 ## Assembly & drop
 - Assemble DIY Aug 1–4 (50 kits ≈ one long evening; third-party kitting minimums start ~100+).

@@ -1,16 +1,19 @@
 # Kit Inserts — print-ready (both Telnyx variants) — staged 2026-07-19
 
-Everything that goes in the box, finalized so it can go to print the moment the **Jul 24–27
-Telnyx checkpoint** resolves. Copy is locked to docs/CANONICAL_FACTS.md — do not ad-lib numbers.
+Everything that goes in the box, print-ready. Kits are **minis-only** (150 First Down foam
+footballs ordered 2026-07-19). Copy is locked to docs/CANONICAL_FACTS.md — do not ad-lib numbers.
 
-## WHICH VARIANT TO PRINT (decide at the Telnyx checkpoint)
+## WHICH VARIANT TO PRINT
 
-- **Telnyx brand VERIFIED → print Variant A** (text-to-join is the hero response).
-- **Not verified at print time → print Variant B** (QR/web-join hero; text line omitted).
-  Do NOT hold the drop waiting on Telnyx — B is a first-class fallback, not a downgrade.
+**Brand is VERIFIED (2026-07-19) → default to Variant A** (text-to-join is the hero response).
+The one remaining condition: the Telnyx **campaign + number + `FOOTBALL` keyword** must be live at
+print time (brand-verified ≠ campaign-approved — confirm before committing to A).
+- **A** — campaign/number/keyword live → text-to-join hero.
+- **B** — not yet live at print time → QR/web-join hero, text line omitted. A first-class
+  fallback, not a downgrade; do NOT hold the drop for it.
 
 Only the **response line** differs between A and B. The letter body, the paper pick-sheet, and
-all print specs are identical either way — so the only open decision on Jul 24–27 is A vs B.
+all print specs are identical either way — so the only open decision is A vs B.
 
 ---
 
@@ -43,13 +46,13 @@ Print on 8.5 × 5.5 card stock, one side. Brand blue `#4f8cff` headline on white
 > (Or call the number on the card I'll follow up with.)
 
 **Ring split (only difference between Ring 1 and Ring 2 letters):**
-- Ring 1 (full-size kit) → QR encodes `https://officepickemleague.com/?utm_source=kit1`
-- Ring 2 (mini kit) → QR encodes `https://officepickemleague.com/?utm_source=kit2`
+- Ring 1 (richer mini kit: 10-sheet pad + handwritten note) → QR encodes `https://officepickemleague.com/?utm_source=kit1`
+- Ring 2 (mini kit: 3 sample sheets) → QR encodes `https://officepickemleague.com/?utm_source=kit2`
 - Body copy is otherwise word-for-word identical across rings.
 
 ### Pre-print checklist
-- [ ] Variant chosen (A only if Telnyx shows **VERIFIED** in-portal on Jul 24–27).
-- [ ] Variant A only: real verified Telnyx number dropped in, and the `FOOTBALL` keyword is
+- [ ] Variant chosen (A once the Telnyx **campaign + number** are provisioned; else B).
+- [ ] Variant A only: real Telnyx number dropped in, and the `FOOTBALL` keyword is
       confirmed to route to the start-a-league flow (test-text it yourself first).
 - [ ] QR generated from the EXACT utm URL per ring, and scan-tested with a phone.
 - [ ] `{{company}}` merged correctly on every card (spot-check 5).
@@ -76,7 +79,7 @@ This is an **app-generated artifact**, not free copy — produce it, don't rewri
 | Welcome card | 8.5 × 5.5, card stock, 1-sided, brand blue `#4f8cff` + black on white |
 | QR | Generate per-ring from the exact utm URL above; ≥ 1" square; test-scan before bulk run |
 | Pick-sheet | App-generated (see §2); Ring 1 = 10-pad, Ring 2 = 3 loose |
-| Quantities | 22 Ring-1 sets (20 + 2 spare), 30 Ring-2 sets |
+| Quantities | 20 Ring-1 sets (10-sheet pad + handwritten note) + 30 Ring-2 sets (3 sheets); print ~55 cards for spares |
 | Vendor | Vistaprint/low-minimum for cards; pads DIY or same vendor |
 
 **QR generation:** any offline generator (e.g. `qrencode -o kit1.png "https://officepickemleague.com/?utm_source=kit1"`).

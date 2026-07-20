@@ -35,8 +35,8 @@ Per account: max 2 contacts (1 buyer + 1 champion). More = duplicate-outreach ri
 ## Selecting the 50 kit accounts (Rings 1–2)
 
 Score every account in refinement (schema col I). Then:
-- **Ring 1 (top 20, full-size kit):** score 5–6 only, HQ address verified, ideally
-  footballSignal=1 and a named Owner/GM with a direct phone.
+- **Ring 1 (top 20, richer mini kit — 10-sheet pad + handwritten note):** score 5–6 only, HQ
+  address verified, ideally footballSignal=1 and a named Owner/GM with a direct phone.
 - **Ring 2 (next 30, mini kit):** score 4+, address verified.
 - A kit account needs THREE verified fields the email list doesn't: **street address**
   (HQ, not a PO box), **contact's direct or main-line phone**, and the right **recipient
@@ -55,4 +55,4 @@ Score every account in refinement (schema col I). Then:
 
 ## Wave 2+ (same saved search, swap geo)
 Buffalo (716) → Cleveland (216) → Cincinnati (513) — mirrors the SMS number-pool plan.
-Mini-football stock for wave 2 already exists (100-unit minimum ordered for Ring 2).
+Mini-football stock for wave 2 already exists (~100 of the 150 ordered 2026-07-19 are wave-2 stock).
