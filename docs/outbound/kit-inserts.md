@@ -56,6 +56,7 @@ Print on 8.5 × 5.5 card stock, one side. Brand blue `#4f8cff` headline on white
       confirmed to route to the start-a-league flow (test-text it yourself first).
 - [ ] QR generated from the EXACT utm URL per ring, and scan-tested with a phone.
 - [ ] `{{company}}` merged correctly on every card (spot-check 5).
+- [ ] **Ring 1 only:** handwritten note added per account (copy + rules: kit-and-call-playbook.md § Handwritten note).
 
 ---
 

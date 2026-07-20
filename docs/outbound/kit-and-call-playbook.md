@@ -48,6 +48,25 @@ follow-up call is half a kit — budget assumes founder calls on all 50.
   keyword must be live at print time; if they're not yet, fall back to the QR-hero (Variant B) —
   do not hold the drop for it. Full variant copy: kit-inserts.md.
 
+### Handwritten note (Ring 1 only)
+
+Written by hand on the welcome card (or a small separate card), blue or black ink, real signature.
+It's the **personal layer** that replaces the full-size wow — the printed card already carries the
+pitch, so this stays short and human, not a second sales paragraph. Swap `{{firstName}}` /
+`{{company}}` per account. Pick one; rotate if you like.
+
+- **Primary:** *{{firstName}} — I know a football in the mail is a bit much. But I mean it: I'd love
+  to run {{company}}'s season this fall. Free, the whole crew, and I do all the setup. Just say go. — Ankur*
+- **Shorter** (when handwriting 20 gets old): *{{firstName}} — picked {{company}} on purpose. Free
+  league, whole crew, two minutes a week — I'll build the whole thing. Just say go. — Ankur*
+- **Warmer/cheekier:** *{{firstName}} — no catch, no money, no app. Just want to give {{company}} a
+  season worth talking about on Mondays. Say the word and it's live before kickoff. — Ankur*
+
+Rules: ~25–35 words (real, but writable 20×); **don't repeat the printed card** (skip the Doris
+line — it's already there); optional per-account hook only if you know the shop and it's honest
+(e.g. *"Saw you're hiring — good week-one culture win."*); stays on-message (free to start, whole
+crew, ~2 min/week, I do the setup) — no pricing, no gambling language.
+
 ## Assembly & drop
 - Assemble DIY Aug 1–4 (50 kits ≈ one long evening; third-party kitting minimums start ~100+).
 - **Stagger the drop Aug 4–8, 10–15/day** — so deliveries land at a pace the call blocks can
