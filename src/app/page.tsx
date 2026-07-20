@@ -10,9 +10,9 @@ import ModalityJourney from "@/components/landing/ModalityJourney";
 import { promoVideoJsonLd } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  title: { absolute: "Office Pick'em League — the workplace football pool for employee engagement" },
+  title: { absolute: "Office Pick'em League — the workplace football pool" },
   description:
-    "The no-money, HR-safe NFL pick'em game employers run for employee engagement. Companies pay one flat seasonal rate; players never pay. No app, no buy-ins — your whole team picks winners, spreads & over/unders in two minutes a week, by web, text, or paper sheet.",
+    "The no-money, HR-safe NFL pick'em game employers run for team engagement. Players never pay. Play in two minutes a week by web, text, or paper sheet.",
   alternates: { canonical: "/" },
 };
 
