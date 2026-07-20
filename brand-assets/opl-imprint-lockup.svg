@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 640" width="560" height="640">
+  <!-- Office Pick'em League — 1-color imprint lockup. Brand blue #4f8cff on white (ball).
+       Transparent background = the white ball; blue = the single imprint ink. -->
+  <g fill="none" stroke="#4f8cff" stroke-width="11" stroke-linecap="round" stroke-linejoin="round">
+    <g transform="rotate(-20 280 158)">
+      <!-- football body -->
+      <ellipse cx="280" cy="158" rx="122" ry="74"/>
+      <!-- center lace seam -->
+      <path d="M182 158 H378" stroke-width="9"/>
+      <!-- lace ticks -->
+      <path d="M246 142 V174 M263 140 V176 M280 139 V177 M297 140 V176 M314 142 V174" stroke-width="8"/>
+      <!-- end cross-seams -->
+      <path d="M206 146 V170 M354 146 V170" stroke-width="7"/>
+    </g>
+  </g>
+  <g fill="#4f8cff" text-anchor="middle" font-family="'Avenir Next','Helvetica Neue',Helvetica,Arial,sans-serif">
+    <text x="280" y="376" font-size="58" font-weight="800" letter-spacing="0.5">OFFICE PICK&#8217;EM</text>
+    <text x="280" y="440" font-size="46" font-weight="800" letter-spacing="16">LEAGUE</text>
+    <text x="280" y="496" font-size="26" font-weight="600" letter-spacing="2">officepickemleague.com</text>
+  </g>
+</svg>
