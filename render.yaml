@@ -44,5 +44,16 @@ services:
         sync: false
       - key: TWILIO_MESSAGING_SERVICE_SID
         sync: false
+      # --- Telnyx (SMS provider — brand VERIFIED 2026-07-19). messaging.ts is provider-agnostic;
+      #     set SMS_PROVIDER=telnyx in the dashboard to cut over once the A2P campaign + number are
+      #     provisioned. Leaving SMS_PROVIDER unset keeps the twilio-10dlc default (no premature switch). ---
+      - key: SMS_PROVIDER
+        sync: false
+      - key: TELNYX_API_KEY
+        sync: false
+      - key: TELNYX_MESSAGING_PROFILE_ID
+        sync: false
+      - key: TELNYX_FROM_NUMBER
+        sync: false
       - key: ALERT_PHONE
         sync: false
