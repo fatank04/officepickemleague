@@ -80,8 +80,8 @@ for path in SRC:
             if key and key not in rows: rows[key]=r
     per_file[os.path.basename(path)]=n
 
-out_fields=["Wave","Metro","preScore","sizeFit","shiftSignal","familyOwned","hasSocials","GeoFlag",
-    "Company Name","# Employees","Industry","City","State","Company Phone","Website","Company Linkedin Url",
+out_fields=["Wave","Metro","Ring","preScore","sizeFit","shiftSignal","familyOwned","hasSocials","GeoFlag",
+    "Company Name","# Employees","Industry","City","State","Company Address","Company Phone","Website","Company Linkedin Url",
     "Founded Year","Annual Revenue","Short Description","Apollo Account Id",
     "footballSignal (manual)","roleFit (after people)","Keep? (y/n)","Notes"]
 recs=[]; wave_counts=collections.Counter(); flags=0; score_hist=collections.Counter(); fam=0
@@ -98,10 +98,11 @@ for r in rows.values():
     if wave!=9: score_hist[pre]+=1; fam+=familyOwned
     desc=(r.get("Short Description") or "").replace("\n"," ").strip()
     if len(desc)>200: desc=desc[:197]+"..."
-    recs.append({"Wave":wave,"Metro":metro,"preScore":pre,"sizeFit":sf,"shiftSignal":shiftSignal,
+    recs.append({"Wave":wave,"Metro":metro,"Ring":"","preScore":pre,"sizeFit":sf,"shiftSignal":shiftSignal,
         "familyOwned":familyOwned,"hasSocials":hasSoc,"GeoFlag":flag,
         "Company Name":r.get("Company Name","").strip(),"# Employees":r.get("# Employees",""),
         "Industry":r.get("Industry",""),"City":r.get("Company City",""),"State":r.get("Company State",""),
+        "Company Address":r.get("Company Address",""),
         "Company Phone":(r.get("Company Phone","") or "").lstrip("'"),"Website":r.get("Website",""),
         "Company Linkedin Url":r.get("Company Linkedin Url",""),"Founded Year":r.get("Founded Year",""),
         "Annual Revenue":r.get("Annual Revenue",""),"Short Description":desc,
@@ -110,6 +111,12 @@ for r in rows.values():
     wave_counts[(wave,metro)]+=1
 
 recs.sort(key=lambda x:(x["Wave"], -x["preScore"], -x["familyOwned"], x["Company Name"].lower()))
+# Ring = within-metro rank by fit: top 20 -> 1 (kit+call), next 30 -> 2 (kit+call), rest -> 3 (email pool)
+_rank=collections.Counter()
+for x in recs:
+    if x["Wave"]==9: continue
+    _rank[x["Wave"]]+=1; rk=_rank[x["Wave"]]
+    x["Ring"]=1 if rk<=20 else (2 if rk<=50 else 3)
 with open(OUT,"w",newline="",encoding="utf-8") as f:
     w=csv.DictWriter(f,fieldnames=out_fields); w.writeheader(); w.writerows(recs)
 

@@ -61,6 +61,28 @@ familyOwned` in the pilot metro ≈ your kit accounts, pre-selected.
   contacts, far short of the machine's capacity. Broaden Pittsburgh (~400) for email; keep the narrow
   A-list for kits.
 
+## Step 7 — People (after companies are vetted): `join-people-apollo.py`
+Once you've picked the metro to work (Pittsburgh pilot first), pull the humans and tie them to the
+scored companies:
+
+1. **Apollo People pull** — from the saved city search, People tab, keep the company filters, add
+   **titles** (Owner/Pres/Founder/CEO/GM + HR Mgr/Dir/People Ops + Office/Ops Mgr) and **management
+   levels** (Owner→Manager). Export to `~/Downloads/` (file name `apollo-contacts-export*.csv`).
+2. **Run:** `python3 docs/outbound/join-people-apollo.py` → writes `~/Downloads/opl-people-master.csv`.
+3. It joins each person to their company by **Apollo Account Id** (inherits Metro/Wave/Ring/preScore/
+   familyOwned/address), classifies **buyer** (Owner/Pres/CEO/GM, or HR at larger cos) vs **champion**
+   (Office/Ops Mgr), and keeps **2 per account** (best buyer + best champion). Ring-labeled + sorted.
+4. **Then:** Ring 1–2 people = kit + call motion (need the buyer's name for the label — it's in the
+   sheet). Ring-3 email pool comes from the *broadened* pull → MillionVerifier → Instantly
+   (`list-verification-runbook.md`).
+
+**Rings** (assigned in `consolidate-apollo.py` by within-metro fit rank): top 20 = Ring 1, next 30 =
+Ring 2 (both kit+call), rest = Ring 3 (email pool). Pittsburgh narrow = 20 + 26, no Ring 3 (email uses
+the broadened list — see "Two lists").
+
+*Column note:* Apollo people-export headers are read defensively; if a field comes up blank, extend the
+name list in that `g(...)` call in `join-people-apollo.py`.
+
 ## Adding a new metro
 Edit `consolidate-apollo.py`: add the metro's area-code set, add one line in `metro_and_wave()` by
 State (split by ZIP if the state has two target metros, like PA). Re-run.
