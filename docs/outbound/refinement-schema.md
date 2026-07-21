@@ -17,7 +17,7 @@ outcome tracking) — this sheet is now the single operating record for all thre
 | F | **footballSignal** (0/1) | Company socials show Steelers content, tailgates, game-day posts |
 | G | **sizeFit** (0–2) | 2: 50–400 employees (sweet spot) · 1: 25–50 or 400–1,000 · 0: outside |
 | H | **roleFit** (0–2) | 2: Owner/Pres/GM or HR · 1: Office/Ops Mgr · 0: other |
-| I | **SCORE** | E+F+G+H (0–6). Ring 1 = top 20 of the 5–6s · Ring 2 = next 30 at 4+ · Ring 3 send order: 5–6 first, 3–4 normal, ≤2 hold |
+| I | **SCORE** | E+F+G+H (0–6). Ring 1 = top 20 of the 5–6s (**break ties by fanSignal R, then footballSignal F**) · Ring 2 = next 30 at 4+ · Ring 3 send order: 5–6 first, 3–4 normal, ≤2 hold |
 | J | **personalLine** | ONE researched sentence for Email 1. Formula: [specific real detail] + [football/league tie]. Ex: "Saw the plant runs three shifts — that's three shifts of people who all think they know football better than each other." Never generic flattery; if nothing real in 2 min, use the shiftSignal fallback line |
 | K | **ring** (1/2/3) | 1–2 → EXCLUDED from cold sequence; they get the kit-recipient variant, started 2–3 days after tracked delivery and AFTER the first call attempt |
 | L | **streetAddress** | Rings 1–2 only. HQ street address, verified on the company website (not Apollo alone, not a PO box) |
@@ -26,6 +26,22 @@ outcome tracking) — this sheet is now the single operating record for all thre
 | O | **kitTracking** | USPS tracking # once shipped; delivery date once landed (triggers call + email variant) |
 | P | **callLog** | attempt dates + outcome: NA (no answer) / VM / GATE (gatekeeper) / CONV (conversation) / MTG / LEAGUE |
 | Q | suppression | Existing league, competitor, opt-out, bounced — never re-add |
+| R | **fanSignal** (0/1) — **Rings 1–2 ONLY** | Person-level sports affinity: the *buyer's* PUBLIC LinkedIn/X shows team mentions, sports follows, or game-day posts. NOT added to SCORE — only gathered for the ~50 kit/call accounts. See the guardrails below before you touch this. |
+
+## Fan signal (Rings 1–2 only — col R)
+
+Person-level sports affinity, the buyer's own fandom — distinct from the company-level `footballSignal`
+(F). Gathered **only for the ~50 kit/call accounts**, never the 1,500-email list: the Pittsburgh geo
+already selects for football culture, and F carries the scalable version. Rules:
+
+- **Public info only, no scale-scraping.** A 2-minute glance at the buyer's *public* LinkedIn/X.
+  Never anything gated or login-walled, never an automated scrape of individuals, and **never touch
+  the personal Facebook account** — a scraping flag there would burn the Facebook-organic motion.
+- **Use it WARM, never cold.** fanSignal feeds the **call opener** and the **Ring-1 handwritten note**
+  ("heard you're a Steelers guy — this is right up your alley"). **Never put personal fandom in a cold
+  email** — it reads as surveillance and kills trust. Cold email personalizes on COMPANY facts only (J).
+- **Tiebreaker, not a gate.** It orders the Ring-1 picks among equal SCOREs (see I); it does not add to
+  SCORE and never decides Ring 3.
 
 ## Clay translation (when a scale gate hits)
 - C = waterfall enrichment column (Clay's native email waterfall + validation)
@@ -34,6 +50,9 @@ outcome tracking) — this sheet is now the single operating record for all thre
   sentence connecting it to running a workplace football pick'em league. Cheeky, blue-collar,
   no flattery. If nothing verifiable, output NONE.")
 - D/G/H/I = formula columns · L/M = Clay's address/phone enrichment
+- R (fanSignal) = manual at wave-1 volume; if ever automated, an AI-research column scoped to
+  **public** LinkedIn/X, **Rings 1–2 only**, with the warm-use guardrail above. Keep it OUT of the
+  cold-email variables — it feeds the call/kit only.
 - Export → Instantly via native integration, mapped to the sequence variables.
 
 ## Quality gates
