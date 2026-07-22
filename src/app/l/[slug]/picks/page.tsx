@@ -23,6 +23,16 @@ export default async function PicksPage({
   const byWeek = new Map<number, typeof all>();
   for (const g of all) { const a = byWeek.get(g.week) ?? []; a.push(g); byWeek.set(g.week, a); }
   const weeks = [...byWeek.keys()].sort((a, b) => a - b);
+  // ESPN-style week tabs: each week shows its date span (e.g. "Sep 9–14").
+  const md = (d: Date) => d.toLocaleDateString("en-US", { month: "short", day: "numeric", timeZone: "America/New_York" });
+  const dayOnly = (d: Date) => d.toLocaleDateString("en-US", { day: "numeric", timeZone: "America/New_York" });
+  const monthOf = (d: Date) => d.toLocaleDateString("en-US", { month: "short", timeZone: "America/New_York" });
+  const weekTabs = weeks.map((w) => {
+    const gs = byWeek.get(w)!;
+    const first = gs[0].kickoff, last = gs[gs.length - 1].kickoff;
+    const dates = monthOf(first) === monthOf(last) ? `${md(first)}–${dayOnly(last)}` : `${md(first)} – ${md(last)}`;
+    return { week: w, dates };
+  });
 
   let week = Number(searchParams?.week);
   if (!weeks.includes(week)) {
@@ -85,7 +95,7 @@ export default async function PicksPage({
       <BrandTheme accent={brand.accent} />
       {ctx.player.isCommish && <InviteBanner slug={league.slug} compact={playersN > 1} />}
       <PicksClient
-        slug={league.slug} week={week} weeks={weeks} format={league.format}
+        slug={league.slug} week={week} weeks={weeks} weekTabs={weekTabs} format={league.format}
         anyOpen={anyOpen} submitted={!!sub} playersN={playersN} submittedN={submittedN} games={data}
         accent={brand.accent} prizeText={brand.prizeText}
       />

@@ -18,13 +18,21 @@ interface G {
 const fmt = (n: number) => (n > 0 ? "+" : "") + n;
 const pct = (a: number, b: number) => (b ? Math.round((a / b) * 100) : 0);
 
+const AUTOFILL_OPTIONS = [
+  { key: "favorites", name: "Favorites", desc: "Take the Vegas favorite on winner and spread; totals land on a coin flip." },
+  { key: "random", name: "Random", desc: "Leave your open picks up to chance." },
+  { key: "home", name: "Home Teams", desc: "Home field advantage becomes your own; totals on a coin flip." },
+] as const;
+
 export default function PicksClient(props: {
-  slug: string; week: number; weeks: number[]; format: string;
+  slug: string; week: number; weeks: number[]; weekTabs: { week: number; dates: string }[]; format: string;
   anyOpen: boolean; submitted: boolean; playersN: number; submittedN: number; games: G[];
   accent?: string; prizeText?: string | null;
 }) {
   const router = useRouter();
   const [busy, setBusy] = useState(false);
+  const [autofillOpen, setAutofillOpen] = useState(false);
+  const [strategy, setStrategy] = useState<string | null>(null);
   const allLocked = !props.anyOpen;
 
   async function call(url: string, body: any) {
@@ -36,6 +44,12 @@ export default function PicksClient(props: {
   const setPick = (gameId: string, field: "su" | "ats" | "ou", value: string) => call("/api/picks", { gameId, [field]: value });
   const togglePower = (gameId: string) => call("/api/power", { gameId });
   const submit = () => call("/api/submit", { week: props.week });
+  const autofill = async () => {
+    if (!strategy) return;
+    await call("/api/picks/autofill", { week: props.week, strategy });
+    setAutofillOpen(false);
+    setStrategy(null);
+  };
   const undo = () => call("/api/submit", { week: props.week, undo: true });
 
   // A game's inputs are editable only if it hasn't kicked off AND the player hasn't submitted their card.
@@ -92,17 +106,64 @@ export default function PicksClient(props: {
         </div>
       )}
 
-      <div className="spread" style={{ marginBottom: 14 }}>
-        <div className="row">
-          <h2 style={{ margin: 0 }}>Picks</h2>
-          <select value={props.week} onChange={(e) => router.push(`/l/${props.slug}/picks?week=${e.target.value}`)} style={{ width: "auto" }}>
-            {props.weeks.map((w) => (<option key={w} value={w}>Week {w}</option>))}
-          </select>
-        </div>
+      <div className="spread" style={{ marginBottom: 10 }}>
+        <h2 style={{ margin: 0 }}>Picks</h2>
         <span className={`chip ${allLocked ? "warn" : "live"}`}>
           {allLocked ? "🔒 all games locked" : `● ${props.submittedN}/${props.playersN} submitted`}
         </span>
       </div>
+      <div style={{ display: "flex", gap: 8, overflowX: "auto", paddingBottom: 8, marginBottom: 8, WebkitOverflowScrolling: "touch" }}>
+        {props.weekTabs.map((t) => {
+          const active = t.week === props.week;
+          return (
+            <button key={t.week}
+              onClick={() => router.push(`/l/${props.slug}/picks?week=${t.week}`)}
+              aria-current={active ? "page" : undefined}
+              style={{
+                flex: "0 0 auto", padding: "8px 14px", borderRadius: 10, textAlign: "center", lineHeight: 1.25,
+                border: `1px solid ${active ? "var(--accent)" : "var(--line, #2a3550)"}`,
+                background: active ? "color-mix(in srgb, var(--accent) 14%, transparent)" : "transparent",
+                color: "var(--text)", cursor: "pointer",
+              }}>
+              <div className="b" style={{ fontSize: 13 }}>Week {t.week}</div>
+              <div className="muted" style={{ fontSize: 11 }}>{t.dates}</div>
+            </button>
+          );
+        })}
+      </div>
+      {props.anyOpen && !props.submitted && madeSlots < totalSlots && (
+        <button className="btn ghost" style={{ width: "100%", marginBottom: 14 }} onClick={() => setAutofillOpen(true)}>
+          ⚡ Autofill my open picks
+        </button>
+      )}
+
+      {autofillOpen && (
+        <div role="dialog" aria-modal="true" aria-label="Autofill"
+          style={{ position: "fixed", inset: 0, zIndex: 60, background: "rgba(0,0,0,.55)", display: "flex", alignItems: "center", justifyContent: "center", padding: 16 }}
+          onClick={() => setAutofillOpen(false)}>
+          <div className="card pad" style={{ maxWidth: 440, width: "100%" }} onClick={(e) => e.stopPropagation()}>
+            <div className="spread" style={{ marginBottom: 8 }}>
+              <h3 style={{ margin: 0 }}>Autofill</h3>
+              <button className="btn ghost" aria-label="Close" onClick={() => setAutofillOpen(false)}>✕</button>
+            </div>
+            <p className="muted small" style={{ marginTop: 0 }}>
+              Fills only your <b>blank</b> Week {props.week} picks — anything you&apos;ve already chosen stays put.
+            </p>
+            {AUTOFILL_OPTIONS.map((o) => (
+              <label key={o.key} style={{
+                display: "flex", gap: 10, alignItems: "flex-start", padding: "10px 12px", borderRadius: 10, cursor: "pointer",
+                border: `1px solid ${strategy === o.key ? "var(--accent)" : "var(--line, #2a3550)"}`, marginBottom: 8,
+              }}>
+                <input type="radio" name="autofill" checked={strategy === o.key} onChange={() => setStrategy(o.key)} style={{ marginTop: 3 }} />
+                <span><b>{o.name}</b><br /><span className="muted small">{o.desc}</span></span>
+              </label>
+            ))}
+            <button className="btn" style={{ width: "100%" }} disabled={!strategy || busy} onClick={autofill}>
+              ⚡ Fill my picks
+            </button>
+          </div>
+        </div>
+      )}
 
       {props.games.map((g, i) => {
         const ed = editableGame(g);
