@@ -85,6 +85,13 @@ the broadened list — see "Two lists").
 *Column note:* Apollo people-export headers are read defensively; if a field comes up blank, extend the
 name list in that `g(...)` call in `join-people-apollo.py`.
 
+## Step 8 — Split into channel lists: `split-lists.py`
+`python3 docs/outbound/split-lists.py` (after join-people) → two clean sheets, geo-mistags dropped:
+- **`opl-kit-call-list.csv`** — mailing address + phone for kits + calls; Ring 1–2 (the kit accounts)
+  ranked first.
+- **`opl-email-list.csv`** — **Verified emails only** for MillionVerifier → Instantly, with an
+  `isKitAccount` flag (Ring 1–2 people get the kit-recipient email variant, not the cold sequence).
+
 ## Adding a new metro
 Edit `consolidate-apollo.py`: add the metro's area-code set, add one line in `metro_and_wave()` by
 State (split by ZIP if the state has two target metros, like PA). Re-run.
