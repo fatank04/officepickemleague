@@ -30,7 +30,9 @@ export default async function PicksPage({
   const weekTabs = weeks.map((w) => {
     const gs = byWeek.get(w)!;
     const first = gs[0].kickoff, last = gs[gs.length - 1].kickoff;
-    const dates = monthOf(first) === monthOf(last) ? `${md(first)}–${dayOnly(last)}` : `${md(first)} – ${md(last)}`;
+    const dates = md(first) === md(last) ? md(first)
+      : monthOf(first) === monthOf(last) ? `${md(first)}–${dayOnly(last)}`
+      : `${md(first)} – ${md(last)}`;
     return { week: w, dates };
   });
 

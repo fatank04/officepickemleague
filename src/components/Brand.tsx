@@ -33,3 +33,19 @@ export function Logo({ name, size = 22, color = "#39465f", abbr }: { name: strin
     </span>
   );
 }
+
+// Original, license-safe team mark: a generic football helmet tinted with the
+// team's own color. It is our own artwork — no NFL logo — so it needs no license.
+// Team names/colors identify real games (see the disclaimer on the picks page).
+export function TeamHelmet({ name, color = "#39465f", size = 22 }: { name: string; color?: string; size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 32 32" role="img" aria-label={name}
+      style={{ verticalAlign: "middle", flex: "none" }}>
+      <path d="M5 18.5 A11.5 11 0 0 1 27.8 16.8 Q28 18.6 26 18.9 L18 20 Q16.4 20.2 16.4 21.8 L16.4 22.6 Q16.4 24 14.6 24 L8.5 24 Q5 24 5 20.6 Z"
+        fill={color} stroke="rgba(255,255,255,.16)" strokeWidth=".7" />
+      <circle cx="12.5" cy="17.4" r="2.5" fill="rgba(0,0,0,.32)" />
+      <path d="M18.4 20.2 Q24.4 20 24.9 23.6" fill="none" stroke="#e6ebf5" strokeWidth="1.6" strokeLinecap="round" />
+      <path d="M16.9 22.6 L24.4 23.4" fill="none" stroke="#e6ebf5" strokeWidth="1.5" strokeLinecap="round" />
+    </svg>
+  );
+}

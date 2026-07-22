@@ -1,7 +1,7 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { Logo } from "@/components/Brand";
+import { TeamHelmet } from "@/components/Brand";
 
 interface Dist { suHome: number; suN: number; atsHome: number; atsN: number; ouOver: number; ouN: number; }
 interface G {
@@ -172,9 +172,9 @@ export default function PicksClient(props: {
           <div className="gc-top">
             <div>
               <div className="gc-teams">
-                <Logo name={g.away} abbr={g.awayAbbr} color={g.awayColor} /> {g.away}
+                <TeamHelmet name={g.away} color={g.awayColor} /> {g.away}
                 <span className="muted">@</span>
-                <Logo name={g.home} abbr={g.homeAbbr} color={g.homeColor} /> {g.home}
+                <TeamHelmet name={g.home} color={g.homeColor} /> {g.home}
               </div>
               <div className="gc-meta">
                 {g.homeSpread < 0 ? g.home : g.away} -{Math.abs(g.homeSpread)} · O/U {g.total} · Game #{i + 1}
@@ -229,6 +229,13 @@ export default function PicksClient(props: {
 
       {props.games.length === 0 && (
         <div className="card pad muted">No games posted for this week yet — the lines go up midweek. Check back soon.</div>
+      )}
+
+      {props.games.length > 0 && (
+        <p className="muted" style={{ margin: "16px 4px 90px", fontSize: 11, opacity: 0.65, lineHeight: 1.5 }}>
+          Team names and colors identify real NFL games. Office Pick&apos;em League is not affiliated with,
+          endorsed by, or sponsored by the NFL or any team.
+        </p>
       )}
 
       {props.anyOpen && (
