@@ -69,9 +69,11 @@ scored companies:
    **titles** (Owner/Pres/Founder/CEO/GM + HR Mgr/Dir/People Ops + Office/Ops Mgr) and **management
    levels** (Owner→Manager). Export to `~/Downloads/` (file name `apollo-contacts-export*.csv`).
 2. **Run:** `python3 docs/outbound/join-people-apollo.py` → writes `~/Downloads/opl-people-master.csv`.
-3. It joins each person to their company by **Apollo Account Id** (inherits Metro/Wave/Ring/preScore/
-   familyOwned/address), classifies **buyer** (Owner/Pres/CEO/GM, or HR at larger cos) vs **champion**
-   (Office/Ops Mgr), and keeps **2 per account** (best buyer + best champion). Ring-labeled + sorted.
+3. It **scores each person from their own company fields** (so people at companies not in the vetted
+   master still score), pulls **Ring** from the master when the company is in it (`inMaster` flag),
+   **flags out-of-metro HQ mis-tags** (`GeoFlag` — a Pittsburgh *person* at a Chicago/Texas *company*),
+   classifies **buyer** (Owner/Pres/CEO/GM, or HR at larger cos) vs **champion** (Office/Ops Mgr), and
+   keeps **2 per account** (best buyer + best champion).
 4. **Then:** Ring 1–2 people = kit + call motion (need the buyer's name for the label — it's in the
    sheet). Ring-3 email pool comes from the *broadened* pull → MillionVerifier → Instantly
    (`list-verification-runbook.md`).
