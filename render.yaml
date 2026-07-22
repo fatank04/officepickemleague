@@ -55,5 +55,9 @@ services:
         sync: false
       - key: TELNYX_FROM_NUMBER
         sync: false
+      # Ed25519 public key that signs inbound webhooks. REQUIRED — src/app/api/sms/telnyx returns 503
+      # in production without it, so pick-by-text / paper-photo ingestion silently fails.
+      - key: TELNYX_WEBHOOK_PUBLIC_KEY
+        sync: false
       - key: ALERT_PHONE
         sync: false
