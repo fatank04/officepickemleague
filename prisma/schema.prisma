@@ -78,6 +78,8 @@ model Player {
   lockedUntil  DateTime?               // PIN brute-force lockout
   smsConsentAt DateTime?               // TCPA: when they opted in to texts
   smsOptOut    Boolean  @default(false) // STOP handling
+  isAI         Boolean  @default(false) // house bot — auto-picks weekly, can't sign in
+  aiStyle      String?                  // chalk | upset | coinflip (see lib/ai-players.ts)
   createdAt    DateTime @default(now())
 
   picks       Pick[]

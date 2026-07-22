@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 
 export type RosterRow = {
   id: string; name: string; isCommish: boolean; isMe: boolean;
-  hasPhone: boolean; consented: boolean; optedOut: boolean; locked: boolean;
+  hasPhone: boolean; consented: boolean; optedOut: boolean; locked: boolean; isAI: boolean;
 };
 
 const box: React.CSSProperties = { background: "#141c2e", border: "1px solid #2a3550", borderRadius: 12, padding: 14, margin: "10px 0" };
@@ -12,6 +12,12 @@ const input: React.CSSProperties = { background: "#0d1424", border: "1px solid #
 const btn: React.CSSProperties = { background: "#1c2740", border: "1px solid #36507e", color: "#cfe0ff", borderRadius: 8, padding: "6px 10px", fontSize: 13, cursor: "pointer" };
 const danger: React.CSSProperties = { ...btn, border: "1px solid #6b1c1c", color: "#ff9a9a", background: "#220f0f" };
 const tag = (txt: string, good = true): React.CSSProperties => ({ fontSize: 11, padding: "1px 7px", borderRadius: 999, marginLeft: 6, background: good ? "#103a28" : "#3a1414", color: good ? "#21e08a" : "#ff7a7a" });
+
+const AI_BOTS = [
+  { style: "chalk", name: "Chalk Bot", blurb: "Rides the Vegas favorite every time." },
+  { style: "upset", name: "Upset Bot", blurb: "Lives for the underdog." },
+  { style: "coinflip", name: "Coin Flip Bot", blurb: "Pure chance." },
+];
 
 export default function RosterClient({ slug, rows }: { slug: string; rows: RosterRow[] }) {
   const router = useRouter();
@@ -33,6 +39,12 @@ export default function RosterClient({ slug, rows }: { slug: string; rows: Roste
     finally { setBusy(null); }
   }
 
+  async function addAi(style: string, name: string) {
+    setBusy("addAi" + style);
+    const j = await call("addAi", { style });
+    setBusy(null);
+    if (j?.ok) { setMsg({ t: "ok", s: `${name} joined and made its picks.` }); router.refresh(); }
+  }
   async function add() {
     const j = await call("add", { name: newName });
     if (j?.ok) { setMsg({ t: "ok", s: `Added ${newName.trim()} — PIN ${j.pin} (share it with them).` }); setNewName(""); router.refresh(); }
@@ -93,6 +105,24 @@ export default function RosterClient({ slug, rows }: { slug: string; rows: Roste
       </div>
 
       <div style={box}>
+        <div style={{ fontWeight: 700, marginBottom: 4 }}>House bots</div>
+        <div style={{ color: "#93a1bc", fontSize: 12, marginBottom: 10 }}>
+          Auto-picking players that keep a small league lively — they pick every week on their own, show on the standings, and can be removed any time.
+        </div>
+        <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+          {AI_BOTS.filter((b) => !rows.some((r) => r.name === b.name)).map((b) => (
+            <button key={b.style} style={btn} disabled={busy === "addAi" + b.style} title={b.blurb}
+              onClick={() => addAi(b.style, b.name)}>
+              {busy === "addAi" + b.style ? "Adding…" : `+ 🤖 ${b.name}`}
+            </button>
+          ))}
+          {AI_BOTS.every((b) => rows.some((r) => r.name === b.name)) && (
+            <span style={{ color: "#93a1bc", fontSize: 12.5 }}>All three bots are on the roster.</span>
+          )}
+        </div>
+      </div>
+
+      <div style={box}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
           <div style={{ fontWeight: 700 }}>Bulk import</div>
           <button style={btn} onClick={() => setBulkOpen((v) => !v)}>{bulkOpen ? "Hide" : "Paste a list"}</button>
@@ -140,15 +170,16 @@ export default function RosterClient({ slug, rows }: { slug: string; rows: Roste
         <div key={r.id} style={{ ...box, display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 8 }}>
           <div>
             <span style={{ fontWeight: 600 }}>{r.name}</span>
+            {r.isAI && <span style={tag("bot")}>🤖 bot</span>}
             {r.isCommish && <span style={tag("commish")}>commish</span>}
             {r.hasPhone && <span style={tag(r.optedOut ? "opted out" : "text", !r.optedOut)}>{r.optedOut ? "opted out" : r.consented ? "text ✓" : "text"}</span>}
             {r.locked && <span style={tag("PIN locked", false)}>PIN locked</span>}
           </div>
           <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
-            <button style={btn} onClick={() => rename(r)}>Rename</button>
-            <button style={btn} onClick={() => resetPin(r)}>Reset PIN</button>
-            {r.hasPhone && !r.optedOut && <button style={btn} onClick={() => resend(r)}>Resend text</button>}
-            <button style={btn} onClick={() => toggleCommish(r)}>{r.isCommish ? "Remove commish" : "Make commish"}</button>
+            {!r.isAI && <button style={btn} onClick={() => rename(r)}>Rename</button>}
+            {!r.isAI && <button style={btn} onClick={() => resetPin(r)}>Reset PIN</button>}
+            {!r.isAI && r.hasPhone && !r.optedOut && <button style={btn} onClick={() => resend(r)}>Resend text</button>}
+            {!r.isAI && <button style={btn} onClick={() => toggleCommish(r)}>{r.isCommish ? "Remove commish" : "Make commish"}</button>}
             {!r.isMe && <button style={danger} onClick={() => remove(r)}>Remove</button>}
           </div>
         </div>

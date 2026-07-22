@@ -17,6 +17,7 @@ export default async function RosterPage({ params }: { params: { slug: string } 
     id: p.id, name: p.name, isCommish: p.isCommish, isMe: p.id === ctx.player.id,
     hasPhone: !!p.phone, consented: !!p.smsConsentAt, optedOut: !!p.smsOptOut,
     locked: !!(p.lockedUntil && p.lockedUntil > new Date()),
+    isAI: p.isAI,
   }));
 
   return (

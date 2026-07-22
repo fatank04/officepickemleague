@@ -6,6 +6,8 @@ import { cleanName, newPin, parseRoster } from "@/lib/admin";
 import { sendSms } from "@/lib/sms";
 import { leagueLabel } from "@/lib/brand";
 import { track } from "@/lib/track";
+import { AI_PERSONAS, fillAiPicks, type AiStyle } from "@/lib/ai-players";
+import { randomUUID } from "crypto";
 
 const RATES = "Msg&data rates may apply. Reply STOP to opt out, HELP for help.";
 
@@ -32,6 +34,22 @@ export async function POST(req: Request) {
     const p = await prisma.player.create({ data: { leagueId: league.id, name, pinHash: hashPin(pin), color: colorForIndex(count) } });
     track({ type: "player_joined", leagueId: league.id, playerId: p.id, channel: "web", meta: { by: "commish" } });
     return NextResponse.json({ ok: true, playerId: p.id, pin });
+  }
+
+  if (action === "addAi") {
+    const style = body.style as AiStyle;
+    const persona = AI_PERSONAS[style];
+    if (!persona) return NextResponse.json({ error: "Unknown bot." }, { status: 400 });
+    const exists = await prisma.player.findUnique({ where: { leagueId_name: { leagueId: league.id, name: persona.name } } });
+    if (exists) return NextResponse.json({ error: `${persona.name} is already on the roster.` }, { status: 409 });
+    const count = await prisma.player.count({ where: { leagueId: league.id } });
+    // PIN is an unguessable UUID that's never shown — bots can't sign in.
+    const p = await prisma.player.create({
+      data: { leagueId: league.id, name: persona.name, pinHash: hashPin(randomUUID()), color: colorForIndex(count), isAI: true, aiStyle: style },
+    });
+    await fillAiPicks({ playerId: p.id });
+    track({ type: "player_joined", leagueId: league.id, playerId: p.id, channel: "web", meta: { by: "commish", ai: style } });
+    return NextResponse.json({ ok: true, playerId: p.id, name: persona.name });
   }
 
   if (action === "rename") {
