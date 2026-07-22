@@ -67,6 +67,33 @@ export default function Home() {
   const jsonLd = {
     "@context": "https://schema.org",
     "@graph": [
+      // WebSite + Organization tell Google the site NAME ("Office Pick'em League") so the SERP
+      // shows the brand instead of the bare URL. Google reads this only from the homepage.
+      {
+        "@type": "WebSite",
+        "@id": "https://officepickemleague.com/#website",
+        url: "https://officepickemleague.com",
+        name: "Office Pick'em League",
+        alternateName: ["OPL", "officepickemleague.com"],
+        publisher: { "@id": "https://officepickemleague.com/#org" },
+      },
+      {
+        "@type": "Organization",
+        "@id": "https://officepickemleague.com/#org",
+        name: "Office Pick'em League",
+        legalName: "Foresight Solutions Group LLC",
+        url: "https://officepickemleague.com",
+        logo: "https://officepickemleague.com/og.png",
+        email: "support@officepickemleague.com",
+        address: {
+          "@type": "PostalAddress",
+          streetAddress: "38 Otsego Road",
+          addressLocality: "Verona",
+          addressRegion: "NJ",
+          postalCode: "07044",
+          addressCountry: "US",
+        },
+      },
       {
         "@type": "SoftwareApplication",
         name: "Office Pick'em League",
@@ -109,7 +136,7 @@ export default function Home() {
             🏈 <b>Founding Season 2026</b> · Kickoff Sept 9 · first 50 companies
           </div>
           <h1 className="ld-h1" data-reveal>
-            The office football pool <em>everyone</em> can play.
+            The office football pool for <em>everyone</em>.
           </h1>
           <p className="ld-sub" data-reveal>
             The employee-engagement game companies run all season — no money, no app. Your whole team,

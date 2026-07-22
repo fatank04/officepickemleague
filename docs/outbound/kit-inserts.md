@@ -1,23 +1,20 @@
-# Kit Inserts — print-ready (both Telnyx variants) — staged 2026-07-19
+# Kit Inserts — print-ready (QR-only response line) — staged 2026-07-19
 
 Everything that goes in the box, print-ready. Kits are **minis-only** (150 First Down foam
 footballs ordered 2026-07-19). Copy is locked to docs/CANONICAL_FACTS.md — do not ad-lib numbers.
 
-## WHICH VARIANT TO PRINT
+## RESPONSE LINE: QR-ONLY (decided 2026-07-22)
 
-**Brand is VERIFIED (2026-07-19) → default to Variant A** (text-to-join is the hero response).
-The one remaining condition: the Telnyx **campaign + number + `FOOTBALL` keyword** must be live at
-print time (brand-verified ≠ campaign-approved — confirm before committing to A).
-- **A** — campaign/number/keyword live → text-to-join hero.
-- **B** — not yet live at print time → QR/web-join hero, text line omitted. A first-class
-  fallback, not a downgrade; do NOT hold the drop for it.
-
-Only the **response line** differs between A and B. The letter body, the paper pick-sheet, and
-all print specs are identical either way — so the only open decision is A vs B.
+**Print the QR/web-join response line. The "Text FOOTBALL" variant is DEAD** — the Telnyx number
+is a **player** line (JOIN/picks/photo sheets); the app has no employer start-a-league text flow,
+so an employer texting FOOTBALL would get "We don't recognize this number." The kit CTA is:
+employer scans the QR → landing page → you follow up by phone. SMS stays the product
+differentiator *inside* the box (the paper sheet's "snap a photo, text it in" line), not the
+response channel.
 
 ---
 
-## 1. Welcome letter — shared body (both rings, both variants)
+## 1. Welcome letter — shared body (both rings)
 
 Print on 8.5 × 5.5 card stock, one side. Brand blue `#4f8cff` headline on white.
 `{{company}}` is hand-personalized per account (mail-merge from the refinement sheet).
@@ -33,17 +30,10 @@ Print on 8.5 × 5.5 card stock, one side. Brand blue `#4f8cff` headline on white
 > **more than half off** the standard rate and locks that price for three years — but I only run
 > a handful of founding leagues, and **kickoff is Sept 9**.
 >
-> **《RESPONSE LINE — Variant A or B, see below》**
->
-> Doris in receiving is going to win your league. Let's get her started. — Ankur
-
-### Variant A — response line (Telnyx VERIFIED)
-> **Text `FOOTBALL` to «VERIFIED TELNYX NUMBER» and I'll set {{company}}'s league up today.**
-> Prefer the web? Scan below. → [QR]
-
-### Variant B — response line (QR / web-join fallback)
 > **Scan to start — I'll have {{company}}'s league live before kickoff.** → [QR]
 > (Or call the number on the card I'll follow up with.)
+>
+> Doris in receiving is going to win your league. Let's get her started. — Ankur
 
 **Ring split (only difference between Ring 1 and Ring 2 letters):**
 - Ring 1 (richer mini kit: 10-sheet pad + handwritten note) → QR encodes `https://officepickemleague.com/?utm_source=kit1`
@@ -51,9 +41,6 @@ Print on 8.5 × 5.5 card stock, one side. Brand blue `#4f8cff` headline on white
 - Body copy is otherwise word-for-word identical across rings.
 
 ### Pre-print checklist
-- [ ] Variant chosen (A once the Telnyx **campaign + number** are provisioned; else B).
-- [ ] Variant A only: real Telnyx number dropped in, and the `FOOTBALL` keyword is
-      confirmed to route to the start-a-league flow (test-text it yourself first).
 - [ ] QR generated from the EXACT utm URL per ring, and scan-tested with a phone.
 - [ ] `{{company}}` merged correctly on every card (spot-check 5).
 - [ ] **Ring 1 only:** handwritten note added per account (copy + rules: kit-and-call-playbook.md § Handwritten note).
@@ -67,13 +54,13 @@ This is an **app-generated artifact**, not free copy — produce it, don't rewri
   **demo-league sheet marked `SAMPLE`** (the playbook's spec).
 - Ring 1: a **10-sheet pad**. Ring 2: **3 loose sample sheets**.
 - The sheet already carries the week's matchups with check-boxes + the "snap a photo, text it in"
-  instruction — that instruction line only functions once messaging is verified, so it matches
-  whichever Telnyx variant you printed. If Variant B (unverified), the sheet still demos the paper
-  motion; the photo-submission goes live when the league's SMS activates (SMS-activation framing).
+  instruction — that line is LIVE (Telnyx SMS end-to-end since 2026-07-22) once the account's
+  league exists; on the SAMPLE sheet it demos the paper motion, and photo-submission activates
+  with the league.
 
 ---
 
-## 3. Print & QR specs (identical both variants)
+## 3. Print & QR specs
 
 | Item | Spec |
 |---|---|
