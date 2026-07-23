@@ -47,7 +47,7 @@ export default function WalkthroughTease() {
         <div style={{ color: "var(--accent)", fontWeight: 800, fontSize: 12, letterSpacing: 1.4, textTransform: "uppercase" }}>
           See it in action
         </div>
-        <h2 style={{ fontSize: 19, margin: "4px 0 0" }}>A 40-second look inside the league</h2>
+        <h2 style={{ fontSize: 19, margin: "4px 0 0" }}>Inside the league</h2>
         <p className="muted small" style={{ margin: "4px auto 0", maxWidth: 460 }}>
           The real app your team sees once you&apos;re in — no sign-up required to watch.
         </p>

@@ -33,7 +33,7 @@ export default function PricingPage() {
         </p>
       </div>
 
-      <PromoVideo caption="See it in 30 seconds." />
+      <PromoVideo caption="Why offices run it — watch." />
 
       <div className="card pad" style={{ marginTop: 16 }}>
         <div style={{ fontWeight: 700, marginBottom: 4 }}>🏈 Founding Season 2026 — first 50 companies</div>

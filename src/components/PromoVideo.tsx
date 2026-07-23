@@ -1,5 +1,5 @@
 /**
- * The 30-second hero ad, self-hosted (public/promo-hero.mp4, ~5.6MB faststart encode).
+ * The 35-second hero ad, self-hosted (public/promo-hero.mp4, ~5.6MB faststart encode).
  * Click-to-play with sound — the narration is the ad, so no muted autoplay. The poster
  * is the branded packshot frame, so the block reads as brand even if never played.
  */

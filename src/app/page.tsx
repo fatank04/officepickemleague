@@ -198,15 +198,15 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ===== Three ways in (interactive) ===== */}
+      {/* ===== Four ways to play (interactive) ===== */}
       <section className="ld-section" id="play">
         <div className="ld-wrap">
-          <div className="ld-kicker" data-reveal>Three ways in</div>
+          <div className="ld-kicker" data-reveal>Four ways to play</div>
           <h2 className="ld-h2" data-reveal>Pick however you like. Confirm before it counts.</h2>
           <p className="ld-lead" data-reveal>
-            Same league, same standings — by text, on the web, or on plain old paper.
-            Whichever you choose, your picks are echoed back to you and stay changeable until kickoff.
-            Prefer to call in? A concierge phone line is available as an add-on.
+            Same league, same standings — by text, on the web, on plain old paper, or on a concierge
+            call (the premium add-on). Each week is a short slate of the biggest games, and every way in
+            ends the same: your picks echoed back to you in full, changeable until kickoff.
           </p>
           <div data-reveal>
             <ModalityJourney />
@@ -297,7 +297,7 @@ export default function Home() {
       <section className="ld-section">
         <div className="ld-wrap" data-reveal>
           <div className="ld-kicker">See it</div>
-          <h2 className="ld-h2">Take the 30-second tour.</h2>
+          <h2 className="ld-h2">Take the 40-second tour.</h2>
           <WalkthroughTease />
         </div>
       </section>
