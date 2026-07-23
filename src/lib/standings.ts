@@ -28,7 +28,35 @@ export interface StandingsView {
   playoff?: ReturnType<typeof playoffStandings>;
 }
 
-export async function getStandings(league: {
+// Short-TTL in-process cache. Standings are read on the standings page, insights,
+// and every SMS STANDINGS/SCORE — a deadline burst would otherwise recompute the
+// whole league (all picks × games) per request. A leaderboard 20s stale is fine,
+// and this collapses a concurrent burst into one computation per league.
+const STANDINGS_TTL_MS = 20_000;
+const standingsCache = new Map<string, { at: number; view: Promise<StandingsView> }>();
+export function invalidateStandings(leagueId: string) { standingsCache.delete(leagueId); }
+
+export function getStandings(league: {
+  id: string;
+  season: number;
+  format: Format;
+  seasonStart: number;
+  seasonEnd: number;
+  playoffOn: boolean;
+  playoffStart: number;
+  playoffTeams: number;
+  seedStep: number;
+}): Promise<StandingsView> {
+  const hit = standingsCache.get(league.id);
+  if (hit && Date.now() - hit.at < STANDINGS_TTL_MS) return hit.view;
+  // Cache the PROMISE (not the result) so a concurrent burst shares one query,
+  // not N. On error, drop it so the next caller retries.
+  const view = computeStandings(league).catch((e) => { standingsCache.delete(league.id); throw e; });
+  standingsCache.set(league.id, { at: Date.now(), view });
+  return view;
+}
+
+async function computeStandings(league: {
   id: string;
   season: number;
   format: Format;
