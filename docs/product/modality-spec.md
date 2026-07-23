@@ -65,6 +65,13 @@ Build notes:
 
 ## 4. Concierge call (premium add-on)
 
+**LEAN CORE BUILT 2026-07-22** (lib/concierge.ts tools + CONCIERGE_PROMPT; /api/voice/agent webhook;
+concierge.test.ts). Platform = Telnyx AI Assistant. Tools (get_context/set_pick/set_lock/read_card/
+submit_card) reuse the SMS PLAY engine. Remaining = USER wires the Telnyx AI Assistant per
+docs/product/concierge-setup.md (create assistant, paste prompt, add 5 webhook tools, attach number,
+set CONCIERGE_TOOL_SECRET). Next iteration = richer memory/adaptation.
+
+
 Landing shows: a conversational voice agent with adaptive personality — chatty when the
 player wants company, rapid-fire when they're rushed; remembers past weeks; talks each game
 out; reads the full card back; submits only on explicit confirmation.

@@ -59,5 +59,9 @@ services:
       # in production without it, so pick-by-text / paper-photo ingestion silently fails.
       - key: TELNYX_WEBHOOK_PUBLIC_KEY
         sync: false
+      # Concierge voice (Telnyx AI Assistant) — shared bearer secret the assistant sends
+      # to /api/voice/agent. Generate one, set it here AND in each Telnyx tool's headers.
+      - key: CONCIERGE_TOOL_SECRET
+        sync: false
       - key: ALERT_PHONE
         sync: false
