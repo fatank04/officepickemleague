@@ -15,7 +15,15 @@ export default async function InsightsPage() {
   const league = ctx.league;
   const myId = ctx.player.id;
 
-  const view = await getStandings(league);
+  // All three are independent — run them in parallel instead of three round-trips.
+  const [view, games, allPicks] = await Promise.all([
+    getStandings(league),
+    prisma.game.findMany({
+      where: { season: league.season, week: { gte: league.seasonStart, lte: league.seasonEnd } },
+      orderBy: [{ week: "asc" }, { kickoff: "asc" }],
+    }),
+    prisma.pick.findMany({ where: { leagueId: league.id } }),
+  ]);
   const rows = view.rows;
   const N = rows.length;
   const rank = rows.findIndex((r) => r.playerId === myId) + 1;
@@ -24,12 +32,6 @@ export default async function InsightsPage() {
   const avgPts = Math.round(rows.reduce((s, r) => s + r.pts, 0) / Math.max(1, N));
   const percentile = N > 1 ? Math.round(((N - rank) / (N - 1)) * 100) : 100;
   const behind = leader.pts - (me.pts ?? 0);
-
-  const games = await prisma.game.findMany({
-    where: { season: league.season, week: { gte: league.seasonStart, lte: league.seasonEnd } },
-    orderBy: [{ week: "asc" }, { kickoff: "asc" }],
-  });
-  const allPicks = await prisma.pick.findMany({ where: { leagueId: league.id } });
   const tByGame = new Map<string, ReturnType<typeof truth>>();
   const wByGame = new Map<string, number>();
   for (const g of games) { tByGame.set(g.id, truth(g as unknown as GameScore)); wByGame.set(g.id, g.week); }

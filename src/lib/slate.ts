@@ -37,24 +37,47 @@ export function rankSlate(games: SlateGame[], homeTeam: string | null, size = SL
   return scored.slice(0, Math.min(size, scored.length)).map((s) => s.g);
 }
 
+// In-process cache of a league's built slate (week → gameId set). The slate is
+// identical for every player in a league-week and rarely changes, so this keeps
+// the SlateEntry query off the hot paths (picks/SMS/autofill). The commissioner
+// toggle calls invalidateSlate; the TTL is a backstop.
+const SLATE_TTL_MS = 60_000;
+const slateCache = new Map<string, { at: number; byWeek: Map<number, Set<string>> }>();
+export function invalidateSlate(leagueId: string) { slateCache.delete(leagueId); }
+
+async function seasonSlate(league: SlateLeague): Promise<Map<number, Set<string>>> {
+  const c = slateCache.get(league.id);
+  if (c && Date.now() - c.at < SLATE_TTL_MS) return c.byWeek;
+  const entries = await prisma.slateEntry.findMany({
+    where: { leagueId: league.id, season: league.season },
+    select: { gameId: true, week: true },
+  });
+  const byWeek = new Map<number, Set<string>>();
+  for (const e of entries) byWeek.set(e.week, (byWeek.get(e.week) ?? new Set()).add(e.gameId));
+  slateCache.set(league.id, { at: Date.now(), byWeek });
+  return byWeek;
+}
+
+// Build + persist one week's slate, updating the cache. Returns its game ids.
+async function buildWeek(league: SlateLeague, week: number, byWeek: Map<number, Set<string>>): Promise<Set<string>> {
+  const games = await prisma.game.findMany({ where: { season: league.season, week } });
+  const chosen = games.length ? rankSlate(games, league.homeTeam) : [];
+  if (chosen.length)
+    await prisma.slateEntry.createMany({
+      data: chosen.map((g) => ({ leagueId: league.id, gameId: g.id, season: league.season, week })),
+      skipDuplicates: true,
+    });
+  const set = new Set(chosen.map((g) => g.id));
+  byWeek.set(week, set);
+  return set;
+}
+
 // The slate's game ids for one league-week. Returns null for full-slate leagues
-// (meaning: no filter). Lazily builds + persists on first call.
+// (meaning: no filter). Served from cache; lazily builds + persists on first call.
 export async function slateIds(league: SlateLeague, week: number): Promise<Set<string> | null> {
   if (league.fullSlate) return null;
-  const existing = await prisma.slateEntry.findMany({
-    where: { leagueId: league.id, season: league.season, week },
-    select: { gameId: true },
-  });
-  if (existing.length) return new Set(existing.map((e) => e.gameId));
-
-  const games = await prisma.game.findMany({ where: { season: league.season, week } });
-  if (!games.length) return new Set();
-  const chosen = rankSlate(games, league.homeTeam);
-  await prisma.slateEntry.createMany({
-    data: chosen.map((g) => ({ leagueId: league.id, gameId: g.id, season: league.season, week })),
-    skipDuplicates: true,
-  });
-  return new Set(chosen.map((g) => g.id));
+  const byWeek = await seasonSlate(league);
+  return byWeek.get(week) ?? (await buildWeek(league, week, byWeek));
 }
 
 // Filter helper for surfaces that already fetched a week's games.
@@ -63,30 +86,15 @@ export async function filterToSlate<T extends { id: string }>(league: SlateLeagu
   return ids ? games.filter((g) => ids.has(g.id)) : games;
 }
 
-// Season-wide variant for the picks page (all weeks in one shot, one query +
-// one createMany per missing week).
+// Season-wide variant for the picks page.
 export async function filterSeasonToSlate<T extends { id: string; week: number }>(
   league: SlateLeague,
   games: T[]
 ): Promise<T[]> {
   if (league.fullSlate) return games;
-  const entries = await prisma.slateEntry.findMany({
-    where: { leagueId: league.id, season: league.season },
-    select: { gameId: true, week: true },
-  });
-  const byWeek = new Map<number, Set<string>>();
-  for (const e of entries) byWeek.set(e.week, (byWeek.get(e.week) ?? new Set()).add(e.gameId));
-
-  const weeks = [...new Set(games.map((g) => g.week))];
-  for (const w of weeks) {
-    if (byWeek.has(w)) continue;
-    const wk = games.filter((g) => g.week === w);
-    const chosen = rankSlate(wk as unknown as SlateGame[], league.homeTeam);
-    await prisma.slateEntry.createMany({
-      data: chosen.map((g) => ({ leagueId: league.id, gameId: g.id, season: league.season, week: w })),
-      skipDuplicates: true,
-    });
-    byWeek.set(w, new Set(chosen.map((g) => g.id)));
+  const byWeek = await seasonSlate(league);
+  for (const w of new Set(games.map((g) => g.week))) {
+    if (!byWeek.has(w)) await buildWeek(league, w, byWeek);
   }
   return games.filter((g) => byWeek.get(g.week)?.has(g.id));
 }

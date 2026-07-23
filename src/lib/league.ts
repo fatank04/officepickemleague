@@ -12,12 +12,12 @@ export function slugify(name: string): string {
 export async function current() {
   const s = getSession();
   if (!s) return null;
-  const [league, player] = await Promise.all([
-    prisma.league.findUnique({ where: { slug: s.leagueSlug } }),
-    prisma.player.findUnique({ where: { id: s.playerId } }),
-  ]);
-  if (!league || !player || player.leagueId !== league.id) return null;
-  return { league, player };
+  // One query (player + its league) instead of two — runs on every authenticated
+  // request, so halving its connection use matters under load.
+  const player = await prisma.player.findUnique({ where: { id: s.playerId }, include: { league: true } });
+  if (!player || player.league.slug !== s.leagueSlug) return null;
+  const { league, ...bare } = player;
+  return { league, player: bare };
 }
 
 /** Kept for UI summaries only — NO LONGER the write gate (per-game locks are). */

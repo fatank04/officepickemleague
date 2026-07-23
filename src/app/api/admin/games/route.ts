@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { slateIds } from "@/lib/slate";
+import { slateIds, invalidateSlate } from "@/lib/slate";
 import { prisma } from "@/lib/db";
 import { requireCommish } from "@/lib/league";
 import { parseScore, parseLine } from "@/lib/admin";
@@ -33,9 +33,11 @@ export async function POST(req: Request) {
       const picks = await prisma.pick.count({ where: { leagueId: league.id, gameId: g.id } });
       if (picks > 0) return NextResponse.json({ error: "Players already picked this game — it stays on the slate." }, { status: 400 });
       await prisma.slateEntry.delete({ where: { id: existing.id } });
+      invalidateSlate(league.id);
       return NextResponse.json({ ok: true, onSlate: false });
     }
     await prisma.slateEntry.create({ data: { leagueId: league.id, gameId: g.id, season: g.season, week: g.week } });
+    invalidateSlate(league.id);
     return NextResponse.json({ ok: true, onSlate: true });
   }
 
