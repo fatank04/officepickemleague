@@ -30,21 +30,24 @@ Decided 2026-07-22. Platform = **Telnyx AI Assistant** (same vendor as the numbe
      keeps the banter natural).
    - Voice: a warm, natural TTS voice. Turn on a filler phrase for sync tools
      ("one sec…") so pauses feel human.
-3. **Add 5 webhook tools**, all pointing at `POST /api/voice/agent` with header
-   `Authorization: Bearer <secret>` and a JSON body. Pass the caller's number as
-   `from` using Telnyx's dynamic variable for the inbound caller ID.
+3. **Add 5 webhook tools** (Telnyx → tool type **Webhook**). Every tool shares:
+   - **Method** `POST`
+   - **Headers:** `Authorization: Bearer <secret>` and `X-Caller-Number: {{telnyx_end_user_target}}`
+     (the built-in caller-number variable — this is how the tool tells the app who's on the line).
+   - **URL** carries the action as the last path segment; **Body Parameters** hold only the
+     model-filled args. Leave Path/Query/Dynamic-Variable-Assignment tabs empty.
 
-   | Tool | Body |
-   |---|---|
-   | get_context | `{"action":"get_context","from":"{{caller_number}}"}` |
-   | set_pick | `{"action":"set_pick","from":"{{caller_number}}","game_number":<int>,"spoken":"<their words>"}` |
-   | set_lock | `{"action":"set_lock","from":"{{caller_number}}","game_number":<int>}` |
-   | read_card | `{"action":"read_card","from":"{{caller_number}}"}` |
-   | submit_card | `{"action":"submit_card","from":"{{caller_number}}"}` |
+   | Tool | URL | Body Parameters |
+   |---|---|---|
+   | get_context | `…/api/voice/agent/get_context` | none |
+   | set_pick | `…/api/voice/agent/set_pick` | `game_number` (integer), `spoken` (string) |
+   | set_lock | `…/api/voice/agent/set_lock` | `game_number` (integer) |
+   | read_card | `…/api/voice/agent/read_card` | none |
+   | submit_card | `…/api/voice/agent/submit_card` | none |
 
-   (Use whatever token Telnyx exposes for the inbound caller number in place of
-   `{{caller_number}}`.) Describe each tool so the model knows when to call it —
-   the prompt already tells it the flow.
+   (Base URL `https://officepickemleague.com`.) The endpoint also accepts the flat shape
+   `POST /api/voice/agent` with `{action, from}` in the body, if you prefer that.
+
 4. **Attach a number.** Point the 412 number's *voice* to this assistant (SMS
    still goes to the messaging profile — the two don't conflict). Or use a
    separate voice number if you'd rather keep them apart.

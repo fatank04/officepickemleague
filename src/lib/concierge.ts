@@ -143,6 +143,24 @@ export async function conciergeSubmit(from: string) {
 
 export type ConciergeTool = "get_context" | "set_pick" | "set_lock" | "read_card" | "submit_card";
 
+// Read the caller's number from wherever Telnyx puts it: the X-Caller-Number
+// header (a dynamic variable set in the tool's Headers), or the request body.
+export function callerFrom(req: Request, body: any): string {
+  return String(req.headers.get("x-caller-number") || body?.from || body?.telnyx_end_user_target || "").trim();
+}
+
+// Shared dispatch for both endpoint shapes (flat body-action, and /[action] path).
+export async function dispatchConcierge(action: string, from: string, gameNumber: number, spoken: string) {
+  switch (action) {
+    case "get_context": return conciergeContext(from);
+    case "set_pick": return conciergePick(from, gameNumber, spoken);
+    case "set_lock": return conciergeLock(from, gameNumber);
+    case "read_card": return conciergeReadCard(from);
+    case "submit_card": return conciergeSubmit(from);
+    default: return { ok: false, error: `Unknown action "${action}".` };
+  }
+}
+
 // The Telnyx AI Assistant's system prompt (lean v1 — warm but not overwrought).
 export const CONCIERGE_PROMPT = `You are the Office Pick'em League concierge — a warm, quick, football-savvy friend who takes someone's weekly NFL pick'em picks over the phone. You are NOT a customer-service bot; you're the buddy who calls to get their card in.
 

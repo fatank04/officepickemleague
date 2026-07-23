@@ -3,11 +3,11 @@ import { dispatchConcierge, callerFrom } from "@/lib/concierge";
 
 export const dynamic = "force-dynamic";
 
-// Webhook target for the Telnyx AI Assistant's tools. Flat shape: { action, ... }
-// in the body. (The /[action] route is the tidier path-based shape.) Auth: a
-// shared secret sent as a bearer token — set CONCIERGE_TOOL_SECRET in the env
-// and in the tool headers.
-export async function POST(req: Request) {
+// Path-based shape for the Telnyx AI Assistant tools — the action is the last URL
+// segment (…/api/voice/agent/set_pick), so it never has to appear in the body.
+// Body carries only the model-filled args (game_number, spoken). The caller
+// number comes from the X-Caller-Number header (a Telnyx dynamic variable).
+export async function POST(req: Request, { params }: { params: { action: string } }) {
   const secret = process.env.CONCIERGE_TOOL_SECRET;
   if (!secret) return NextResponse.json({ ok: false, error: "Concierge not configured." }, { status: 503 });
   if (req.headers.get("authorization") !== `Bearer ${secret}`)
@@ -18,6 +18,6 @@ export async function POST(req: Request) {
   if (!from) return NextResponse.json({ ok: false, error: "Missing caller number." }, { status: 400 });
 
   return NextResponse.json(
-    await dispatchConcierge(String(body.action || ""), from, Number(body.game_number ?? body.gameNumber), String(body.spoken ?? body.pick ?? ""))
+    await dispatchConcierge(params.action, from, Number(body.game_number ?? body.gameNumber), String(body.spoken ?? body.pick ?? ""))
   );
 }
