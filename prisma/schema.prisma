@@ -108,6 +108,7 @@ model Player {
   submissions Submission[]
 
   @@unique([leagueId, name])
+  @@index([phone]) // SMS/voice caller lookup — hot path under a deadline text burst
 }
 
 // One row per real NFL game, shared across leagues (sourced from The Odds API).
@@ -164,6 +165,7 @@ model PowerPick {
 
   @@unique([playerId, season, week, rank])
   @@unique([playerId, season, week, gameId])
+  @@index([leagueId]) // getStandings loads all league power picks
 }
 
 // Tracks submit / undo state per player per week.
@@ -178,6 +180,7 @@ model Submission {
   submittedAt DateTime @default(now())
 
   @@unique([playerId, season, week])
+  @@index([leagueId, season, week]) // submitted-count on the picks page
 }
 
 model Event {
