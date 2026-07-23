@@ -48,6 +48,12 @@ Build notes:
 
 ## 3. Paper: scan → full confirm → one revision round
 
+**SHIPPED 2026-07-22** (sms-inbound.ts photo path). A read sheet now drops the player into the guided
+recap/correction stage (flowWeek): the reply lists EVERY slate game in plain English, unreadable
+cells are asked one at a time, and corrections use the same plain-word parser as PLAY ("make game 3
+an under", "flip the Bills", talk-to-text) before LOCK. Reuses lib/guided.ts — no separate paper parser.
+
+
 Landing shows: photo of the checked sheet → bot texts back EVERY pick game-by-game in plain
 English + the Lock → player fixes anything in plain words (talk-to-text) → locked.
 
