@@ -40,7 +40,9 @@ export const methodName: Record<string, string> = { fav: "the favorites", home: 
 // ---- call context: identify caller + the current open week's games ----
 export async function voiceCtx(from: string) {
   const { prisma } = await import("./db");
-  const player = await prisma.player.findFirst({ where: { phone: from }, include: { league: true } });
+  const { phoneVariants } = await import("./phone");
+  // Forgiving match — the caller ID's shape varies by provider (indexed `in`).
+  const player = await prisma.player.findFirst({ where: { phone: { in: phoneVariants(from) } }, include: { league: true } });
   if (!player) return null;
   const season = player.league.season;
   // Earliest week that still has an un-kicked game — one indexed query, not a per-week scan.
