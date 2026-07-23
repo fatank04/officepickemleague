@@ -11,8 +11,42 @@ import { ord } from "./ord";
 import { abbr } from "./teams";
 import { buildSheetPrompt, mapSheetResponse, issueReply, type SheetGame, type SheetResult } from "./sheet";
 import { fetchMediaAsDataUrl, transcribeImage, sheetsConfigured } from "./vision";
+import { askGame, recapLine, parseGuidedAnswer, parseGuidedChange, isComplete, teamLabel, type FlowGame, type Answer } from "./guided";
 
 const RATES = "Msg&data rates may apply. Reply STOP to opt out, HELP for help.";
+
+type FlowGameRow = FlowGame & { kickoff: string | Date };
+
+// Read the player's saved picks for a week's games as an id→Answer map.
+async function readAnswers(playerId: string, games: { id: string }[]): Promise<Map<string, Answer>> {
+  const picks = await prisma.pick.findMany({ where: { playerId, gameId: { in: games.map((g) => g.id) } } });
+  return new Map(picks.map((p) => [p.gameId, { su: p.su as any, ats: p.ats as any, ou: p.ou as any }]));
+}
+
+// Render the next guided step: ask the first game whose card isn't complete (and
+// isn't locked), or — when every open game is answered — the full-card recap.
+async function guidedStep(
+  player: { id: string; leagueId: string; league: { name: string } },
+  season: number,
+  week: number,
+  games: FlowGameRow[],
+  now: Date,
+  prefix = ""
+): Promise<string> {
+  const open = games.filter((g) => !isGameLocked(g, now));
+  if (!open.length) return `${prefix}Every game this week has kicked off — nothing left to pick. Reply STANDINGS to see how you're doing.`;
+  const answers = await readAnswers(player.id, open);
+  const nextIdx = open.findIndex((g) => !isComplete(answers.get(g.id) ?? {}));
+  if (nextIdx >= 0) {
+    const pre = prefix || (open.some((g) => answers.get(g.id)) ? "" : `Week ${week} — ${open.length} games, one at a time. Talk to me like a friend (or use the mic 🎤).\n\n`);
+    return `${pre}${askGame(open[nextIdx], nextIdx, open.length)}`;
+  }
+  // All answered → recap + lock prompt.
+  const pwr = await prisma.powerPick.findFirst({ where: { playerId: player.id, season, week }, orderBy: { rank: "asc" } });
+  const lockId = pwr?.gameId ?? open[0].id; // default the Lock to game 1 until they say otherwise
+  const lines = open.map((g, i) => recapLine(g, i, answers.get(g.id) ?? {}, g.id === lockId));
+  return `${prefix}That's the whole slate ✓ Your card:\n${lines.join("\n")}\nLock = game ${open.findIndex((g) => g.id === lockId) + 1}. Change any pick in plain words (e.g. "3 under" or "flip the Bills"), set your Lock ("lock game 5"), or reply LOCK to send it in.`;
+}
 
 export interface InboundMedia {
   urls: string[];
@@ -112,7 +146,7 @@ export async function handleInboundSms(
   // A photo takes priority over caption text: phones attach captions like "my picks",
   // which must not swallow the sheet. Only STOP/START (compliance) outrank a photo.
   if (!hasPhoto && ["HELP", "INFO", "COMMANDS", "?"].includes(cmd)) {
-    return `Office Pick'em:\nLINES = this week's games\n"1 SEA u  2 LAR o  LOCK 1" = make picks\nMY PICKS · STANDINGS · SCORE\nSupport: help@officepickemleague.com\n${RATES}`;
+    return `Office Pick'em:\nPLAY = pick game-by-game (easiest)\nLINES = this week's games\n"1 SEA u  2 LAR o  LOCK 1" = quick picks\nMY PICKS · STANDINGS · SCORE\nSupport: help@officepickemleague.com\n${RATES}`;
   }
 
   // ---- SMS-first enrollment: JOIN <code> <name...> ----
@@ -267,7 +301,93 @@ export async function handleInboundSms(
 
   if (!hasPhoto && /^(LINES|GAMES|SLATE)\b/.test(U)) {
     const lines = games.map((g, i) => `${i + 1}) ${g.away}@${g.home} ${g.home} ${g.homeSpread > 0 ? "+" : ""}${g.homeSpread}, O/U ${g.total}${isGameLocked(g, now) ? " (LOCKED)" : ""}`);
-    return `Wk ${targetWeek}:\n${lines.join("\n")}\nReply e.g.: 1 ${games[0]?.away?.slice(0, 3).toUpperCase()} u  LOCK 1`;
+    return `Wk ${targetWeek}:\n${lines.join("\n")}\nReply PLAY to pick game-by-game, or e.g.: 1 ${games[0]?.away?.slice(0, 3).toUpperCase()} u  LOCK 1`;
+  }
+
+  // ---- Guided game-by-game flow (PLAY) ----
+  const fgames = games as FlowGameRow[];
+  const openFlow = fgames.filter((g) => !isGameLocked(g, now));
+
+  // A rolled-over flow (week advanced under a stale flowWeek) resets cleanly.
+  if (player.flowWeek != null && player.flowWeek !== targetWeek) {
+    await prisma.player.update({ where: { id: player.id }, data: { flowWeek: null } });
+    player.flowWeek = null;
+  }
+
+  const startFlow = !hasPhoto && ["PLAY", "PICK", "PICKS", "START", "GO", "READY", "DEAL"].includes(cmd) && !/^MY ?PICKS/.test(U);
+  if (startFlow) {
+    if (!openFlow.length) return "Every game this week has kicked off — nothing to pick right now.";
+    await prisma.player.update({ where: { id: player.id }, data: { flowWeek: targetWeek } });
+    return guidedStep(player, season, targetWeek, fgames, now);
+  }
+
+  if (!hasPhoto && player.flowWeek === targetWeek && openFlow.length) {
+    const saveAnswer = async (g: FlowGame, parsed: Answer) => {
+      const cur = (await readAnswers(player.id, [g])).get(g.id) ?? {};
+      const merged = { su: parsed.su ?? cur.su, ats: parsed.ats ?? cur.ats, ou: parsed.ou ?? cur.ou };
+      await prisma.pick.upsert({
+        where: { playerId_gameId: { playerId: player.id, gameId: g.id } },
+        update: merged, create: { leagueId: player.leagueId, playerId: player.id, gameId: g.id, ...merged },
+      });
+      track({ type: "pick_saved", leagueId: player.leagueId, playerId: player.id, season, week: targetWeek, channel: "sms", meta: { guided: true } });
+    };
+    const setLock = async (g: FlowGame) => {
+      await prisma.$transaction([
+        prisma.powerPick.deleteMany({ where: { playerId: player.id, season, week: targetWeek } }),
+        prisma.powerPick.create({ data: { leagueId: player.leagueId, playerId: player.id, gameId: g.id, season, week: targetWeek, rank: 1 } }),
+      ]);
+    };
+
+    const answers = await readAnswers(player.id, openFlow);
+    const cursorIdx = openFlow.findIndex((g) => !isComplete(answers.get(g.id) ?? {}));
+    const allDone = cursorIdx < 0;
+
+    // "lock game 5" sets the Lock (works at any stage).
+    const lockNum = raw.match(/lock\s*(?:game\s*)?#?\s*(\d{1,2})/i);
+    if (lockNum) {
+      const n = Number(lockNum[1]);
+      if (n >= 1 && n <= openFlow.length) {
+        await setLock(openFlow[n - 1]);
+        return guidedStep(player, season, targetWeek, fgames, now, `Lock set on game ${n} ✓\n\n`);
+      }
+    }
+    // Bare LOCK / "send it" / "done" submits the card (only once it's complete).
+    if (/^(lock|lock it in|send( it)?|submit|done|all set|that'?s it|confirm)\b/i.test(raw.trim())) {
+      if (!allDone) return guidedStep(player, season, targetWeek, fgames, now, "A few games still open 👇\n\n");
+      const pwr = await prisma.powerPick.count({ where: { playerId: player.id, season, week: targetWeek } });
+      if (!pwr) await setLock(openFlow[0]); // every card needs a Lock; default to game 1
+      await prisma.submission.upsert({
+        where: { playerId_season_week: { playerId: player.id, season, week: targetWeek } },
+        update: {}, create: { leagueId: player.leagueId, playerId: player.id, season, week: targetWeek },
+      });
+      await prisma.player.update({ where: { id: player.id }, data: { flowWeek: null } });
+      track({ type: "pick_saved", leagueId: player.leagueId, playerId: player.id, season, week: targetWeek, channel: "sms", meta: { guided: true, locked: true } });
+      return "Card locked 🔒 You're in for the week. Reply MY PICKS anytime to review, or STANDINGS to see the board. Good luck 🍀";
+    }
+
+    if (allDone) {
+      // Recap stage: a change can name a game number or a team.
+      const chg = parseGuidedChange(raw, openFlow);
+      if (chg && "idx" in chg) {
+        await saveAnswer(openFlow[chg.idx], chg.answer);
+        return guidedStep(player, season, targetWeek, fgames, now, "Updated ✓\n\n");
+      }
+      return `Didn't catch that. Reply LOCK to send your card, or a change like "3 under" or "flip the ${teamLabel(openFlow[0].home)}".`;
+    }
+
+    // Mid-flow: an explicit number targets that game, otherwise the cursor game.
+    const numM = raw.match(/^\s*(\d{1,2})\b/);
+    let idx = cursorIdx;
+    let text = raw;
+    if (numM) {
+      const n = Number(numM[1]);
+      if (n >= 1 && n <= openFlow.length) { idx = n - 1; text = raw.replace(numM[0], " "); }
+    }
+    const ans = parseGuidedAnswer(text, openFlow[idx]);
+    if (!ans.su && !ans.ats && !ans.ou)
+      return `Didn't catch a team. ${askGame(openFlow[cursorIdx], cursorIdx, openFlow.length)}`;
+    await saveAnswer(openFlow[idx], ans);
+    return guidedStep(player, season, targetWeek, fgames, now, "Got it ✓\n\n");
   }
 
   // ---- Parse picks ----

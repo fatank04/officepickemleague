@@ -26,6 +26,11 @@ Build notes:
 
 ## 2. Guided text flow ("like texting a friend")
 
+**SHIPPED 2026-07-22** (lib/guided.ts parsers + guided.test.ts; Player.flowWeek state; PLAY starts
+the flow in sms-inbound.ts; one game at a time → recap → plain-words changes / LOCK submit; weekly
+nudge invites PLAY; colloquial + voice-to-text aliases). Concierge voice reuses these parsers next.
+
+
 Landing shows: bot offers the slate one game at a time with the lines; player answers each in
 plain words (talk-to-text welcomed); bot echoes each pick inline, then sends a full-card
 recap + Lock prompt; player can revise in plain words; LOCK submits.

@@ -46,7 +46,7 @@ export async function GET(req: Request) {
       );
       for (const p of players) {
         if (!eligible(p) || started.has(p.id) || alreadyReminded.has(p.id)) continue;
-        await sendSms(p.phone!, `Week ${wk} is live in ${leagueLabel(lg.name)}! Reply LINES to see the games, then text your picks (e.g. "1 SEA u"). Each game locks at kickoff. ${RATES}`).catch(() => {});
+        await sendSms(p.phone!, `Week ${wk} is live in ${leagueLabel(lg.name)}! Reply PLAY and I\u2019ll walk you through the games one at a time \u2014 text your pick for each (talk-to-text works great). ${RATES}`).catch(() => {});
         track({ type: "reminder_sent", leagueId: lg.id, playerId: p.id, season, week: wk, channel: "sms" });
         sent++;
       }

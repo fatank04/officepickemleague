@@ -100,6 +100,7 @@ model Player {
   smsOptOut    Boolean   @default(false) // STOP handling
   isAI         Boolean   @default(false) // house bot — auto-picks weekly, can't sign in
   aiStyle      String? // chalk | upset | coinflip (see lib/ai-players.ts)
+  flowWeek     Int? // guided-SMS pick flow: the week in progress (null = not in a flow)
   createdAt    DateTime  @default(now())
 
   picks       Pick[]
