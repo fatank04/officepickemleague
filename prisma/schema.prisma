@@ -33,6 +33,7 @@ model League {
   homeTeam       String? // full team name (teams.ts key) — always on the weekly slate
   fullSlate      Boolean  @default(false) // true = all 16 games; false = featured ~9-game slate
   welcomeMessage String? // optional note in the welcome SMS / join page
+  joinCode       String?  @unique // memorable two-word SMS join code, e.g. "steel-crew"
   kitSlug        String? // pURL kit slug that launched this league (attribution)
   createdAt      DateTime @default(now())
 

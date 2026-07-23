@@ -6,7 +6,7 @@ import { useState } from "react";
  * just the commissioner (the "now invite your team" onboarding moment), with a
  * compact copy-link row for established leagues via the `compact` prop.
  */
-export default function InviteBanner({ slug, compact = false }: { slug: string; compact?: boolean }) {
+export default function InviteBanner({ slug, joinCode, compact = false }: { slug: string; joinCode?: string | null; compact?: boolean }) {
   const [msg, setMsg] = useState("");
   const path = `/j/${slug}`;
 
@@ -24,7 +24,10 @@ export default function InviteBanner({ slug, compact = false }: { slug: string; 
   if (compact) {
     return (
       <div className="card pad spread" style={{ marginBottom: 12 }}>
-        <span className="muted small">Invite link: <b style={{ color: "var(--text)" }}>officepickemleague.com{path}</b></span>
+        <span className="muted small">
+          Invite link: <b style={{ color: "var(--text)" }}>officepickemleague.com{path}</b>
+          {joinCode && <> · or text <b style={{ color: "var(--text)" }}>JOIN {joinCode} &lt;name&gt;</b> to (412) 799-9395</>}
+        </span>
         <button className="btn ghost sm" onClick={copy} aria-label="Copy the invite link">📋 Copy invite link</button>
         {msg && <span className="small" style={{ color: "var(--accent)" }}>{msg}</span>}
       </div>

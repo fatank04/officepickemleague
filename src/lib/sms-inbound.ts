@@ -6,6 +6,7 @@ import { hashPin, colorForIndex } from "./auth";
 import { getStandings } from "./standings";
 import { brandOf, welcomeSuffix } from "./brand";
 import { toE164 } from "./phone";
+import { leagueByJoinCode } from "./joincode";
 import { track } from "./track";
 import { ord } from "./ord";
 import { abbr } from "./teams";
@@ -156,16 +157,29 @@ export async function handleInboundSms(
   let joinPrefix = "";
   if (cmd === "JOIN") {
     const rest = raw.split(/\s+/).slice(1);
-    const code = (rest.shift() || "").toLowerCase();
-    const name = rest.join(" ").trim();
-    const league = code ? await prisma.league.findUnique({ where: { slug: code } }) : null;
+    // A two-word code may be typed with a space ("steel crew") or a hyphen —
+    // try the first two tokens as the code, then fall back to one.
+    let league = null as Awaited<ReturnType<typeof leagueByJoinCode>>, used = 0;
+    for (const n of [2, 1]) {
+      if (rest.length < n) continue;
+      const hit = await leagueByJoinCode(rest.slice(0, n).join("-"));
+      if (hit) { league = hit; used = n; break; }
+    }
+    const code = rest.slice(0, Math.max(used, 1)).join("-").toLowerCase();
+    const name = rest.slice(used || 1).join(" ").trim();
     if (!league) return "Couldn't find that league code. Ask your commissioner, then text: JOIN <code> <your name>.";
     if (!name) return `Almost! Reply: JOIN ${code} <your name>`;
     const phone = toE164(from) || from;
     let joinPin: string | null = null;
     let player = await prisma.player.findFirst({ where: { leagueId: league.id, name: { equals: name, mode: "insensitive" } } });
-    if (player) await prisma.player.update({ where: { id: player.id }, data: { phone, smsConsentAt: new Date(), smsOptOut: false } });
-    else {
+    if (player) {
+      // Don't let a code-holder silently reassign someone else's card to their
+      // phone. Claiming an unclaimed name is fine; taking over a linked one isn't.
+      const digits = (v: string | null) => (v || "").replace(/\D/g, "").slice(-10);
+      if (player.phone && digits(player.phone) !== digits(phone))
+        return `"${player.name}" is already linked to another phone. Ask your commissioner to clear it, then try again.`;
+      await prisma.player.update({ where: { id: player.id }, data: { phone, smsConsentAt: new Date(), smsOptOut: false } });
+    } else {
       joinPin = String(Math.floor(1000 + Math.random() * 9000));
       const count = await prisma.player.count({ where: { leagueId: league.id } });
       player = await prisma.player.create({

@@ -4,6 +4,7 @@ import { hashPin, setSessionCookie, colorForIndex } from "@/lib/auth";
 import { slugify } from "@/lib/league";
 import { track } from "@/lib/track";
 import { METRO_HOME_TEAM } from "@/lib/slate";
+import { generateJoinCode } from "@/lib/joincode";
 
 // Create a new league + its commissioner player.
 export async function POST(req: Request) {
@@ -19,7 +20,7 @@ export async function POST(req: Request) {
     homeTeam = (kit?.metro && METRO_HOME_TEAM[kit.metro]) || null;
   }
   const league = await prisma.league.create({
-    data: { slug, name: leagueName, season: Number(season) || 2026, kitSlug: kitSlug || null, homeTeam },
+    data: { slug, name: leagueName, season: Number(season) || 2026, kitSlug: kitSlug || null, homeTeam, joinCode: await generateJoinCode() },
   });
   const player = await prisma.player.create({
     data: { leagueId: league.id, name: commishName, pinHash: hashPin(pin), color: colorForIndex(0), isCommish: true },

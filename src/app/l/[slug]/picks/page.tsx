@@ -99,7 +99,7 @@ export default async function PicksPage({
   return (
     <>
       <BrandTheme accent={brand.accent} />
-      {ctx.player.isCommish && <InviteBanner slug={league.slug} compact={playersN > 1} />}
+      {ctx.player.isCommish && <InviteBanner slug={league.slug} joinCode={(league as any).joinCode} compact={playersN > 1} />}
       <PicksClient
         slug={league.slug} week={week} weeks={weeks} weekTabs={weekTabs} format={league.format}
         anyOpen={anyOpen} submitted={!!sub} playersN={playersN} submittedN={submittedN} games={data}

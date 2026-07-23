@@ -59,5 +59,6 @@ Decided 2026-07-22. Platform = **Telnyx AI Assistant** (same vendor as the numbe
 - Caller identity = the phone number (same as SMS). Only players whose number is
   on a roster are recognized; others get a polite "sign up first."
 - Cost is per-minute (premium add-on) — bill it through to the employer buying it.
-- v1 memory is light (rank + last week's points). Richer adaptation ("you rode
+- v1 returns NO memory/standings (lean for latency) and the prompt forbids inventing
+  any. Richer adaptation ("you rode
   the Eagles and they paid") is the next iteration once calls are working.
