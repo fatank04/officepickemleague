@@ -15,6 +15,7 @@ export async function POST(req: Request, { params }: { params: { action: string 
 
   const body = await req.json().catch(() => ({}));
   const from = callerFrom(req, body);
+  console.log(`[concierge] ${params.action} from=${from || "NONE"} hdrCaller=${req.headers.get("x-caller-number") || "-"} bodyKeys=${Object.keys(body || {}).join(",")}${from ? "" : ` body=${JSON.stringify(body).slice(0, 500)}`}`);
   if (!from) return NextResponse.json({ ok: false, error: "Missing caller number." }, { status: 400 });
 
   return NextResponse.json(

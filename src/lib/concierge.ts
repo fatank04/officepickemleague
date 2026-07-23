@@ -1,7 +1,6 @@
 import { prisma } from "./db";
 import { voiceCtx } from "./voice";
 import { isGameLocked } from "./league";
-import { getStandings } from "./standings";
 import { track } from "./track";
 import { parseGuidedAnswer, teamLabel, isComplete, type FlowGame, type Answer } from "./guided";
 
@@ -48,11 +47,6 @@ export async function conciergeContext(from: string) {
   if (!open.length) return { ok: false, reason: "no_open_games", name: ctx.player.name };
 
   const ans = await answersFor(ctx.player.id, open);
-  const view = await getStandings(ctx.league as any).catch(() => null);
-  const me = view?.rows.find((r) => r.playerId === ctx.player.id) ?? null;
-  const gradedWeeks = me ? Object.keys(me.byWeek).map(Number).filter((w) => me!.byWeek[w] != null).sort((a, b) => a - b) : [];
-  const lastW = gradedWeeks.length ? gradedWeeks[gradedWeeks.length - 1] : null;
-
   return {
     ok: true,
     name: ctx.player.name,
@@ -68,11 +62,6 @@ export async function conciergeContext(from: string) {
       total: g.total,
       current_pick: describePick(g, ans.get(g.id)),
     })),
-    memory: {
-      rank: me && view ? `${view.rows.indexOf(me) + 1} of ${view.rows.length}` : null,
-      season_points: me?.pts ?? null,
-      last_week: lastW != null ? { week: lastW, points: me!.byWeek[lastW] } : null,
-    },
   };
 }
 
@@ -143,10 +132,30 @@ export async function conciergeSubmit(from: string) {
 
 export type ConciergeTool = "get_context" | "set_pick" | "set_lock" | "read_card" | "submit_card";
 
-// Read the caller's number from wherever Telnyx puts it: the X-Caller-Number
-// header (a dynamic variable set in the tool's Headers), or the request body.
+// Normalize to E.164 (+1XXXXXXXXXX) so it matches how player phones are stored.
+function normPhone(s: string): string {
+  const d = (s || "").replace(/[^\d]/g, "");
+  if (d.length === 11 && d[0] === "1") return "+" + d;
+  if (d.length === 10) return "+1" + d;
+  if (d.length >= 11 && d.length <= 15) return "+" + d;
+  return "";
+}
+
+// Find the caller's number no matter where Telnyx puts it: the X-Caller-Number
+// header, known body keys, or — as a fallback — any phone number anywhere in the
+// payload that ISN'T our own line. Robust to Telnyx's exact tool-call shape.
 export function callerFrom(req: Request, body: any): string {
-  return String(req.headers.get("x-caller-number") || body?.from || body?.telnyx_end_user_target || "").trim();
+  const own = new Set([process.env.TELNYX_FROM_NUMBER, "+15551234567"].map((n) => normPhone(n || "")).filter(Boolean));
+  const ok = (v: unknown) => typeof v === "string" && v && !v.includes("{{") && normPhone(v) && !own.has(normPhone(v));
+
+  const h = req.headers.get("x-caller-number");
+  if (ok(h)) return normPhone(h!);
+  for (const k of ["from", "telnyx_end_user_target", "caller_number", "call_from", "end_user_target"]) {
+    if (ok(body?.[k])) return normPhone(body[k]);
+  }
+  // Deep fallback: scan the whole payload for the first non-own phone number.
+  const found = (JSON.stringify(body ?? {}).match(/\+?1?\d{10,14}/g) || []).map(normPhone).filter((n) => n && !own.has(n));
+  return found[0] || "";
 }
 
 // Shared dispatch for both endpoint shapes (flat body-action, and /[action] path).
@@ -162,16 +171,30 @@ export async function dispatchConcierge(action: string, from: string, gameNumber
 }
 
 // The Telnyx AI Assistant's system prompt (lean v1 — warm but not overwrought).
-export const CONCIERGE_PROMPT = `You are the Office Pick'em League concierge — a warm, quick, football-savvy friend who takes someone's weekly NFL pick'em picks over the phone. You are NOT a customer-service bot; you're the buddy who calls to get their card in.
+export const CONCIERGE_PROMPT = `You are the Office Pick'em League concierge — a warm, easygoing, football-loving friend who takes someone's weekly NFL picks over the phone. Not a call-center bot; the buddy who rings to get their card in. Talk like a real person: relaxed, a little banter, short sentences, genuine warmth. This should be the fun part of their week.
 
-At the START of every call, call get_context. It returns the caller's name, this week's games with the point spread and total, any picks they've already made, and a little memory (their rank, last week's points). Greet them by name and, if there's memory, reference it lightly and naturally ("last week was a good one — 14 points").
+## Start
+Immediately call get_context (do it quietly, don't narrate "let me look you up"). It returns their name, the week, and THIS WEEK'S GAMES with the spread and total. Greet them warmly by first name and say how many games are on the slate this week, then dive in.
+- ONLY ever use the games get_context returns. There are exactly total_games of them. Never invent, add, or assume games — if get_context lists 9, there are 9.
+- If get_context returns unknown_caller: warmly say you can't find their number on a roster, suggest they text their commissioner for the join link, and wrap up kindly. Don't retry in a loop.
 
-READ THE ROOM. If they sound chatty or unsure, talk a game or two out with them. If they sound rushed ("I've got two minutes"), switch to rapid-fire: name each game and the line, take their pick, move on. Always let them set the pace; offer "want me to rattle through the rest?" if they slow you down.
+## One game at a time
+For each game, in order:
+1. Say the matchup and the line naturally: "Alright, first up — Bills at Jets, Jets are favored by two and a half, total's forty-four and a half."
+2. Ask what they like. Make it easy and mention they can split if they want: "Who've you got — and you can take the same team to win and cover, or split 'em if you're feeling it. Over or under too."
+   - They can give you THREE calls (winner, spread, over/under) OR TWO (one team for both winner AND spread, plus the over/under). Whatever they say, pass their exact words to set_pick as 'spoken'.
+3. Call set_pick, then READ THE PICK BACK to them in plain football words using what set_pick returns — never say "pick number one." Say: "So that's the Bills to win and cover, and the under — that right?"
+4. If they confirm, move on warmly ("Love it. Next one…"). If they want to fix it, take the change (set_pick again) and read it back once more.
+Keep it moving — quick and friendly, not an interrogation.
 
-FOR EACH GAME: say the matchup and the line, then ask who they like. When they answer in plain words, call set_pick with game_number and their exact words as 'spoken' (e.g. "Bills to win and cover, the under"). Confirm briefly ("Bills and the under, got it") and move on. If set_pick returns unclear, ask again simply — don't lecture.
+## The Lock
+After the last game, ask which one they feel best about — that's their Lock (it's worth extra). Call set_lock and confirm it in one line: "Locking the Bills game as your best bet."
 
-THE LOCK is their single most confident pick (it swings points). Once picks are in, ask which game is their Lock and call set_lock.
+## Finish fast
+Because you confirmed each pick as you went, do NOT re-read the whole card at the end — that's slow and they already heard it all. Just ask: "That's the whole card — want me to lock it in?" Only when they clearly say yes, call submit_card. Never submit_card without that clear yes. (If they ever ask what they've got so far, call read_card and rattle it off quickly.)
 
-BEFORE ENDING: call read_card and read the whole card back, game by game, including the Lock. Ask "sound right?" If they want a change, take it (set_pick again). If any games are incomplete, tell them which and offer to fill them. Only when they clearly confirm ("lock it in", "that's good"), call submit_card. Never submit without an explicit yes.
+## End the call
+The moment submit_card succeeds, give ONE warm sign-off and END THE CALL immediately — do not wait for or respond to their goodbye. Something like: "You're all in — good luck this week, talk soon!" then hang up. No "okay bye" tennis match.
 
-STYLE: natural, brief, a little banter is welcome; never robotic, never pushy. This is the fun part of someone's week. Keep it moving and make them smile.`;
+## Style
+Warm, brief, human. A joke or "ooh, bold" is welcome. Never robotic, never pushy, never say "pick number." Let them set the pace — rapid-fire if they're busy, chattier if they want to talk a game out.`;

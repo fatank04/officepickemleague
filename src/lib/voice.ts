@@ -43,12 +43,13 @@ export async function voiceCtx(from: string) {
   const player = await prisma.player.findFirst({ where: { phone: from }, include: { league: true } });
   if (!player) return null;
   const season = player.league.season;
-  const weekRows = await prisma.game.findMany({ where: { season }, orderBy: { week: "asc" }, select: { week: true }, distinct: ["week"] });
-  let week: number | null = null;
-  for (const w of weekRows.map((r) => r.week)) {
-    const wg = await prisma.game.findMany({ where: { season, week: w } });
-    if (wg.some((g) => !isGameLocked(g))) { week = w; break; }
-  }
+  // Earliest week that still has an un-kicked game — one indexed query, not a per-week scan.
+  const firstOpen = await prisma.game.findFirst({
+    where: { season, kickoff: { gt: new Date() } },
+    orderBy: [{ week: "asc" }],
+    select: { week: true },
+  });
+  const week: number | null = firstOpen?.week ?? null;
   const games = week != null ? await filterToSlate(player.league, week, await prisma.game.findMany({ where: { season, week }, orderBy: { kickoff: "asc" } })) : [];
   return { player, league: player.league, season, week, games };
 }
