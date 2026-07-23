@@ -30,7 +30,7 @@ OUT = os.path.expanduser("~/Downloads/opl-companies-master.csv")
 PITT_AC={"412","724","878","814"}; PHILLY_AC={"215","267","445","484","610","835","856","609","302"}
 NY_AC={"716","585"}; CLE_AC={"216","440","330","234"}; CIN_AC={"513","937","283"}
 DET_AC={"313","248","586","734","947","810"}; BAL_AC={"410","443","667"}; MKE_AC={"414","262","920","608","715"}
-AC_BY_WAVE={1:PITT_AC,2:NY_AC,3:CLE_AC,4:CIN_AC,5:PHILLY_AC,6:DET_AC,7:BAL_AC,8:MKE_AC}
+AC_BY_WAVE={1:PITT_AC,2:NY_AC,3:CLE_AC,4:CIN_AC,5:PHILLY_AC,6:DET_AC,7:BAL_AC,8:MKE_AC,10:CHI_AC}
 CINCY_CITIES={"cincinnati","woodlawn","norwood","blue ash","mason","west chester","sharonville","fairfield","hamilton","milford","loveland","montgomery"}
 PHILLY_CITIES={"philadelphia","reading","king of prussia","norristown","conshohocken","doylestown","bensalem","west chester","media","chester","lansdale","horsham","willow grove","fort washington","camden","vineland","wilmington","cherry hill"}
 
@@ -40,6 +40,8 @@ SHIFT_KW=FAMILY_KW+["union","three shift","second shift","night shift","third sh
 def area_code(p):
     if not p: return ""
     m=re.search(r"\+?1?\D*(\d{3})\D*\d{3}\D*\d{4}",p); return m.group(1) if m else ""
+
+CHI_AC={"312","773","708","847","630","224","331","779","872","464"}
 
 def metro_and_wave(state,city,phone,postal):
     st=(state or "").strip().lower(); ci=(city or "").strip().lower()
@@ -56,6 +58,7 @@ def metro_and_wave(state,city,phone,postal):
     if st=="michigan": return ("Detroit",6)
     if st=="maryland": return ("Baltimore",7)
     if st=="wisconsin": return ("Milwaukee/GreenBay",8)
+    if st=="illinois": return ("Chicago",10)
     if st=="ohio": return ("Cincinnati",4) if ci in CINCY_CITIES else ("Cleveland",3)
     return ("OTHER (verify)",9)
 

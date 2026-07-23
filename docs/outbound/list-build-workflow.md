@@ -27,6 +27,7 @@ vetting — before any people are pulled. Runnable script: `consolidate-apollo.p
   | Detroit | 6 | MI |
   | Baltimore | 7 | MD |
   | Milwaukee/Green Bay | 8 | WI |
+  | Chicago | 10 | IL |
   | OTHER (verify) | 9 | anything else — cut or re-check |
 
 - **GeoFlag = `VERIFY-LOCATION`** when the phone area code doesn't match the metro. Catches Apollo

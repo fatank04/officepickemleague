@@ -100,6 +100,7 @@ export const METRO_HOME_TEAM: Record<string, string> = {
   Cincinnati: "Cincinnati Bengals",
   Detroit: "Detroit Lions",
   Baltimore: "Baltimore Ravens",
+  Chicago: "Chicago Bears",
   Milwaukee: "Green Bay Packers",
   "Milwaukee/GreenBay": "Green Bay Packers",
   GreenBay: "Green Bay Packers",
