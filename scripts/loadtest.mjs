@@ -28,7 +28,7 @@ async function timed(action, fn) {
   const t = performance.now();
   try {
     const res = await fn();
-    rec(action, performance.now() - t, res.status, res.status >= 200 && res.status < 400);
+    rec(action, performance.now() - t, res.status, res.status < 500); // 4xx are valid app responses, not failures
     return res;
   } catch (e) {
     rec(action, performance.now() - t, e?.cause?.code || "NETERR", false);
