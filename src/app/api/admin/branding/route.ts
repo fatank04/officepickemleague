@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 import { requireCommish } from "@/lib/league";
 import { cleanName, validHexColor } from "@/lib/admin";
+import { TEAMS } from "@/lib/teams";
 
 const clip = (s: unknown, n: number) => (typeof s === "string" ? s.trim().slice(0, n) || null : null);
 
@@ -31,6 +32,12 @@ export async function POST(req: Request) {
     if (u && !/^https:\/\//i.test(u)) return NextResponse.json({ error: "Logo URL must start with https://" }, { status: 400 });
     data.logoUrl = u;
   }
+  if (body.homeTeam !== undefined) {
+    if (body.homeTeam === null || body.homeTeam === "") data.homeTeam = null;
+    else if (TEAMS[body.homeTeam]) data.homeTeam = body.homeTeam;
+    else return NextResponse.json({ error: "Unknown team." }, { status: 400 });
+  }
+  if (body.fullSlate !== undefined) data.fullSlate = !!body.fullSlate;
   if (Object.keys(data).length === 0) return NextResponse.json({ error: "Nothing to update." }, { status: 400 });
 
   await prisma.league.update({ where: { id: ctx.league.id }, data });

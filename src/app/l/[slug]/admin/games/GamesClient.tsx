@@ -6,6 +6,8 @@ export type GameRow = {
   id: string; away: string; home: string; homeSpread: number; total: number;
   awayScore: number | null; homeScore: number | null; final: boolean;
   locked: boolean; hasPicks: boolean; kickoff: string;
+  onSlate: boolean;
+  fullSlate: boolean;
 };
 
 const box: React.CSSProperties = { background: "#141c2e", border: "1px solid #2a3550", borderRadius: 12, padding: 14, margin: "10px 0" };
@@ -49,6 +51,10 @@ export default function GamesClient({ slug, week, weeks, rows }: { slug: string;
     const j = await call({ action: "regrade", week }, "regrade");
     if (j?.ok) { setMsg({ t: "ok", s: `Regraded week ${week}: ${j.graded} updated${j.unmatched?.length ? `, ${j.unmatched.length} ESPN finals matched no game (name mismatch)` : ""}.` }); router.refresh(); }
   }
+  async function toggleSlate(r: GameRow) {
+    const j = await call({ action: "toggleSlate", id: r.id }, "slate" + r.id);
+    if (j?.ok) router.refresh();
+  }
   async function saveLine(r: GameRow) {
     const l = line[r.id];
     const j = await call({ action: "setLine", id: r.id, homeSpread: l.s, total: l.t }, "line" + r.id);
@@ -75,7 +81,21 @@ export default function GamesClient({ slug, week, weeks, rows }: { slug: string;
             <div style={{ fontWeight: 600 }}>{r.away} @ {r.home}
               <span style={{ ...mut, marginLeft: 8 }}>{r.home} {r.homeSpread > 0 ? "+" : ""}{r.homeSpread}, O/U {r.total}</span>
             </div>
-            <span style={mut}>{r.final ? "FINAL" : r.locked ? "in progress / locked" : new Date(r.kickoff).toLocaleString()}</span>
+            <span style={{ display: "flex", gap: 8, alignItems: "center" }}>
+              {!r.fullSlate && (
+                <>
+                  <span style={{ fontSize: 11, padding: "1px 8px", borderRadius: 999, background: r.onSlate ? "#103a28" : "#1c2740", color: r.onSlate ? "#21e08a" : "#93a1bc" }}>
+                    {r.onSlate ? "on slate" : "off slate"}
+                  </span>
+                  {!r.locked && (
+                    <button style={btn} disabled={busy === "slate" + r.id} onClick={() => toggleSlate(r)}>
+                      {busy === "slate" + r.id ? "…" : r.onSlate ? "Remove" : "Add to slate"}
+                    </button>
+                  )}
+                </>
+              )}
+              <span style={mut}>{r.final ? "FINAL" : r.locked ? "in progress / locked" : new Date(r.kickoff).toLocaleString()}</span>
+            </span>
           </div>
 
           <div style={{ display: "flex", gap: 8, alignItems: "center", marginTop: 8, flexWrap: "wrap" }}>

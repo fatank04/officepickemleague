@@ -4,6 +4,7 @@ import { current } from "@/lib/league";
 import { nflWeek } from "@/lib/odds";
 import { isGameLocked } from "@/lib/lock";
 import GamesClient, { GameRow } from "./GamesClient";
+import { slateIds } from "@/lib/slate";
 
 export const dynamic = "force-dynamic";
 
@@ -20,6 +21,7 @@ export default async function GamesPage({ params, searchParams }: { params: { sl
   const weeks = weeksRaw.map((w) => w.week);
   const games = await prisma.game.findMany({ where: { season, week }, orderBy: { kickoff: "asc" } });
   const now = new Date();
+  const slate = await slateIds(ctx.league, week);
   const pickCounts = await prisma.pick.groupBy({ by: ["gameId"], where: { gameId: { in: games.map((g) => g.id) } }, _count: { gameId: true } });
   const pc = new Map(pickCounts.map((p) => [p.gameId, p._count.gameId]));
 
@@ -28,6 +30,8 @@ export default async function GamesPage({ params, searchParams }: { params: { sl
     awayScore: g.awayScore ?? null, homeScore: g.homeScore ?? null, final: !!g.final,
     locked: isGameLocked(g, now), hasPicks: (pc.get(g.id) ?? 0) > 0,
     kickoff: g.kickoff.toISOString(),
+    onSlate: slate ? slate.has(g.id) : true,
+    fullSlate: !slate,
   }));
 
   return (

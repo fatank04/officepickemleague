@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/db";
 import { isGameLocked } from "@/lib/league";
+import { filterSeasonToSlate } from "@/lib/slate";
 
 // House bots a commissioner can add to keep a small league lively. Each has a
 // personality that drives its weekly card. Bots can't sign in (unguessable PIN)
@@ -58,10 +59,13 @@ export async function fillAiPicks(opts: { playerId?: string; leagueId?: string }
   let filled = 0;
   for (const bot of bots) {
     const games = (
-      await prisma.game.findMany({
-        where: { season: bot.league.season, week: { gte: bot.league.seasonStart, lte: bot.league.seasonEnd } },
-        orderBy: [{ week: "asc" }, { kickoff: "asc" }],
-      })
+      await filterSeasonToSlate(
+        bot.league,
+        await prisma.game.findMany({
+          where: { season: bot.league.season, week: { gte: bot.league.seasonStart, lte: bot.league.seasonEnd } },
+          orderBy: [{ week: "asc" }, { kickoff: "asc" }],
+        })
+      )
     ).filter((g) => !isGameLocked(g, now));
     if (!games.length) continue;
 

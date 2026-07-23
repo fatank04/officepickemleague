@@ -15,42 +15,62 @@ enum Format {
 }
 
 model League {
-  id            String   @id @default(cuid())
-  slug          String   @unique // used in the URL: /l/<slug>
-  name          String
-  season        Int      @default(2026)
+  id             String   @id @default(cuid())
+  slug           String   @unique // used in the URL: /l/<slug>
+  name           String
+  season         Int      @default(2026)
   // commissioner settings (set before the season, constant all year)
-  format        Format   @default(simple)
-  playoffOn     Boolean  @default(false)
-  playoffStart  Int      @default(15)
-  playoffTeams  Int      @default(6)
-  seedStep      Int      @default(2)
-  seasonStart   Int      @default(1)
-  seasonEnd     Int      @default(18)
-  accentColor    String?  // hex like "#21e08a" — themes the player UI
-  logoUrl        String?  // optional league/company logo
-  prizeText      String?  // shown to players: what they're playing for
-  welcomeMessage String?  // optional note in the welcome SMS / join page
-  kitSlug        String?  // pURL kit slug that launched this league (attribution)
-  createdAt     DateTime @default(now())
+  format         Format   @default(simple)
+  playoffOn      Boolean  @default(false)
+  playoffStart   Int      @default(15)
+  playoffTeams   Int      @default(6)
+  seedStep       Int      @default(2)
+  seasonStart    Int      @default(1)
+  seasonEnd      Int      @default(18)
+  accentColor    String? // hex like "#21e08a" — themes the player UI
+  logoUrl        String? // optional league/company logo
+  prizeText      String? // shown to players: what they're playing for
+  homeTeam       String? // full team name (teams.ts key) — always on the weekly slate
+  fullSlate      Boolean  @default(false) // true = all 16 games; false = featured ~9-game slate
+  welcomeMessage String? // optional note in the welcome SMS / join page
+  kitSlug        String? // pURL kit slug that launched this league (attribution)
+  createdAt      DateTime @default(now())
 
-  players       Player[]
-  picks         Pick[]
-  powerPicks    PowerPick[]
-  submissions   Submission[]
+  players      Player[]
+  picks        Pick[]
+  powerPicks   PowerPick[]
+  submissions  Submission[]
+  slateEntries SlateEntry[]
+}
+
+// The persisted weekly featured slate, per league. Built automatically on first
+// access after lines post (lib/slate.ts); commissioner can add/remove games
+// until the week's first kickoff. Persisting (vs recomputing) keeps the slate
+// stable if lines move after players start picking.
+model SlateEntry {
+  id       String @id @default(cuid())
+  leagueId String
+  league   League @relation(fields: [leagueId], references: [id], onDelete: Cascade)
+  gameId   String
+  game     Game   @relation(fields: [gameId], references: [id], onDelete: Cascade)
+  season   Int
+  week     Int
+
+  @@unique([leagueId, gameId])
+  @@index([leagueId, season, week])
 }
 
 model KitAccount {
   id           String    @id @default(cuid())
   slug         String    @unique // the pURL: /kit/<slug>
   company      String
-  metro        String?   // Tier-1 metro grouping (e.g. "Pittsburgh")
-  teamCity     String?   // hero line, e.g. "Pittsburgh"
-  teamName     String?   // optional flourish, e.g. "Steelers"
-  accent       String?   // #rrggbb; falls back to brand blue
-  contact      String?   // first name for the personal touch
+  metro        String? // Tier-1 metro grouping (e.g. "Pittsburgh")
+  teamCity     String? // hero line, e.g. "Pittsburgh"
+  teamName     String? // optional flourish, e.g. "Steelers"
+  accent       String? // #rrggbb; falls back to brand blue
+  contact      String? // first name for the personal touch
   contactTitle String?
-  email        String?   // for the automated cadence
+  email        String? // for the automated cadence
   addr1        String?
   addr2        String?
   city         String?
@@ -66,21 +86,21 @@ model KitAccount {
 }
 
 model Player {
-  id          String   @id @default(cuid())
-  leagueId    String
-  league      League   @relation(fields: [leagueId], references: [id], onDelete: Cascade)
-  name        String
-  pinHash     String   // scrypt hash of the player's 4-digit PIN
-  color       String   @default("#1ed47a")
-  phone        String?  // E.164, for SMS reminders / pick-by-text
-  isCommish    Boolean  @default(false)
-  failedPins   Int      @default(0)    // PIN brute-force lockout
-  lockedUntil  DateTime?               // PIN brute-force lockout
-  smsConsentAt DateTime?               // TCPA: when they opted in to texts
-  smsOptOut    Boolean  @default(false) // STOP handling
-  isAI         Boolean  @default(false) // house bot — auto-picks weekly, can't sign in
-  aiStyle      String?                  // chalk | upset | coinflip (see lib/ai-players.ts)
-  createdAt    DateTime @default(now())
+  id           String    @id @default(cuid())
+  leagueId     String
+  league       League    @relation(fields: [leagueId], references: [id], onDelete: Cascade)
+  name         String
+  pinHash      String // scrypt hash of the player's 4-digit PIN
+  color        String    @default("#1ed47a")
+  phone        String? // E.164, for SMS reminders / pick-by-text
+  isCommish    Boolean   @default(false)
+  failedPins   Int       @default(0) // PIN brute-force lockout
+  lockedUntil  DateTime? // PIN brute-force lockout
+  smsConsentAt DateTime? // TCPA: when they opted in to texts
+  smsOptOut    Boolean   @default(false) // STOP handling
+  isAI         Boolean   @default(false) // house bot — auto-picks weekly, can't sign in
+  aiStyle      String? // chalk | upset | coinflip (see lib/ai-players.ts)
+  createdAt    DateTime  @default(now())
 
   picks       Pick[]
   powerPicks  PowerPick[]
@@ -91,21 +111,22 @@ model Player {
 
 // One row per real NFL game, shared across leagues (sourced from The Odds API).
 model Game {
-  id          String   @id @default(cuid())
-  season      Int
-  week        Int
-  oddsId      String   @unique // event id from The Odds API
-  away        String
-  home        String
-  homeSpread  Float    // already converted to a half-point at ingestion (no pushes)
-  total       Float    // already half-pointed
-  kickoff     DateTime
-  awayScore   Int?
-  homeScore   Int?
-  final       Boolean  @default(false)
+  id         String   @id @default(cuid())
+  season     Int
+  week       Int
+  oddsId     String   @unique // event id from The Odds API
+  away       String
+  home       String
+  homeSpread Float // already converted to a half-point at ingestion (no pushes)
+  total      Float // already half-pointed
+  kickoff    DateTime
+  awayScore  Int?
+  homeScore  Int?
+  final      Boolean  @default(false)
 
-  picks       Pick[]
-  powerPicks  PowerPick[]
+  picks        Pick[]
+  powerPicks   PowerPick[]
+  slateEntries SlateEntry[]
 
   @@unique([season, week, away, home])
   @@index([season, week])
@@ -119,9 +140,9 @@ model Pick {
   player    Player   @relation(fields: [playerId], references: [id], onDelete: Cascade)
   gameId    String
   game      Game     @relation(fields: [gameId], references: [id], onDelete: Cascade)
-  su        String?  // 'home' | 'away'
-  ats       String?  // 'home' | 'away'
-  ou        String?  // 'over' | 'under'
+  su        String? // 'home' | 'away'
+  ats       String? // 'home' | 'away'
+  ou        String? // 'over' | 'under'
   updatedAt DateTime @updatedAt
 
   @@unique([playerId, gameId])
@@ -129,16 +150,16 @@ model Pick {
 }
 
 model PowerPick {
-  id        String   @id @default(cuid())
-  leagueId  String
-  league    League   @relation(fields: [leagueId], references: [id], onDelete: Cascade)
-  playerId  String
-  player    Player   @relation(fields: [playerId], references: [id], onDelete: Cascade)
-  gameId    String
-  game      Game     @relation(fields: [gameId], references: [id], onDelete: Cascade)
-  season    Int
-  week      Int
-  rank      Int      // 1 = Lock (best), then 2, 3
+  id       String @id @default(cuid())
+  leagueId String
+  league   League @relation(fields: [leagueId], references: [id], onDelete: Cascade)
+  playerId String
+  player   Player @relation(fields: [playerId], references: [id], onDelete: Cascade)
+  gameId   String
+  game     Game   @relation(fields: [gameId], references: [id], onDelete: Cascade)
+  season   Int
+  week     Int
+  rank     Int // 1 = Lock (best), then 2, 3
 
   @@unique([playerId, season, week, rank])
   @@unique([playerId, season, week, gameId])
@@ -159,17 +180,16 @@ model Submission {
 }
 
 model Event {
-  id        String   @id @default(cuid())
-  ts        DateTime @default(now())
-  type      String   // 'player_joined' | 'login' | 'pick_saved' | 'card_submitted' | 'card_unsubmitted' | 'week_opened' | 'reminder_sent'
-  leagueId  String?
-  playerId  String?
-  season    Int?
-  week      Int?
-  channel   String?  // 'web' | 'sms' | 'voice' | 'email'
-  meta      Json?
+  id       String   @id @default(cuid())
+  ts       DateTime @default(now())
+  type     String // 'player_joined' | 'login' | 'pick_saved' | 'card_submitted' | 'card_unsubmitted' | 'week_opened' | 'reminder_sent'
+  leagueId String?
+  playerId String?
+  season   Int?
+  week     Int?
+  channel  String? // 'web' | 'sms' | 'voice' | 'email'
+  meta     Json?
 
   @@index([leagueId, type, ts])
   @@index([type, season, week])
 }
-

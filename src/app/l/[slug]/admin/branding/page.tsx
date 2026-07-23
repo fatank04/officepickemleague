@@ -25,6 +25,8 @@ export default async function BrandingPage({ params }: { params: { slug: string 
           prizeText: l.prizeText ?? "",
           welcomeMessage: l.welcomeMessage ?? "",
           logoUrl: l.logoUrl ?? "",
+          homeTeam: l.homeTeam ?? "",
+          fullSlate: !!l.fullSlate,
         }}
       />
     </>

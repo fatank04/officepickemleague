@@ -1,4 +1,5 @@
 import { prisma } from "./db";
+import { filterToSlate } from "@/lib/slate";
 import { parseTextPicks, buildWelcomeSms } from "./sms";
 import { isGameLocked } from "./league";
 import { hashPin, colorForIndex } from "./auth";
@@ -163,7 +164,7 @@ export async function handleInboundSms(
   // ---- MY PICKS ----
   if (!hasPhoto && (/^MY ?PICKS/.test(U) || cmd === "MINE")) {
     if (refWeek == null) return "No games yet.";
-    const wg = await prisma.game.findMany({ where: { season, week: refWeek }, orderBy: { kickoff: "asc" } });
+    const wg = await filterToSlate(player.league, refWeek, await prisma.game.findMany({ where: { season, week: refWeek }, orderBy: { kickoff: "asc" } }));
     const pk = new Map((await prisma.pick.findMany({ where: { playerId: player.id, gameId: { in: wg.map((g) => g.id) } } })).map((p) => [p.gameId, p]));
     const pwr = await prisma.powerPick.findMany({ where: { playerId: player.id, season, week: refWeek }, orderBy: { rank: "asc" } });
     const lockGid = pwr[0]?.gameId;
@@ -201,7 +202,7 @@ export async function handleInboundSms(
 
   // ---- The slate ----
   if (targetWeek == null) return hasPhoto ? "Got your sheet — but there are no open games right now; everything's kicked off." : "No open games right now — everything's kicked off.";
-  const games = await prisma.game.findMany({ where: { season, week: targetWeek }, orderBy: { kickoff: "asc" } });
+  const games = await filterToSlate(player.league, targetWeek, await prisma.game.findMany({ where: { season, week: targetWeek }, orderBy: { kickoff: "asc" } }));
 
   // ---- Paper sheet photo: transcribe → verify header → save → echo the card back ----
   if (hasPhoto) {
@@ -231,7 +232,7 @@ export async function handleInboundSms(
       if (sheet.printedCode && sheet.printedCode !== player.league.slug)
         return `${joinPrefix}That sheet is for a different league (code "${sheet.printedCode}" — yours is "${player.league.slug}"). Grab this league's sheet and try again.`;
       if (sheet.printedWeek && sheet.printedWeek !== targetWeek) {
-        const otherGames = await prisma.game.findMany({ where: { season, week: sheet.printedWeek }, orderBy: { kickoff: "asc" } });
+        const otherGames = await filterToSlate(player.league, sheet.printedWeek, await prisma.game.findMany({ where: { season, week: sheet.printedWeek }, orderBy: { kickoff: "asc" } }));
         if (!otherGames.length || !otherGames.some((g) => !isGameLocked(g, now)))
           return `${joinPrefix}That's the Week ${sheet.printedWeek} sheet, but those games ${otherGames.length ? "have all kicked off" : "aren't loaded yet"}. Grab this week's sheet (Week ${targetWeek}) and try again.`;
         // Re-transcribe against the printed week's slate so row numbers map to the right games.

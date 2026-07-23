@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { filterToSlate } from "@/lib/slate";
 import { prisma } from "@/lib/db";
 import { current } from "@/lib/league";
 import { nflWeek } from "@/lib/odds";
@@ -19,7 +20,7 @@ export default async function SheetsPage({ params, searchParams }: { params: { s
   if (!ctx.player.isCommish) return <div className="card pad muted">Commissioner only.</div>;
   const { league } = ctx;
   const week = parseInt(searchParams.week || "", 10) || nflWeek(new Date());
-  const games = await prisma.game.findMany({ where: { season: league.season, week }, orderBy: { kickoff: "asc" } });
+  const games = await filterToSlate(league, week, await prisma.game.findMany({ where: { season: league.season, week }, orderBy: { kickoff: "asc" } }));
   // Display number follows the ACTIVE messaging provider so paper can't print a dead number.
   const smsNumber = displaySmsNumber();
 

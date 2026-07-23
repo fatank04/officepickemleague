@@ -6,6 +6,10 @@ pulled. Owner: build in this order — slate → text flow → paper confirm →
 
 ## 1. Featured slate (the pick-volume decision)
 
+**SHIPPED 2026-07-22** (lib/slate.ts; League.homeTeam/fullSlate; SlateEntry; wired into picks,
+autofill, bots, SMS, voice, paper sheets; commissioner override on admin/games; home-team +
+full-slate settings on admin/branding; kit metro prefill).
+
 **Decision: featured slate, not the full schedule.** ~8–10 marquee games per week, all three
 calls on each (winner / spread / O–U) → 24–30 picks, honestly two-to-three minutes. A
 commissioner setting can open the full 16-game slate for die-hard offices.

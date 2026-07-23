@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { slateIds } from "@/lib/slate";
 import { prisma } from "@/lib/db";
 import { requireCommish } from "@/lib/league";
 import { parseScore, parseLine } from "@/lib/admin";
@@ -19,6 +20,25 @@ export async function POST(req: Request) {
   }
 
   // Correct/enter a final score (safe: standings are derived & recompute automatically)
+  // Commissioner slate override: put a game on / take it off this league's weekly slate.
+  // Blocked once the game has kicked off or has picks in this league (numbering stability).
+  if (action === "toggleSlate") {
+    const league = ctx.league;
+    const g = await game(body.id);
+    if (!g) return NextResponse.json({ error: "Game not found." }, { status: 404 });
+    if (league.fullSlate) return NextResponse.json({ error: "This league runs the full slate — nothing to toggle." }, { status: 400 });
+    await slateIds(league, g.week); // ensure the week's slate exists before editing it
+    const existing = await prisma.slateEntry.findUnique({ where: { leagueId_gameId: { leagueId: league.id, gameId: g.id } } });
+    if (existing) {
+      const picks = await prisma.pick.count({ where: { leagueId: league.id, gameId: g.id } });
+      if (picks > 0) return NextResponse.json({ error: "Players already picked this game — it stays on the slate." }, { status: 400 });
+      await prisma.slateEntry.delete({ where: { id: existing.id } });
+      return NextResponse.json({ ok: true, onSlate: false });
+    }
+    await prisma.slateEntry.create({ data: { leagueId: league.id, gameId: g.id, season: g.season, week: g.week } });
+    return NextResponse.json({ ok: true, onSlate: true });
+  }
+
   if (action === "setScore") {
     const g = await game(body.id); if (!g) return NextResponse.json({ error: "Game not found." }, { status: 404 });
     const away = parseScore(body.awayScore), home = parseScore(body.homeScore);

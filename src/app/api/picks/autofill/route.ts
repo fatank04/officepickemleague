@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 import { current, isGameLocked } from "@/lib/league";
 import { track } from "@/lib/track";
+import { filterToSlate } from "@/lib/slate";
 
 // Fill the player's BLANK pick slots for a week. Body: { week, strategy }.
 // Never overwrites an existing pick, never touches kicked-off games or a submitted card.
@@ -22,7 +23,7 @@ export async function POST(req: Request) {
 
   const now = new Date();
   const games = (
-    await prisma.game.findMany({ where: { season: ctx.league.season, week } })
+    await filterToSlate(ctx.league, week, await prisma.game.findMany({ where: { season: ctx.league.season, week } }))
   ).filter((g) => !isGameLocked(g, now));
   if (!games.length) return NextResponse.json({ filled: 0 });
 

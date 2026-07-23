@@ -6,6 +6,7 @@ import PicksClient from "./PicksClient";
 import { brandOf } from "@/lib/brand";
 import BrandTheme from "@/components/BrandTheme";
 import InviteBanner from "@/components/InviteBanner";
+import { filterSeasonToSlate } from "@/lib/slate";
 
 export const dynamic = "force-dynamic";
 
@@ -16,10 +17,13 @@ export default async function PicksPage({
   const league = ctx.league;
   const now = new Date();
 
-  const all = await prisma.game.findMany({
-    where: { season: league.season, week: { gte: league.seasonStart, lte: league.seasonEnd } },
-    orderBy: [{ week: "asc" }, { kickoff: "asc" }],
-  });
+  const all = await filterSeasonToSlate(
+    league,
+    await prisma.game.findMany({
+      where: { season: league.season, week: { gte: league.seasonStart, lte: league.seasonEnd } },
+      orderBy: [{ week: "asc" }, { kickoff: "asc" }],
+    })
+  );
   const byWeek = new Map<number, typeof all>();
   for (const g of all) { const a = byWeek.get(g.week) ?? []; a.push(g); byWeek.set(g.week, a); }
   const weeks = [...byWeek.keys()].sort((a, b) => a - b);

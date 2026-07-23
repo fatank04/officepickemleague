@@ -1,4 +1,5 @@
 import { isGameLocked } from "./lock";
+import { filterToSlate } from "@/lib/slate";
 
 // ---- TwiML builders ----
 export function xml(inner: string) {
@@ -48,6 +49,6 @@ export async function voiceCtx(from: string) {
     const wg = await prisma.game.findMany({ where: { season, week: w } });
     if (wg.some((g) => !isGameLocked(g))) { week = w; break; }
   }
-  const games = week != null ? await prisma.game.findMany({ where: { season, week }, orderBy: { kickoff: "asc" } }) : [];
+  const games = week != null ? await filterToSlate(player.league, week, await prisma.game.findMany({ where: { season, week }, orderBy: { kickoff: "asc" } })) : [];
   return { player, league: player.league, season, week, games };
 }
