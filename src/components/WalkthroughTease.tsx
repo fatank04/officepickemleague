@@ -173,7 +173,7 @@ export default function WalkthroughTease() {
                 style={{
                   fontSize: 12.5,
                   fontWeight: 800,
-                  color: on ? "var(--accent)" : "inherit",
+                  color: on ? "var(--accent)" : "var(--text)",
                 }}
               >
                 {i + 1}. {c.label}

@@ -38,7 +38,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <MetaPixel />
         <AttribCapture />
-        {children}
+        <main>{children}</main>
         <footer style={{ textAlign: "center", padding: "26px 16px 34px", color: "var(--muted)", fontSize: 12.5 }}>
           <Link href="/pricing" style={{ color: "var(--muted)" }}>Pricing</Link> ·{" "}
           <Link href="/terms" style={{ color: "var(--muted)" }}>Terms</Link> ·{" "}
