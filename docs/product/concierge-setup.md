@@ -68,3 +68,25 @@ Decided 2026-07-22. Platform = **Telnyx AI Assistant** (same vendor as the numbe
 - v1 returns NO memory/standings (lean for latency) and the prompt forbids inventing
   any. Richer adaptation ("you rode
   the Eagles and they paid") is the next iteration once calls are working.
+
+## Gotchas we actually hit (2026-07-23) — read before touching this again
+
+1. **Render free tier sleeps (~15 min idle) and the tool timeout was 5000ms.** A cold wake takes
+   30–60s, so the tool aborted before the request was even handled — no log line, and the model
+   was left with nothing (it then stalled or improvised). **THIS was the final root cause.**
+   - Fix: tool `Timeout (ms)` = **30000**, and keep the instance warm (uptime ping every 5–10 min).
+   - Without the keep-alive, real players calling a cold instance hit the same failure.
+2. **Telnyx does NOT interpolate dynamic variables inside tool config.** A header of
+   `{{telnyx_end_user_target}}` arrives literally. It DOES interpolate in the assistant's
+   **Instructions** — so the prompt hands the caller's number to the model and the model passes it
+   as the `from` parameter on every tool.
+3. **Tools can save in a corrupted state.** A half-filled "Dynamic Variable Assignments" row left an
+   empty object; the Telnyx UI then crashed with React error #31 and the tools never executed.
+   Delete and recreate cleanly; leave Path/Query/Dynamic-Variable tabs completely empty.
+4. **Creating a tool doesn't attach it** — link it to the assistant (and confirm in the assistant's
+   Tools list).
+5. **Keep the prompt and the API in sync.** get_context returns no rank/record; when the prompt still
+   told the agent to reference "their recent record," it invented one ("you're 12th"). Any field you
+   remove from a tool response must come out of the prompt AND the tool description.
+6. **`prisma db push` in CI needs `--accept-data-loss`** or a schema warning silently fails every
+   deploy — the app then serves stale code while you debug the wrong layer.

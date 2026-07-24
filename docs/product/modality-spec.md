@@ -65,6 +65,10 @@ Build notes:
 
 ## 4. Concierge call (premium add-on)
 
+**WORKING END-TO-END 2026-07-23** (verified on a live call: greets by name, walks the real slate,
+takes picks, submits, hangs up). Requires an uptime ping — a cold Render instance blows the tool
+timeout and the call fails. See concierge-setup.md 'Gotchas'.
+
 **LEAN CORE BUILT 2026-07-22** (lib/concierge.ts tools + CONCIERGE_PROMPT; /api/voice/agent webhook;
 concierge.test.ts). Platform = Telnyx AI Assistant. Tools (get_context/set_pick/set_lock/read_card/
 submit_card) reuse the SMS PLAY engine. Remaining = USER wires the Telnyx AI Assistant per
