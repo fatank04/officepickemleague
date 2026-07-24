@@ -39,11 +39,17 @@ Decided 2026-07-22. Platform = **Telnyx AI Assistant** (same vendor as the numbe
 
    | Tool | URL | Body Parameters |
    |---|---|---|
-   | get_context | `…/api/voice/agent/get_context` | none |
-   | set_pick | `…/api/voice/agent/set_pick` | `game_number` (integer), `spoken` (string) |
-   | set_lock | `…/api/voice/agent/set_lock` | `game_number` (integer) |
-   | read_card | `…/api/voice/agent/read_card` | none |
-   | submit_card | `…/api/voice/agent/submit_card` | none |
+   | get_context | `…/api/voice/agent/get_context` | `from` (string) |
+   | set_pick | `…/api/voice/agent/set_pick` | `from` (string), `game_number` (integer), `spoken` (string) |
+   | set_lock | `…/api/voice/agent/set_lock` | `from` (string), `game_number` (integer) |
+   | read_card | `…/api/voice/agent/read_card` | `from` (string) |
+   | submit_card | `…/api/voice/agent/submit_card` | `from` (string) |
+
+   **`from` is how the app identifies the caller.** Telnyx does NOT interpolate dynamic
+   variables inside tool config (a header of `{{telnyx_end_user_target}}` arrives literally),
+   but it DOES interpolate them in the assistant's Instructions — so the prompt hands the
+   number to the model and the model passes it as this parameter. Describe it as:
+   "The caller's phone number, exactly as given in your instructions."
 
    (Base URL `https://officepickemleague.com`.) The endpoint also accepts the flat shape
    `POST /api/voice/agent` with `{action, from}` in the body, if you prefer that.
