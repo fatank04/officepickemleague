@@ -11,10 +11,13 @@ services:
     autoDeploy: true
     healthCheckPath: /
     # postinstall runs `prisma generate`; then push schema, seed (idempotent), build.
+    # --accept-data-loss: `db push` is non-interactive here, so ANY warning (e.g. adding a
+    # unique constraint) fails the whole deploy without it. Schema is the source of truth and
+    # we only add fields; switch to `prisma migrate deploy` if destructive changes ever land.
     # `prisma db push` uses the DIRECT (non-pooled) Neon endpoint, which auto-suspends on
     # free tier — a build landing on a cold DB throws P1001. Retry up to 5× (48s) to let
     # Neon resume before failing the deploy.
-    buildCommand: npm install && (n=0; until npx prisma db push; do n=$((n+1)); [ "$n" -ge 5 ] && exit 1; echo "prisma db push failed; retry $n/4 in 12s (Neon cold start?)"; sleep 12; done) && node scripts/seed.js && npm run build
+    buildCommand: npm install && (n=0; until npx prisma db push --accept-data-loss; do n=$((n+1)); [ "$n" -ge 5 ] && exit 1; echo "prisma db push failed; retry $n/4 in 12s (Neon cold start?)"; sleep 12; done) && node scripts/seed.js && npm run build
     startCommand: npm run start
     envVars:
       - key: NODE_VERSION
