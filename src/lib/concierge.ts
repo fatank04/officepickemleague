@@ -151,6 +151,14 @@ export function callerFrom(req: Request, body: any): string {
 
   const h = req.headers.get("x-caller-number");
   if (ok(h)) return normPhone(h!);
+  // Fallback path: ?from=… on the tool URL, in case header interpolation fails.
+  try {
+    const q = new URL(req.url).searchParams;
+    for (const k of ["from", "caller", "caller_number"]) {
+      const v = q.get(k);
+      if (ok(v)) return normPhone(v!);
+    }
+  } catch { /* non-absolute URL — ignore */ }
   for (const k of ["from", "telnyx_end_user_target", "caller_number", "call_from", "end_user_target"]) {
     if (ok(body?.[k])) return normPhone(body[k]);
   }
