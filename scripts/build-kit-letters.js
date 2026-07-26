@@ -28,18 +28,18 @@ function letter(a, qrDataUrl) {
 
   <p class="hi">${esc(a.contact)} —</p>
 
-  <p>I sent you a football because email is easy to ignore.</p>
+  <p>Most of what companies spend on their people only ever reaches the office. The crews, the shop,
+  and the second shift rarely see any of it — and they're most of the payroll.</p>
 
-  <p>We run an <strong>NFL pick'em league that companies put on for their employees</strong>. No money,
-  no betting, and your people never pay a cent — you cover it once and the whole building plays. It takes
-  about two minutes a week, and they can pick on the web, by text, on a paper sheet, or by calling a
-  number and talking it through. Nobody gets left out because of their phone, their age, or whether
-  they sit at a desk.</p>
+  <p>Office Pick'em League is an <strong>NFL pick'em league your company puts on for its employees</strong>.
+  No money, no betting, and your people never pay a cent — you cover it once and the whole building plays,
+  about two minutes a week for eighteen weeks. There are four ways to hand in a card — web, text, a paper
+  sheet, or a phone call — so nobody sits it out because of their phone, their age, or where they work.</p>
 
-  <p>It never touches your work email or anything IT runs. There is nothing to install.</p>
+  <p>It never touches work email or anything IT runs. There is nothing to install, nothing to review.</p>
 
-  <p class="cta-line"><strong>I already built ${esc(a.company)}'s league.</strong> Scan the code and it's
-  waiting for you — your company name on it, in Steelers colors, ready to launch.</p>
+  <p class="cta-line"><strong>${esc(a.company)}'s league is already set up.</strong> Scan the code to see
+  it — your company name on it, in Steelers colors, ready to launch the moment you say so.</p>
 
   <div class="qrbox">
     <img class="qr" src="${qrDataUrl}" alt="Scan to open ${esc(a.company)}'s league">
