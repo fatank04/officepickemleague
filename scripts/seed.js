@@ -25,6 +25,14 @@ async function main() {
     create: { slug: "pgh-social", company: "Pittsburgh", metro: "Pittsburgh", teamCity: "Pittsburgh", teamName: "Steelers", status: "ready", notes: "Geo-social paid landing" },
   });
 
+  // The mailed Pittsburgh kits each point at their own /kit/<slug>. Create-only on update so
+  // anything edited later in the ops console survives the next deploy.
+  const kits = require("./kit-accounts-pittsburgh.js");
+  for (const k of kits) {
+    await prisma.kitAccount.upsert({ where: { slug: k.slug }, update: {}, create: k });
+  }
+  console.log(`Kit accounts ensured: ${kits.length} Pittsburgh + 1 geo-social.`);
+
   // Idempotent: never overwrite a populated database on deploy. Set FORCE_SEED=1 to override.
   const existing = await prisma.league.count();
   if (existing > 0 && !process.env.FORCE_SEED) {

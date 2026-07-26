@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { getKit } from "@/lib/kits";
+import { prisma } from "@/lib/db";
 import { DEFAULT_ACCENT } from "@/lib/brand";
 import BrandTheme from "@/components/BrandTheme";
 import { track } from "@/lib/track";
@@ -15,9 +16,26 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   return { title, description, openGraph: { title, description, type: "website" }, twitter: { card: "summary_large_image", title, description } };
 }
 
+/**
+ * Their team's real Week 1 game. The kit page shows something true and specific rather than a
+ * mocked-up demo league. Returns null if the schedule isn't loaded — the card just doesn't render.
+ */
+async function week1Game(teamCity?: string | null, teamName?: string | null) {
+  if (!teamCity || !teamName) return null;
+  const team = `${teamCity} ${teamName}`;
+  const season = Number(process.env.SEASON || 2026);
+  return prisma.game
+    .findFirst({
+      where: { season, week: 1, OR: [{ home: team }, { away: team }] },
+      select: { away: true, home: true, homeSpread: true, total: true, kickoff: true },
+    })
+    .catch(() => null);
+}
+
 export default async function KitPage({ params }: { params: { slug: string } }) {
   const { account, known } = await getKit(params.slug);
   const accent = account.accent || DEFAULT_ACCENT;
+  const g = await week1Game(account.teamCity, account.teamName);
   // Scan tracking: fire-and-forget; never blocks the page.
   track({ type: "kit_viewed", channel: "web", meta: { slug: params.slug, company: account.company, known } });
   return (
@@ -29,6 +47,7 @@ export default async function KitPage({ params }: { params: { slug: string } }) 
         teamName={account.teamName ?? null}
         contact={account.contact ?? null}
         kitSlug={params.slug}
+        week1={g ? { away: g.away, home: g.home, homeSpread: g.homeSpread, total: g.total } : null}
       />
     </>
   );

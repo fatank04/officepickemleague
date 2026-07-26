@@ -4,10 +4,13 @@ import { useRouter } from "next/navigation";
 import { Brand } from "@/components/Brand";
 import { fbTrack } from "@/lib/pixel";
 
+type Week1 = { away: string; home: string; homeSpread: number; total: number };
+
 export default function KitClient({
-  company, teamCity, teamName, contact, kitSlug,
+  company, teamCity, teamName, contact, kitSlug, week1,
 }: {
-  company: string; teamCity: string | null; teamName: string | null; contact: string | null; kitSlug: string;
+  company: string; teamCity: string | null; teamName: string | null; contact: string | null;
+  kitSlug: string; week1?: Week1 | null;
 }) {
   const router = useRouter();
   const leagueDefault = /pick'?em/i.test(company) ? company : `${company} Pick'em`;
@@ -62,6 +65,32 @@ export default function KitClient({
           {busy ? "Launching…" : "Launch as commissioner →"}
         </button>
       </div>
+
+      {week1 && (
+        <div className="card pad">
+          <div className="muted small b" style={{ marginBottom: 9, letterSpacing: 0.6 }}>
+            YOUR TEAM&apos;S FIRST PICK — WEEK 1
+          </div>
+          <div className="b" style={{ fontSize: 16.5, marginBottom: 3 }}>
+            {week1.away} at {week1.home}
+          </div>
+          <div className="muted small" style={{ marginBottom: 11 }}>
+            {week1.home.split(" ").slice(-1)[0]} {week1.homeSpread > 0 ? `+${week1.homeSpread}` : week1.homeSpread}
+            {" · "}O/U {week1.total}
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 7 }}>
+            {["Winner", "Spread", "Over / under"].map((c) => (
+              <div key={c} style={{
+                border: "1px solid var(--line)", borderRadius: 9, padding: "9px 6px",
+                textAlign: "center", fontSize: 11.5, fontWeight: 700, color: "var(--muted)",
+              }}>{c}</div>
+            ))}
+          </div>
+          <p className="muted small" style={{ marginBottom: 0, marginTop: 10 }}>
+            Three calls a game, nine games a week. That&apos;s the whole thing — about two minutes.
+          </p>
+        </div>
+      )}
 
       <div className="card pad">
         <div className="muted small b" style={{ marginBottom: 8, letterSpacing: 0.6 }}>WHAT YOUR TEAM GETS</div>
