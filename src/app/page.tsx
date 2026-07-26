@@ -58,9 +58,9 @@ const ticker = [
 
 const tiers = [
   { name: "Starter", size: "Up to 50 employees", founding: "$400", standard: "$750" },
-  { name: "Team", size: "Up to 150 employees", founding: "$900", standard: "$2,250" },
-  { name: "Company", size: "Up to 400 employees", founding: "$1,900", standard: "$5,400" },
-  { name: "Large", size: "Up to 1,000 employees", founding: "$3,750", standard: "$9,900" },
+  { name: "Team", size: "Up to 150 employees", founding: "$900", standard: "$1,800" },
+  { name: "Company", size: "Up to 400 employees", founding: "$1,900", standard: "$3,900" },
+  { name: "Large", size: "Up to 1,000 employees", founding: "$3,750", standard: "$7,500" },
 ];
 
 export default function Home() {
@@ -308,7 +308,7 @@ export default function Home() {
           <div className="ld-kicker" data-reveal>Pricing</div>
           <h2 className="ld-h2" data-reveal>One flat rate. Players never pay.</h2>
           <p className="ld-lead" data-reveal>
-            Founding Season 2026 — more than half off the standard rate, <b style={{ color: "var(--text)" }}>locked for
+            Founding Season 2026 — about half off the standard rate, <b style={{ color: "var(--text)" }}>locked for
             three seasons</b>, with a Week-8 money-back guarantee.
           </p>
           <div className="ld-tiers" data-reveal-group>

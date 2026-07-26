@@ -12,9 +12,9 @@ export const metadata: Metadata = {
 
 const tiers = [
   { name: "Starter", size: "Up to 50 employees", founding: "$400", standard: "$750" },
-  { name: "Team", size: "Up to 150 employees", founding: "$900", standard: "$2,250" },
-  { name: "Company", size: "Up to 400 employees", founding: "$1,900", standard: "$5,400" },
-  { name: "Large", size: "Up to 1,000 employees", founding: "$3,750", standard: "$9,900" },
+  { name: "Team", size: "Up to 150 employees", founding: "$900", standard: "$1,800" },
+  { name: "Company", size: "Up to 400 employees", founding: "$1,900", standard: "$3,900" },
+  { name: "Large", size: "Up to 1,000 employees", founding: "$3,750", standard: "$7,500" },
   { name: "Enterprise", size: "1,000+ / multi-site", founding: "Let's talk", standard: "Custom" },
 ];
 
@@ -38,7 +38,7 @@ export default function PricingPage() {
       <div className="card pad" style={{ marginTop: 16 }}>
         <div style={{ fontWeight: 700, marginBottom: 4 }}>🏈 Founding Season 2026 — first 50 companies</div>
         <p className="muted small" style={{ margin: "0 0 12px", lineHeight: 1.5 }}>
-          More than half off the standard rate, <b>locked for three seasons (2026–2028)</b>, with a full midseason money-back
+          About half off the standard rate, <b>locked for three seasons (2026–2028)</b>, with a full midseason money-back
           guarantee: if your team isn&apos;t more engaged by Week 8, you get every dollar back.
         </p>
         <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 14 }}>
