@@ -36,7 +36,18 @@ function parseCsv(text: string): Record<string, string>[] {
   });
 }
 
-export default function OpsKits({ accounts, viewed, launched, baseUrl }: { accounts: Acct[]; viewed: Counts; launched: Counts; baseUrl: string }) {
+/** "2h ago" / "3d ago" — the call queue runs on recency, not counts. */
+function ago(iso?: string): string {
+  if (!iso) return "—";
+  const mins = Math.max(0, Math.round((Date.now() - new Date(iso).getTime()) / 60000));
+  if (mins < 60) return `${mins}m ago`;
+  if (mins < 60 * 24) return `${Math.round(mins / 60)}h ago`;
+  return `${Math.round(mins / (60 * 24))}d ago`;
+}
+
+export default function OpsKits({ accounts, viewed, launched, viewedAll, lastViewed, baseUrl }: {
+  accounts: Acct[]; viewed: Counts; launched: Counts; viewedAll: Counts; lastViewed: Record<string, string>; baseUrl: string;
+}) {
   const router = useRouter();
   const [form, setForm] = useState<Partial<Acct> | null>(null);
   const [showImport, setShowImport] = useState(false);
@@ -91,7 +102,7 @@ export default function OpsKits({ accounts, viewed, launched, baseUrl }: { accou
       <div className="row" style={{ gap: 18, marginBottom: 14, flexWrap: "wrap" }}>
         <span className="chip">{total} accounts</span>
         <span className="chip">{mailed} mailed</span>
-        <span className="chip live">👁 {vTot} scans</span>
+        <span className="chip live" title="Scans since Jul 28 — earlier ones were our own QR tests and deploy checks">👁 {vTot} real scans</span>
         <span className="chip live">🚀 {lTot} launched</span>
       </div>
       {msg && <div className="card pad small" style={{ color: "var(--gold)" }}>{msg}</div>}
@@ -139,7 +150,7 @@ export default function OpsKits({ accounts, viewed, launched, baseUrl }: { accou
 
       <div className="card" style={{ overflowX: "auto" }}>
         <table>
-          <thead><tr><th>Company</th><th>Metro</th><th>Contact</th><th>pURL</th><th>Status</th><th className="num">👁</th><th className="num">🚀</th><th></th></tr></thead>
+          <thead><tr><th>Company</th><th>Metro</th><th>Contact</th><th>pURL</th><th>Status</th><th className="num" title="Scans since Jul 28">👁</th><th>Last scan</th><th className="num">🚀</th><th></th></tr></thead>
           <tbody>
             {accounts.map((a) => (
               <tr key={a.id}>
@@ -154,7 +165,11 @@ export default function OpsKits({ accounts, viewed, launched, baseUrl }: { accou
                     {STATUSES.map((s) => <option key={s} value={s}>{s}</option>)}
                   </select>
                 </td>
-                <td className="num">{viewed[a.slug] || 0}</td>
+                <td className="num" title={`${viewedAll[a.slug] || 0} lifetime incl. our tests`}
+                  style={(viewed[a.slug] || 0) > 0 ? { color: "var(--accent)", fontWeight: 800 } : undefined}>
+                  {viewed[a.slug] || 0}
+                </td>
+                <td className="muted" style={{ whiteSpace: "nowrap", fontSize: 12 }}>{ago(lastViewed[a.slug])}</td>
                 <td className="num">{launched[a.slug] || 0}</td>
                 <td className="num" style={{ whiteSpace: "nowrap" }}>
                   <button className="btn ghost sm" onClick={() => { setForm(a); setShowImport(false); }}>Edit</button>{" "}
@@ -162,7 +177,7 @@ export default function OpsKits({ accounts, viewed, launched, baseUrl }: { accou
                 </td>
               </tr>
             ))}
-            {accounts.length === 0 && <tr><td colSpan={8} className="muted" style={{ padding: 18 }}>No accounts yet — add one or import a CSV.</td></tr>}
+            {accounts.length === 0 && <tr><td colSpan={9} className="muted" style={{ padding: 18 }}>No accounts yet — add one or import a CSV.</td></tr>}
           </tbody>
         </table>
       </div>
