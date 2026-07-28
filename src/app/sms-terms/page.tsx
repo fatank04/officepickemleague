@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { LegalPage } from "@/components/Legal";
 import { LEGAL } from "@/lib/legal";
-export const metadata: Metadata = { title: { absolute: "SMS Program Terms — Office Pick'em League" } };
+export const metadata: Metadata = { title: { absolute: "SMS Program Terms — Office Pick'em League" }, alternates: { canonical: "/sms-terms" } };
 const C = LEGAL.companyName;
 export default function SmsTerms() {
   return <LegalPage title="SMS Program Terms" sections={[
