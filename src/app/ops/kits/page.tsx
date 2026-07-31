@@ -18,13 +18,14 @@ export default async function OpsKitsPage() {
   if (!opsAuthed()) redirect("/ops");
   const accounts = await prisma.kitAccount.findMany({ orderBy: [{ metro: "asc" }, { company: "asc" }] });
   const evs = await prisma.event.findMany({
-    where: { type: { in: ["kit_viewed", "kit_launched"] } },
+    where: { type: { in: ["kit_viewed", "kit_launched", "kit_signup"] } },
     select: { type: true, meta: true, ts: true },
   });
   const viewed: Record<string, number> = {};
   const launched: Record<string, number> = {};
   const viewedAll: Record<string, number> = {};
   const lastViewed: Record<string, string> = {};
+  const signups: Record<string, number> = {};
   for (const e of evs) {
     const slug = (e.meta as any)?.slug;
     if (!slug) continue;
@@ -36,6 +37,8 @@ export default async function OpsKitsPage() {
         const iso = e.ts.toISOString();
         if (!lastViewed[slug] || iso > lastViewed[slug]) lastViewed[slug] = iso;
       }
+    } else if (e.type === "kit_signup") {
+      signups[slug] = (signups[slug] || 0) + 1;
     } else if (fresh) {
       launched[slug] = (launched[slug] || 0) + 1;
     }
@@ -48,6 +51,7 @@ export default async function OpsKitsPage() {
       launched={launched}
       viewedAll={viewedAll}
       lastViewed={lastViewed}
+      signups={signups}
       baseUrl={baseUrl}
     />
   );

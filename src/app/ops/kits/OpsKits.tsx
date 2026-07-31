@@ -45,8 +45,9 @@ function ago(iso?: string): string {
   return `${Math.round(mins / (60 * 24))}d ago`;
 }
 
-export default function OpsKits({ accounts, viewed, launched, viewedAll, lastViewed, baseUrl }: {
-  accounts: Acct[]; viewed: Counts; launched: Counts; viewedAll: Counts; lastViewed: Record<string, string>; baseUrl: string;
+export default function OpsKits({ accounts, viewed, launched, viewedAll, lastViewed, signups, baseUrl }: {
+  accounts: Acct[]; viewed: Counts; launched: Counts; viewedAll: Counts; lastViewed: Record<string, string>;
+  signups: Counts; baseUrl: string;
 }) {
   const router = useRouter();
   const [form, setForm] = useState<Partial<Acct> | null>(null);
@@ -83,6 +84,7 @@ export default function OpsKits({ accounts, viewed, launched, viewedAll, lastVie
   const mailed = accounts.filter((a) => a.status === "mailed").length;
   const vTot = accounts.reduce((s, a) => s + (viewed[a.slug] || 0), 0);
   const lTot = accounts.reduce((s, a) => s + (launched[a.slug] || 0), 0);
+  const oTot = accounts.reduce((s, a) => s + (signups[a.slug] || 0), 0);
 
   const pill = (s: string): React.CSSProperties => ({ fontSize: 11, fontWeight: 800, padding: "2px 8px", borderRadius: 999,
     background: s === "mailed" ? "rgba(79,140,255,.15)" : s === "ready" ? "rgba(247,207,87,.15)" : "var(--panel2)",
@@ -104,6 +106,7 @@ export default function OpsKits({ accounts, viewed, launched, viewedAll, lastVie
         <span className="chip">{mailed} mailed</span>
         <span className="chip live" title="Scans since Jul 28 — earlier ones were our own QR tests and deploy checks">👁 {vTot} real scans</span>
         <span className="chip live">🚀 {lTot} launched</span>
+        <span className="chip live">📝 {oTot} orders</span>
       </div>
       {msg && <div className="card pad small" style={{ color: "var(--gold)" }}>{msg}</div>}
 
@@ -150,7 +153,7 @@ export default function OpsKits({ accounts, viewed, launched, viewedAll, lastVie
 
       <div className="card" style={{ overflowX: "auto" }}>
         <table>
-          <thead><tr><th>Company</th><th>Metro</th><th>Contact</th><th>pURL</th><th>Status</th><th className="num" title="Scans since Jul 28">👁</th><th>Last scan</th><th className="num">🚀</th><th></th></tr></thead>
+          <thead><tr><th>Company</th><th>Metro</th><th>Contact</th><th>pURL</th><th>Status</th><th className="num" title="Scans since Jul 28">👁</th><th>Last scan</th><th className="num">🚀</th><th className="num" title="Founding orders">📝</th><th></th></tr></thead>
           <tbody>
             {accounts.map((a) => (
               <tr key={a.id}>
@@ -171,13 +174,14 @@ export default function OpsKits({ accounts, viewed, launched, viewedAll, lastVie
                 </td>
                 <td className="muted" style={{ whiteSpace: "nowrap", fontSize: 12 }}>{ago(lastViewed[a.slug])}</td>
                 <td className="num">{launched[a.slug] || 0}</td>
+                <td className="num" style={(signups[a.slug] || 0) > 0 ? { color: "var(--gold)", fontWeight: 800 } : undefined}>{signups[a.slug] || 0}</td>
                 <td className="num" style={{ whiteSpace: "nowrap" }}>
                   <button className="btn ghost sm" onClick={() => { setForm(a); setShowImport(false); }}>Edit</button>{" "}
                   <button className="btn ghost sm" onClick={() => { if (confirm(`Delete ${a.company}?`)) post({ action: "delete", id: a.id }); }}>✕</button>
                 </td>
               </tr>
             ))}
-            {accounts.length === 0 && <tr><td colSpan={9} className="muted" style={{ padding: 18 }}>No accounts yet — add one or import a CSV.</td></tr>}
+            {accounts.length === 0 && <tr><td colSpan={10} className="muted" style={{ padding: 18 }}>No accounts yet — add one or import a CSV.</td></tr>}
           </tbody>
         </table>
       </div>
