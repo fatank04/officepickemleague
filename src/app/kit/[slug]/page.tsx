@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { headers } from "next/headers";
 import { getKit } from "@/lib/kits";
 import { prisma } from "@/lib/db";
 import { DEFAULT_ACCENT } from "@/lib/brand";
@@ -32,12 +33,29 @@ async function week1Game(teamCity?: string | null, teamName?: string | null) {
     .catch(() => null);
 }
 
+/**
+ * A scan only counts if a person's browser made it.
+ *
+ * This page doubles as our health check, and curl'ing it during a deploy check logged five fake
+ * scans against real Pittsburgh companies — which is worse than no data, because the follow-up
+ * playbook calls whoever looks. Link-preview fetchers (Slack, iMessage) and uptime monitors would
+ * do the same. Every real QR scan comes from a phone browser and sends a Mozilla/ user-agent;
+ * tools and crawlers either don't, or say what they are.
+ */
+function isHumanScan(): boolean {
+  const ua = headers().get("user-agent") || "";
+  if (!/Mozilla\//i.test(ua)) return false;
+  return !/bot|crawl|spider|slurp|monitor|uptime|preview|headless|curl|wget|python|node-fetch|axios/i.test(ua);
+}
+
 export default async function KitPage({ params }: { params: { slug: string } }) {
   const { account, known } = await getKit(params.slug);
   const accent = account.accent || DEFAULT_ACCENT;
   const g = await week1Game(account.teamCity, account.teamName);
   // Scan tracking: fire-and-forget; never blocks the page.
-  track({ type: "kit_viewed", channel: "web", meta: { slug: params.slug, company: account.company, known } });
+  if (isHumanScan()) {
+    track({ type: "kit_viewed", channel: "web", meta: { slug: params.slug, company: account.company, known } });
+  }
   return (
     <>
       <BrandTheme accent={accent} />

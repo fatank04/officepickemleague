@@ -6,11 +6,13 @@ import OpsKits from "./OpsKits";
 export const dynamic = "force-dynamic";
 
 /**
- * Scans before this moment were our own QR tests and deploy checks (batch 1 shipped the morning
- * of Jul 27; nothing could be delivered before the 29th). The headline count starts here so a
- * pre-ship test never reads as a buyer. Lifetime counts stay in the tooltip.
+ * Everything before this timestamp was us, not a buyer: QR proofing before the drop, plus a round
+ * of curl health checks on Jul 30 that logged five scans against real companies. Kits were
+ * delivered Jul 29 and no genuine scan had come in as of this cutoff, so starting the count here
+ * loses nothing real. Going forward the user-agent gate on /kit/[slug] keeps tooling out of the
+ * data, so this baseline shouldn't need moving again. Lifetime counts stay in the tooltip.
  */
-const BASELINE = new Date("2026-07-28T04:00:00Z"); // midnight ET, Jul 28
+const BASELINE = new Date("2026-07-31T01:35:00Z"); // just after the last self-inflicted scan
 
 export default async function OpsKitsPage() {
   if (!opsAuthed()) redirect("/ops");
