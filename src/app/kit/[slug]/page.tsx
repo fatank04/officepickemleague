@@ -48,13 +48,18 @@ function isHumanScan(): boolean {
   return !/bot|crawl|spider|slurp|monitor|uptime|preview|headless|curl|wget|python|node-fetch|axios/i.test(ua);
 }
 
-export default async function KitPage({ params }: { params: { slug: string } }) {
+export default async function KitPage({ params, searchParams }: {
+  params: { slug: string };
+  searchParams?: { src?: string };
+}) {
   const { account, known } = await getKit(params.slug);
   const accent = account.accent || DEFAULT_ACCENT;
   const g = await week1Game(account.teamCity, account.teamName);
-  // Scan tracking: fire-and-forget; never blocks the page.
+  // Scan tracking: fire-and-forget; never blocks the page. `src` says which touch brought them
+  // here (e1/e2/e3 = email sequence, card = insert-card QR); a bare hit is the letter's QR.
   if (isHumanScan()) {
-    track({ type: "kit_viewed", channel: "web", meta: { slug: params.slug, company: account.company, known } });
+    const src = String(searchParams?.src || "").slice(0, 16) || "qr";
+    track({ type: "kit_viewed", channel: "web", meta: { slug: params.slug, company: account.company, known, src } });
   }
   return (
     <>
