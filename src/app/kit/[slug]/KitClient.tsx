@@ -164,6 +164,10 @@ export default function KitClient({
             After launch: <a href={CAL.onboarding} target="_blank" rel="noreferrer">book your 30-min onboarding</a>
           </p>
         )}
+        <p className="muted small center" style={{ margin: "10px 0 0" }}>
+          Want billing squared away today? <a href={`/start?kit=${kitSlug}&src=kit`}>Save a card or
+          request the AP invoice →</a> Still $0 until Sept 9.
+        </p>
       </div>
 
       {/* ── Door 2: walkthrough ───────────────────────────────── */}

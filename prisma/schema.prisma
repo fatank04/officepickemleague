@@ -184,6 +184,31 @@ model Submission {
   @@index([leagueId, season, week]) // submitted-count on the picks page
 }
 
+// A founding order with billing intent. The kit page's no-card signup stays as-is (it records an
+// event + texts Ankur); an Order is the step past that — a buyer who saved a card for kickoff or
+// asked for an AP invoice. Nothing here charges anyone: cards are charged manually from the Stripe
+// dashboard on Sept 9, invoices are sent by hand. One row per buyer per attempt.
+model Order {
+  id               String   @id @default(cuid())
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  company          String
+  kitSlug          String? // ties back to the KitAccount pURL when the buyer came from a kit
+  name             String
+  email            String
+  phone            String?
+  tier             String // starter | team | company | large
+  amountCents      Int // founding rate to charge at kickoff, in cents
+  method           String // card | invoice
+  status           String   @default("open") // open | card_on_file | invoice_requested | charged | canceled
+  src              String? // attribution: qr | card | e1..e3 | call | kit
+  stripeCustomerId String?
+  stripeSessionId  String?
+  notes            String?
+
+  @@index([status, createdAt])
+}
+
 model Event {
   id       String   @id @default(cuid())
   ts       DateTime @default(now())

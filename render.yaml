@@ -68,3 +68,11 @@ services:
         sync: false
       - key: ALERT_PHONE
         sync: false
+      # --- Stripe (founding checkout: setup-mode card save + manual Sept 9 charge; lib/billing.ts).
+      #     Start with TEST keys (sk_test_...); swap to live once a test checkout passes end to end.
+      #     STRIPE_WEBHOOK_SECRET = signing secret of the dashboard webhook endpoint pointed at
+      #     /api/stripe/webhook (event: checkout.session.completed). ---
+      - key: STRIPE_SECRET_KEY
+        sync: false
+      - key: STRIPE_WEBHOOK_SECRET
+        sync: false
