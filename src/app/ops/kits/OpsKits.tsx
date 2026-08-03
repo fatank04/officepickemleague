@@ -45,9 +45,9 @@ function ago(iso?: string): string {
   return `${Math.round(mins / (60 * 24))}d ago`;
 }
 
-export default function OpsKits({ accounts, viewed, launched, viewedAll, lastViewed, signups, baseUrl }: {
+export default function OpsKits({ accounts, viewed, launched, viewedAll, lastViewed, signups, baseUrl, baselineLabel }: {
   accounts: Acct[]; viewed: Counts; launched: Counts; viewedAll: Counts; lastViewed: Record<string, string>;
-  signups: Counts; baseUrl: string;
+  signups: Counts; baseUrl: string; baselineLabel: string;
 }) {
   const router = useRouter();
   const [form, setForm] = useState<Partial<Acct> | null>(null);
@@ -105,7 +105,7 @@ export default function OpsKits({ accounts, viewed, launched, viewedAll, lastVie
       <div className="row" style={{ gap: 18, marginBottom: 14, flexWrap: "wrap" }}>
         <span className="chip">{total} accounts</span>
         <span className="chip">{mailed} mailed</span>
-        <span className="chip live" title="Scans since Jul 28 — earlier ones were our own QR tests and deploy checks">👁 {vTot} real scans</span>
+        <span className="chip live" title={`Scans since ${baselineLabel} — earlier ones, and anything opened with ?src=test, were ours`}>👁 {vTot} real scans</span>
         <span className="chip live">🚀 {lTot} launched</span>
         <span className="chip live">📝 {oTot} orders</span>
       </div>

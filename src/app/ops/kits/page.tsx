@@ -6,13 +6,16 @@ import OpsKits from "./OpsKits";
 export const dynamic = "force-dynamic";
 
 /**
- * Everything before this timestamp was us, not a buyer: QR proofing before the drop, plus a round
- * of curl health checks on Jul 30 that logged five scans against real companies. Kits were
- * delivered Jul 29 and no genuine scan had come in as of this cutoff, so starting the count here
- * loses nothing real. Going forward the user-agent gate on /kit/[slug] keeps tooling out of the
- * data, so this baseline shouldn't need moving again. Lifetime counts stay in the tooltip.
+ * Everything before this timestamp was us, not a buyer. Twice now our own traffic has read as
+ * demand: curl health checks on Jul 30 logged five scans against real Pittsburgh companies, then
+ * checkout testing on Aug 2 logged more from a real browser (which the user-agent gate can't
+ * catch, because it IS a real browser).
+ *
+ * Moving the baseline hides nothing — every event stays in the table and lifetime counts stay in
+ * the chip tooltip. To test a kit page from now on, append ?src=test: those views are excluded
+ * below, so this baseline shouldn't need moving a third time.
  */
-const BASELINE = new Date("2026-07-31T01:35:00Z"); // just after the last self-inflicted scan
+const BASELINE = new Date("2026-08-03T01:25:00Z"); // just after checkout testing, before Monday's calls
 
 export default async function OpsKitsPage() {
   if (!opsAuthed()) redirect("/ops");
@@ -29,7 +32,9 @@ export default async function OpsKitsPage() {
   for (const e of evs) {
     const slug = (e.meta as any)?.slug;
     if (!slug) continue;
-    const fresh = e.ts >= BASELINE;
+    // Our own testing, tagged at the URL (?src=test). Counts toward lifetime, never toward demand.
+    const ours = (e.meta as any)?.src === "test";
+    const fresh = e.ts >= BASELINE && !ours;
     if (e.type === "kit_viewed") {
       viewedAll[slug] = (viewedAll[slug] || 0) + 1;
       if (fresh) {
@@ -53,6 +58,7 @@ export default async function OpsKitsPage() {
       lastViewed={lastViewed}
       signups={signups}
       baseUrl={baseUrl}
+      baselineLabel={BASELINE.toLocaleDateString("en-US", { month: "short", day: "numeric", timeZone: "America/New_York" })}
     />
   );
 }
