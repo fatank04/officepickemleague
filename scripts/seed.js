@@ -26,16 +26,22 @@ async function main() {
   });
 
   // Warm personal leads get a kit page too — sent as a link, no mailed kit. UPPI: Kaitlin
-  // Rumberger (CFO, family friend), Mechanicsburg PA. Central PA splits Steelers/Eagles,
-  // so no team theme until Ankur confirms which way the shop leans.
+  // Rumberger (CFO, family friend), Mechanicsburg PA. She's an Eagles fan, so the page runs
+  // Philadelphia — which also makes her Week 1 card show a real Eagles game.
+  //
+  // Accent is midnight green lifted for a near-black page: the true #004C54 is dark enough that
+  // accent text and borders disappear on --bg:#080b11. This keeps the color reading as Eagles
+  // while staying legible. Team theme is force-updated (not create-only) so the fan detail lands
+  // on the record that already exists in production.
+  const uppiTheme = { teamCity: "Philadelphia", teamName: "Eagles", accent: "#1a8f80" };
   await prisma.kitAccount.upsert({
     where: { slug: "uppi" },
-    update: {},
+    update: uppiTheme,
     create: {
       slug: "uppi", company: "UPPI", metro: "Central PA", contact: "Kaitlin",
       contactTitle: "CFO", addr1: "61 Texaco Road", city: "Mechanicsburg", state: "PA",
-      zip: "17050", status: "ready",
-      notes: "Warm intro — Kaitlin Rumberger, CFO; dad is CEO. Link only, no mailed kit.",
+      zip: "17050", status: "ready", ...uppiTheme,
+      notes: "Warm intro — Kaitlin Rumberger, CFO; dad is CEO. Eagles fan. Link only, no mailed kit.",
     },
   });
 
