@@ -97,6 +97,7 @@ export default function OpsKits({ accounts, viewed, launched, viewedAll, lastVie
         <div className="row" style={{ gap: 8 }}>
           <button className="btn sm" onClick={() => { setForm({ ...BLANK }); setShowImport(false); }}>+ Add account</button>
           <button className="btn ghost sm" onClick={() => { setShowImport((v) => !v); setForm(null); }}>Import CSV</button>
+          <Link href="/ops/orders" className="btn ghost sm">Orders →</Link>
           <Link href="/ops/kits/print" className="btn ghost sm">Print pack →</Link>
         </div>
       </div>
