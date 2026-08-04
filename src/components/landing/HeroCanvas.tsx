@@ -16,7 +16,10 @@ export default function HeroCanvas() {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    let w = 0, h = 0, raf = 0, running = true;
+    // `running` starts false: the IntersectionObserver below is the single owner of the loop.
+    // Starting a loop here as well as in the observer ran two draw loops at once for the whole
+    // first scroll — double canvas work over exactly the stretch the hero occupies.
+    let w = 0, h = 0, raf = 0, running = false;
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
     const motes = Array.from({ length: 42 }, () => ({
       x: Math.random(), y: Math.random(),
@@ -36,8 +39,23 @@ export default function HeroCanvas() {
     const ro = new ResizeObserver(resize);
     ro.observe(canvas);
 
-    const io = new IntersectionObserver(([e]) => { running = e.isIntersecting; if (running) raf = requestAnimationFrame(draw); });
+    // Only start on a false→true edge. The observer can fire "still visible" more than once
+    // (resize, threshold recompute); without the edge check each of those spawned another loop.
+    const io = new IntersectionObserver(([e]) => {
+      if (e.isIntersecting === running) return;
+      running = e.isIntersecting;
+      if (running) { cancelAnimationFrame(raf); raf = requestAnimationFrame(draw); }
+    });
     io.observe(canvas);
+
+    // A background tab keeps the loop scheduled; stop it and resume on return.
+    const onVis = () => {
+      if (document.hidden) { running = false; cancelAnimationFrame(raf); }
+      else if (canvas.getBoundingClientRect().bottom > 0 && !running) {
+        running = true; raf = requestAnimationFrame(draw);
+      }
+    };
+    document.addEventListener("visibilitychange", onVis);
 
     function draw() {
       if (!running || !ctx) return;
@@ -63,9 +81,12 @@ export default function HeroCanvas() {
       }
       raf = requestAnimationFrame(draw);
     }
-    raf = requestAnimationFrame(draw);
 
-    return () => { cancelAnimationFrame(raf); ro.disconnect(); io.disconnect(); };
+    return () => {
+      cancelAnimationFrame(raf);
+      document.removeEventListener("visibilitychange", onVis);
+      ro.disconnect(); io.disconnect();
+    };
   }, []);
 
   return <canvas ref={ref} className="ld-hero-canvas" aria-hidden="true" />;
