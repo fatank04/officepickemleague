@@ -98,7 +98,10 @@ export default function WalkthroughTease() {
             onPlay={() => setPlaying(true)}
             onPause={() => setPlaying(false)}
             onClick={() => (playing ? ref.current?.pause() : play())}
-            style={{ width: "100%", display: "block", cursor: "pointer" }}
+            // 1440x1024, matching walkthrough-poster.jpg. Without a reserved ratio the element
+            // lays out at the 300x150 default until metadata arrives, then jumps to full height —
+            // a real shift on any uncached visit, which is every first-time visitor.
+            style={{ width: "100%", display: "block", cursor: "pointer", aspectRatio: "1440 / 1024" }}
           />
           {!playing && (
             <button
