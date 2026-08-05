@@ -13,6 +13,10 @@ export default function HeroCanvas() {
     const canvas = ref.current;
     if (!canvas) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    // No canvas at all on touch devices. A full-viewport redraw every frame is real GPU load on
+    // a phone — iOS scroll jank is compositor jank — and at phone size the dust is barely
+    // perceptible. The static gradient + glow carry the hero on mobile.
+    if (window.matchMedia("(pointer: coarse)").matches) return;
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
