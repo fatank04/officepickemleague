@@ -260,20 +260,6 @@ tr.me{background:rgba(var(--accent-rgb),.06)}
 @keyframes ld-msg-in{from{opacity:0;transform:translateY(10px) scale(.97)}to{opacity:1;transform:none}}
 @media (prefers-reduced-motion: reduce){.ld-msg,.ld-webrow{animation:none}}
 
-/* ── Touch devices: still life, no motion ─────────────────────────────────────
-   Landing motion is desktop-only. Phones (iOS Safari especially) stutter on
-   compositor load, and buyers open this page from a kit QR on a phone — smooth
-   beats animated there. Every gradient, glow, border, and shadow stays; only
-   things that MOVE stop: the marquee, the reveal slides, the chat-bubble
-   entrances. LandingFX.tsx has the matching JS branch (no ld-js arming, countups
-   set to final values instantly). */
-@media (pointer: coarse){
-  .ld-ticker-track{animation:none}
-  .ld-msg,.ld-webrow{animation:none}
-  .ld-js [data-reveal],.ld-js [data-reveal-group]>*{opacity:1;transform:none;transition:none}
-  .ld-mj-tab,.ld-step,.ld-cell,.ld-tier,.card{transition:none}
-}
-
 /* ===== App design-system uplift (Linear-style pass, 2026-07) ===== */
 :focus-visible{outline:2px solid rgba(var(--accent-rgb),.7);outline-offset:2px;border-radius:4px}
 .btn{transition:transform .18s,box-shadow .18s,filter .18s}
