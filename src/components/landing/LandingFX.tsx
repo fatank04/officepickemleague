@@ -17,10 +17,11 @@ export default function LandingFX() {
     const root = document.documentElement;
     root.classList.add("ld-js");
 
-    // stagger delays for group children
+    // stagger delays for group children — short: at 80ms×6 the tail of a group was still
+    // materializing half a second after you'd scrolled to it
     document.querySelectorAll<HTMLElement>("[data-reveal-group]").forEach((group) => {
       Array.from(group.children).forEach((child, i) => {
-        (child as HTMLElement).style.transitionDelay = `${Math.min(i * 80, 480)}ms`;
+        (child as HTMLElement).style.transitionDelay = `${Math.min(i * 50, 200)}ms`;
       });
     });
 
@@ -50,7 +51,10 @@ export default function LandingFX() {
           if ((e.target as HTMLElement).dataset.countup) countup(e.target as HTMLElement);
         }
       },
-      { rootMargin: "0px 0px -8% 0px" }
+      // Positive bottom margin = fire BEFORE the element scrolls into view, so the reveal is
+      // underway (or done) by the time it's visible. The old -8% fired late, which paired with
+      // the slow transition to make sections feel like they loaded as you hit them.
+      { rootMargin: "0px 0px 25% 0px" }
     );
     document
       .querySelectorAll<HTMLElement>("[data-reveal],[data-reveal-group],[data-countup]")
