@@ -92,11 +92,10 @@ tr.me{background:rgba(var(--accent-rgb),.06)}
 .ld-wrap{max-width:1080px;margin:0 auto;padding:0 20px}
 
 /* nav */
-/* No backdrop-filter here at all: a fixed full-width blur re-blurs whatever scrolls beneath it
-   every frame, and Safari is worst at it right where our heaviest content (video, canvas) passes
-   under. At 92% opacity on a near-black page, blur was invisible anyway. */
+/* Never transition backdrop-filter: it re-blurs the whole strip on every frame of the animation,
+   and this one fires the moment you start scrolling. Background + border carry the same effect. */
 .ld-nav{position:fixed;top:0;left:0;right:0;z-index:50;transition:background .25s,border-color .25s;border-bottom:1px solid transparent}
-.ld-nav.scrolled{background:rgba(8,11,17,.92);border-bottom-color:var(--line)}
+.ld-nav.scrolled{background:rgba(8,11,17,.82);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-bottom-color:var(--line)}
 .ld-nav-inner{max-width:1080px;margin:0 auto;padding:12px 20px;display:flex;align-items:center;gap:22px}
 .ld-nav-brand{display:flex;align-items:center;gap:9px;color:var(--text);text-decoration:none;font-family:var(--font-grotesk),sans-serif;font-size:15.5px}
 .ld-nav-brand .mark{width:28px;height:28px;border-radius:8px;background:linear-gradient(140deg,var(--accent),var(--accent-d));display:grid;place-items:center;box-shadow:0 3px 12px rgba(var(--accent-rgb),.35)}
@@ -206,11 +205,8 @@ tr.me{background:rgba(var(--accent-rgb),.06)}
   .ld-step,.ld-cell,.ld-tier{transition:none}
 }
 
-/* reveal transitions — armed only when JS adds .ld-js to <html>; no-JS sees everything.
-   Keep these FAST and SMALL: at .7s/24px a normal scroll outran the reveal, so you'd land on
-   blank space and watch content slide up against your scroll direction — reads as the page
-   sticking. .35s/10px finishes inside the scroll gesture. */
-.ld-js [data-reveal],.ld-js [data-reveal-group]>*{opacity:0;transform:translateY(10px);transition:opacity .35s ease-out,transform .35s ease-out}
+/* reveal transitions — armed only when JS adds .ld-js to <html>; no-JS sees everything */
+.ld-js [data-reveal],.ld-js [data-reveal-group]>*{opacity:0;transform:translateY(24px);transition:opacity .7s cubic-bezier(.22,.61,.36,1),transform .7s cubic-bezier(.22,.61,.36,1)}
 .ld-js [data-reveal].is-in,.ld-js [data-reveal-group].is-in>*{opacity:1;transform:none}
 @media (prefers-reduced-motion: reduce){
   .ld-js [data-reveal],.ld-js [data-reveal-group]>*{opacity:1;transform:none;transition:none}
@@ -225,7 +221,7 @@ tr.me{background:rgba(var(--accent-rgb),.06)}
 .ld-nav-menu{display:none}
 @media (max-width:760px){
   .ld-burger{display:flex}
-  .ld-nav-menu{display:flex;flex-direction:column;overflow:hidden;max-height:0;transition:max-height .3s ease;background:rgba(8,11,17,.96)}
+  .ld-nav-menu{display:flex;flex-direction:column;overflow:hidden;max-height:0;transition:max-height .3s ease;background:rgba(8,11,17,.92);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
   .ld-nav-menu.open{max-height:320px;border-top:1px solid var(--line)}
   .ld-nav-menu a{padding:14px 20px;color:var(--text);text-decoration:none;font-size:15px;border-bottom:1px solid rgba(39,53,72,.5)}
   .ld-nav-menu a:active{background:rgba(var(--accent-rgb),.08)}

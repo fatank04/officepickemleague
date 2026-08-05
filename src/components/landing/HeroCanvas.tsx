@@ -20,9 +20,7 @@ export default function HeroCanvas() {
     // Starting a loop here as well as in the observer ran two draw loops at once for the whole
     // first scroll — double canvas work over exactly the stretch the hero occupies.
     let w = 0, h = 0, raf = 0, running = false;
-    // dpr 1 on purpose: this layer is faint dust and 5%-alpha lines — invisible sharpness, and
-    // retina doubled the redraw to a ~2560×2300 clear+paint every frame while the hero scrolls.
-    const dpr = 1;
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
     const motes = Array.from({ length: 42 }, () => ({
       x: Math.random(), y: Math.random(),
       r: 0.6 + Math.random() * 1.8,
