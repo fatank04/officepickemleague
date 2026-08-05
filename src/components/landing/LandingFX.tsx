@@ -14,6 +14,18 @@ import { gsap } from "gsap";
 export default function LandingFX() {
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    // Touch devices get the still-life page (see the pointer:coarse block in globals.css):
+    // never arm the reveal pre-hide, write countup finals directly, skip every observer.
+    // Content is simply there, instantly — nothing on the page moves.
+    if (window.matchMedia("(pointer: coarse)").matches) {
+      document.querySelectorAll<HTMLElement>("[data-countup]").forEach((el) => {
+        const end = parseFloat(el.dataset.countup || "0");
+        el.textContent = `${el.dataset.prefix || ""}${Math.round(end)}${el.dataset.suffix || ""}`;
+      });
+      return;
+    }
+
     const root = document.documentElement;
     root.classList.add("ld-js");
 
