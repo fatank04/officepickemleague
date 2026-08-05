@@ -13,25 +13,21 @@ const CHAPTERS: Chapter[] = [
 
 export default function WalkthroughTease() {
   const ref = useRef<HTMLVideoElement | null>(null);
-  // Facade: the <video> exists only after the first tap (`live`). A parked video element owns a
-  // native media layer on iOS and scrolling it stutters WebKit; until then this is just an <img>.
-  const [live, setLive] = useState(false);
-  const pendingSeek = useRef<number | null>(null);
   const [playing, setPlaying] = useState(false);
   const [active, setActive] = useState(0);
 
   const play = useCallback(() => {
     const v = ref.current;
-    if (!v) { setLive(true); setPlaying(true); return; } // mounts with autoPlay
+    if (!v) return;
     v.play();
     setPlaying(true);
   }, []);
 
   const seek = useCallback((i: number) => {
-    setActive(i);
     const v = ref.current;
-    if (!v) { pendingSeek.current = i; setLive(true); setPlaying(true); return; }
+    if (!v) return;
     v.currentTime = CHAPTERS[i].t + 0.15;
+    setActive(i);
     v.play();
     setPlaying(true);
   }, []);
@@ -90,37 +86,23 @@ export default function WalkthroughTease() {
         </div>
 
         <div style={{ position: "relative", background: "#0b1220", lineHeight: 0 }}>
-          {live ? (
-            <video
-              ref={ref}
-              src="/walkthrough.mp4"
-              poster="/walkthrough-poster.jpg"
-              muted
-              loop
-              autoPlay
-              playsInline
-              onLoadedMetadata={() => {
-                if (pendingSeek.current != null && ref.current) {
-                  ref.current.currentTime = CHAPTERS[pendingSeek.current].t + 0.15;
-                  pendingSeek.current = null;
-                }
-              }}
-              onTimeUpdate={onTime}
-              onPlay={() => setPlaying(true)}
-              onPause={() => setPlaying(false)}
-              onClick={() => (playing ? ref.current?.pause() : play())}
-              // 1440x1024, matching walkthrough-poster.jpg — ratio reserved so nothing shifts.
-              style={{ width: "100%", display: "block", cursor: "pointer", aspectRatio: "1440 / 1024" }}
-            />
-          ) : (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src="/walkthrough-poster.jpg"
-              alt="Inside the league — picks, standings, and commissioner tools"
-              onClick={play}
-              style={{ width: "100%", display: "block", cursor: "pointer", aspectRatio: "1440 / 1024" }}
-            />
-          )}
+          <video
+            ref={ref}
+            src="/walkthrough.mp4"
+            poster="/walkthrough-poster.jpg"
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            onTimeUpdate={onTime}
+            onPlay={() => setPlaying(true)}
+            onPause={() => setPlaying(false)}
+            onClick={() => (playing ? ref.current?.pause() : play())}
+            // 1440x1024, matching walkthrough-poster.jpg. Without a reserved ratio the element
+            // lays out at the 300x150 default until metadata arrives, then jumps to full height —
+            // a real shift on any uncached visit, which is every first-time visitor.
+            style={{ width: "100%", display: "block", cursor: "pointer", aspectRatio: "1440 / 1024" }}
+          />
           {!playing && (
             <button
               type="button"
