@@ -54,6 +54,10 @@ export function normalize(events: RawEvent[], season: number): NormalizedGame[] 
     }
     if (!spreads.length || !totals.length) continue;
     const kickoff = new Date(e.commence_time);
+    // The feed carries preseason games in August, and nflWeek clamps to week >= 1 — without
+    // this guard an exhibition game ingests as a fake "Week 1" matchup. Anything kicking off
+    // more than a day before the season anchor is preseason: skip it.
+    if (kickoff.getTime() < new Date(ANCHOR).getTime() - 86_400_000) continue;
     out.push({
       oddsId: e.id, season, week: nflWeek(kickoff),
       away: nick(e.away_team), home: nick(e.home_team),

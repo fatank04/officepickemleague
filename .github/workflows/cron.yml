@@ -5,7 +5,13 @@ on:
     - cron: '0 10 * * 3'   # Wed 10:00 UTC — pull this week's lines
     - cron: '0 17 * * 6'   # Sat 17:00 UTC — one weekly reminder to non-pickers
     - cron: '0 15 * * 2'   # Tue 15:00 UTC — weekly results + share cards
-  workflow_dispatch: {}
+  workflow_dispatch:
+    inputs:
+      job:
+        description: "Which cron job to run"
+        type: choice
+        default: grade
+        options: [grade, pull-lines, reminder, results]
 
 # A slow cold start shouldn't let the next hourly tick pile on top of this one.
 concurrency:
@@ -29,11 +35,19 @@ jobs:
             exit 1
           fi
 
-          case "${{ github.event.schedule }}" in
-            "0 10 * * 3") P="/api/cron/pull-lines" ;;
-            "0 17 * * 6") P="/api/cron/notify?type=reminder" ;;
-            "0 15 * * 2") P="/api/cron/notify?type=results" ;;
-            *)            P="/api/cron/grade" ;;
+          # Manual dispatch picks the job by input; scheduled runs map from the cron pattern.
+          case "${{ github.event.inputs.job || '' }}" in
+            "pull-lines") P="/api/cron/pull-lines" ;;
+            "reminder")   P="/api/cron/notify?type=reminder" ;;
+            "results")    P="/api/cron/notify?type=results" ;;
+            "grade")      P="/api/cron/grade" ;;
+            *)
+              case "${{ github.event.schedule }}" in
+                "0 10 * * 3") P="/api/cron/pull-lines" ;;
+                "0 17 * * 6") P="/api/cron/notify?type=reminder" ;;
+                "0 15 * * 2") P="/api/cron/notify?type=results" ;;
+                *)            P="/api/cron/grade" ;;
+              esac ;;
           esac
 
           # The free Render instance sleeps after ~15 min idle and its edge returns 502s for
