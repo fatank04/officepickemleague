@@ -30,8 +30,8 @@ const faqs: [string, string][] = [
     "No app, ever. Everyone plays by text message, on the web, or on paper: grab a sheet from the break-room stack, check your boxes, and text us a photo of it. We type it in for you and text your picks back to confirm. If you can send a text, you can play. And if some folks would rather call in their picks, a concierge phone line is available as an add-on.",
   ],
   [
-    "How much time does it take?",
-    "About two minutes a week for players: pick winners, spreads, and over/unders for the week's games. Commissioners set the league up once in about two minutes, and scores, grading, and standings run themselves.",
+    "How much time does it take? Will it eat the workday?",
+    "It can't — it's time-boxed by design. A full week is nine games, about two minutes of picking, and there's nothing else to do in the app: no feed, no chat, nothing to scroll. Picks lock at kickoff and then it's quiet until next week. One reminder text a week, no streaks, no badges — built to be checked twice a week, not refreshed hourly. Commissioners set the league up once in about two minutes, and scoring runs itself.",
   ],
   [
     "Do you have to know football?",

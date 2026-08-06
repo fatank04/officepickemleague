@@ -15,15 +15,47 @@ export default async function InsightsPage() {
   const league = ctx.league;
   const myId = ctx.player.id;
 
-  // All three are independent — run them in parallel instead of three round-trips.
-  const [view, games, allPicks] = await Promise.all([
+  // All four are independent — run them in parallel instead of separate round-trips.
+  const [view, games, allPicks, pickEvents] = await Promise.all([
     getStandings(league),
     prisma.game.findMany({
       where: { season: league.season, week: { gte: league.seasonStart, lte: league.seasonEnd } },
       orderBy: [{ week: "asc" }, { kickoff: "asc" }],
     }),
     prisma.pick.findMany({ where: { leagueId: league.id } }),
+    prisma.event.findMany({
+      where: { leagueId: league.id, type: { in: ["pick_saved", "card_submitted"] } },
+      select: { playerId: true, week: true, ts: true },
+      orderBy: { ts: "asc" },
+    }),
   ]);
+
+  // Median active picking time per player-week — the receipt behind "two minutes a week."
+  // Sessionized: gaps over 10 minutes between saves don't count (a tab left open over lunch
+  // isn't picking), and a single-save week counts as half a minute. Exists so a commissioner
+  // can show leadership a number instead of a promise; only shown once there's a real sample.
+  const GAP_MS = 10 * 60 * 1000;
+  const byPlayerWeek = new Map<string, number[]>();
+  for (const e of pickEvents) {
+    if (!e.playerId || e.week == null) continue;
+    const k = `${e.playerId}:${e.week}`;
+    (byPlayerWeek.get(k) ?? byPlayerWeek.set(k, []).get(k)!).push(e.ts.getTime());
+  }
+  const sessions: number[] = [];
+  for (const times of byPlayerWeek.values()) {
+    let active = 30_000; // floor: even one saved pick took a moment
+    for (let i = 1; i < times.length; i++) {
+      const gap = times[i] - times[i - 1];
+      if (gap > 0 && gap <= GAP_MS) active += gap;
+    }
+    sessions.push(active);
+  }
+  sessions.sort((a, b) => a - b);
+  const medianPickMs = sessions.length >= 5 ? sessions[Math.floor(sessions.length / 2)] : null;
+  const fmtPickTime = (ms: number) => {
+    const m = Math.floor(ms / 60000), s = Math.round((ms % 60000) / 1000);
+    return m ? `${m}m ${s.toString().padStart(2, "0")}s` : `${s}s`;
+  };
   const rows = view.rows;
   const N = rows.length;
   const rank = rows.findIndex((r) => r.playerId === myId) + 1;
@@ -113,6 +145,12 @@ export default async function InsightsPage() {
             </div>
           ))}
         </div>
+        {medianPickMs != null && (
+          <p className="muted small" style={{ margin: "12px 2px 0" }}>
+            ⏱️ League median picking time: <b style={{ color: "var(--text)" }}>{fmtPickTime(medianPickMs)}</b> a week
+            — the whole game fits in a coffee break.
+          </p>
+        )}
       </div>
 
       <div className="card pad">

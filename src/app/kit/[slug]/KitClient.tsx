@@ -37,6 +37,8 @@ const FAQ: [string, string][] = [
     "No money anywhere in the game — no buy-ins, no pots, no payouts. It's a free, skill-based prediction game the company runs as a perk. It exists to replace the grey-area cash pool, not to be one."],
   ["What does IT have to install or review?",
     "Nothing. No app, no SSO, no directory access — and we never touch work email. Employees join with a first name on a web link, a text, or a paper sheet."],
+  ["Will it eat work time?",
+    "It can't — it's time-boxed by design. Nine games, about two minutes, and there's nothing else in it: no feed, no chat, nothing to scroll. Picks lock at kickoff, then it's quiet until next week. One reminder text a week, no streaks or badges engineered for daily opens. The league page even shows the median picking time so you can prove it."],
   ["What does it cost?",
     "One flat rate for the season by company size — $400 to $3,750 at founding pricing, which is about half off and locked through 2028. Players never pay a cent."],
   ["When am I charged?",
