@@ -15,6 +15,8 @@ export const metadata: Metadata = {
     template: "%s · Office Pick'em League",
   },
   description: "The no-money, HR-safe NFL pick'em game employers run for team engagement. Players never pay. Two minutes a week by web, text, or paper.",
+  // Bing Webmaster Tools ownership proof — must stay for the property to remain verified.
+  verification: { other: { "msvalidate.01": "B4261D033136C6626EA2414247186F9B" } },
   keywords: ["office football pool", "NFL pick'em", "office pickem league", "workplace pick'em", "no-money football pool", "employee engagement game", "HR-safe office pool"],
   openGraph: {
     type: "website",
