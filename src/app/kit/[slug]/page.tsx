@@ -23,11 +23,12 @@ export async function generateMetadata({ params }: { params: { slug: string } })
  */
 async function week1Game(teamCity?: string | null, teamName?: string | null) {
   if (!teamCity || !teamName) return null;
-  const team = `${teamCity} ${teamName}`;
+  // Games are stored by NICKNAME ("Eagles"), never full name — ingestion runs every team
+  // through nick() in lib/odds.ts. A KitAccount's teamName is already that nickname.
   const season = Number(process.env.SEASON || 2026);
   return prisma.game
     .findFirst({
-      where: { season, week: 1, OR: [{ home: team }, { away: team }] },
+      where: { season, week: 1, OR: [{ home: teamName }, { away: teamName }] },
       select: { away: true, home: true, homeSpread: true, total: true, kickoff: true },
     })
     .catch(() => null);
