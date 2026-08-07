@@ -86,6 +86,14 @@ export async function ingestLines(season = Number(process.env.SEASON || 2026)): 
     const existing = await prisma.game.findUnique({ where: { oddsId: g.oddsId }, select: { kickoff: true } });
     const plan = planIngest(existing, now);
     if (plan === "create") {
+      // The feed sometimes lists one fixture under two event ids; the oddsId lookup above
+      // can't see that, and the second insert used to crash the whole pull on the
+      // (season, week, away, home) unique. First listing wins; later ids are skipped.
+      const clash = await prisma.game.findUnique({
+        where: { season_week_away_home: { season: g.season, week: g.week, away: g.away, home: g.home } },
+        select: { id: true },
+      });
+      if (clash) continue;
       await prisma.game.create({
         data: {
           oddsId: g.oddsId, season: g.season, week: g.week,
