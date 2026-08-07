@@ -85,6 +85,13 @@ export default function Home() {
         url: "https://officepickemleague.com",
         logo: "https://officepickemleague.com/og.png",
         email: "support@officepickemleague.com",
+        // Corroborating profiles — tells Google these external pages are the same entity,
+        // which is exactly the signal a young domain lacks. Add new listings as they go live
+        // (G2 profile URL once their vendor verification clears; AlternativeTo ~Aug 13).
+        sameAs: [
+          "https://www.youtube.com/channel/UCPYRcINmY6JtjwrUERAbzjw",
+          "https://www.saashub.com/office-pickem-league",
+        ],
         address: {
           "@type": "PostalAddress",
           streetAddress: "38 Otsego Road",
