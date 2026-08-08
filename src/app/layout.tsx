@@ -14,7 +14,10 @@ export const metadata: Metadata = {
     default: "Office Pick'em League — workplace football pool",
     template: "%s · Office Pick'em League",
   },
-  description: "The no-money, HR-safe NFL pick'em game employers run for team engagement. Players never pay. Two minutes a week by web, text, or paper.",
+  // "boost morale" is the phrase buyers actually type and say out loud — HR and owners
+  // describe the problem that way, not as "engagement." Kept in the meta description
+  // (search-visible) rather than the hero, which reads better in our own voice.
+  description: "Boost morale at the office with a no-money, HR-safe NFL pick'em game employers run for their whole team. Players never pay. Two minutes a week by web, text, or paper.",
   // Bing Webmaster Tools ownership proof — must stay for the property to remain verified.
   verification: { other: { "msvalidate.01": "B4261D033136C6626EA2414247186F9B" } },
   keywords: ["office football pool", "NFL pick'em", "office pickem league", "workplace pick'em", "no-money football pool", "employee engagement game", "HR-safe office pool"],

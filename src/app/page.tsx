@@ -18,6 +18,10 @@ export const metadata: Metadata = {
 
 const faqs: [string, string][] = [
   [
+    "Will this actually boost morale at the office?",
+    "That's the whole point of it. The people who never talk get a reason to — dispatch and the front office end up in the same standings, and the person who knows the least about football usually leads by Week 6. It runs eighteen weeks, so it isn't a one-day event people forget by Friday. Companies typically spend $100 to $500 per employee on team-building nobody remembers; this is a flat seasonal rate for the whole building.",
+  ],
+  [
     "Is Office Pick'em gambling?",
     "No. There's no money anywhere in the game — no buy-ins, no pots, no cash prizes. Players never pay anything. The employer runs it as a team-engagement game, and any prizes (bragging rights, a trophy, pizza) come from the employer, not from player money. That's what makes it the office football game HR can actually approve.",
   ],
