@@ -666,7 +666,7 @@ function buildSlides() {
         <Cards min={230} items={[
           ["All four ways to take part work today", "Web, text, paper photo, and the concierge phone line — built, tested, and live right now."],
           ["Scoring runs itself", "Winners, spreads, over/unders, Power Picks, tiebreaks. Automatic every week, all season."],
-          ["Texting is carrier-registered", "Verified business messaging on a real local number, not a grey-market workaround."],
+          ["Texting is carrier-registered", "Verified business messaging on a real business number, not a grey-market workaround."],
           ["The season is loaded", "Every 2026 game, every week, already in. Your league is live the day you say go."],
         ]} />
       </div>
