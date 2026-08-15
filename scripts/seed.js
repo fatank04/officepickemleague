@@ -45,6 +45,21 @@ async function main() {
     },
   });
 
+  // ADUSA Supply Chain — Heather Evans, HR, asked for an email she can route internally. Left
+  // deliberately unthemed: ADUSA's network runs Food Lion, Hannaford, Stop & Shop and Giant
+  // territory, so no single team is right for the company page. Per-site team colors are the
+  // pitch for a multi-site rollout, not something to guess at here.
+  await prisma.kitAccount.upsert({
+    where: { slug: "adusa" },
+    update: {},
+    create: {
+      slug: "adusa", company: "ADUSA Supply Chain", contact: "Heather",
+      contactTitle: "Organizational Talent Planning", email: "Heather.evans@adusasc.com",
+      status: "ready",
+      notes: "Warm — Heather Evans, said yes, routing internally. Multi-site: DCs + corporate offices. Link only, no mailed kit yet.",
+    },
+  });
+
   // The mailed Pittsburgh kits each point at their own /kit/<slug>. Create-only on update so
   // anything edited later in the ops console survives the next deploy.
   const kits = require("./kit-accounts-pittsburgh.js");
