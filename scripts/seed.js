@@ -68,6 +68,21 @@ async function main() {
   }
   console.log(`Kit accounts ensured: ${kits.length} Pittsburgh + 1 geo-social.`);
 
+  // Sandbox league for the ADUSA pitch — Heather and colleagues join at /j/adusa-demo, add a
+  // mobile number, and get the whole product: web picks, text, paper sheet, concierge call.
+  // Separate slug from the kit page's buy flow so "start the league" still works untouched.
+  const adusaDemo = await prisma.league.upsert({
+    where: { slug: "adusa-demo" },
+    update: {},
+    create: { slug: "adusa-demo", name: "ADUSA Pick'em (Preview)", season },
+  });
+  await prisma.player.upsert({
+    where: { leagueId_name: { leagueId: adusaDemo.id, name: "Ankur" } },
+    update: { isCommish: true },
+    create: { leagueId: adusaDemo.id, name: "Ankur", pinHash: hashPin(pin), color: "#1ed47a", isCommish: true },
+  });
+  console.log("ADUSA preview league ensured: /j/adusa-demo");
+
   // Idempotent: never overwrite a populated database on deploy. Set FORCE_SEED=1 to override.
   const existing = await prisma.league.count();
   if (existing > 0 && !process.env.FORCE_SEED) {
